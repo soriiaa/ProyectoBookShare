@@ -25,14 +25,12 @@ import controlador.Controlador;
 import modelo.Modelo;
 
 public class _06_PantallaPrincipal extends JFrame implements Vista {
-
 	private static final long serialVersionUID = 1L;
+	private Controlador miControlador;
+	private Modelo miModelo;
 	private JPanel contentPane;
 	private JLabel lblImagenPrincipio;
 	private JButton btnMiperfil;
-
-	private Controlador miControlador;
-	private Modelo miModelo;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
 	private JLabel lblTituloMenu;
@@ -84,46 +82,72 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		panelTituloMenu.add(lblTituloMenu);
 		
 		btnCogerLibro = new JButton("Coger un Libro");
+		btnCogerLibro.setBorderPainted(false);
 		btnCogerLibro.setBackground(new Color(255, 250, 250));
-		btnCogerLibro.setForeground(new Color(255, 215, 0));
+		btnCogerLibro.setForeground(new Color(204, 204, 51));
 		btnCogerLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		btnCogerLibro.setHorizontalAlignment(SwingConstants.LEFT);
 		btnCogerLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(6, 8);
 			}
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
 		panelMenuNavegacion.add(btnCogerLibro);
 		
 		btnDejarUnLibro = new JButton("Dejar un Libro");
+		btnDejarUnLibro.setBorderPainted(false);
 		btnDejarUnLibro.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDejarUnLibro.setBackground(new Color(255, 250, 250));
-		btnDejarUnLibro.setForeground(new Color(255, 215, 0));	
+		btnDejarUnLibro.setForeground(new Color(204, 204, 51));	
 		btnDejarUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnDejarUnLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(6, 9);
+			}
+		});
 		btnDejarUnLibro.setBounds(0, 79, 183, 40);
 		panelMenuNavegacion.add(btnDejarUnLibro);
 		
 		btnDarDeAlta = new JButton("Dar de alta un Libro");
+		btnDarDeAlta.setBorderPainted(false);
 		btnDarDeAlta.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDarDeAlta.setBackground(new Color(255, 250, 250));
-		btnDarDeAlta.setForeground(new Color(255, 215, 0));
+		btnDarDeAlta.setForeground(new Color(204, 204, 51));
 		btnDarDeAlta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnDarDeAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(6, 7);
+			}
+		});
 		btnDarDeAlta.setBounds(0, 119, 183, 40);
 		panelMenuNavegacion.add(btnDarDeAlta);
 		
 		btnFaq = new JButton("FAQ");
+		btnFaq.setBorderPainted(false);
 		btnFaq.setHorizontalAlignment(SwingConstants.LEFT);
 		btnFaq.setBackground(new Color(255, 250, 250));
-		btnFaq.setForeground(new Color(255, 215, 0));
+		btnFaq.setForeground(new Color(204, 204, 51));
 		btnFaq.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFaq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(6, 11);
+			}
+		});
 		btnFaq.setBounds(0, 159, 183, 40);
 		panelMenuNavegacion.add(btnFaq);
 		
 		btnHistorialLibros = new JButton("Historial Libros");
+		btnHistorialLibros.setBorderPainted(false);
 		btnHistorialLibros.setHorizontalAlignment(SwingConstants.LEFT);
 		btnHistorialLibros.setBackground(new Color(255, 250, 250));
-		btnHistorialLibros.setForeground(new Color(255, 215, 0));
+		btnHistorialLibros.setForeground(new Color(204, 204, 51));
 		btnHistorialLibros.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnHistorialLibros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(6, 10);
+			}
+		});
 		btnHistorialLibros.setBounds(0, 198, 183, 40);
 		panelMenuNavegacion.add(btnHistorialLibros);
 				
@@ -133,6 +157,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnMiperfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(6, 12);
 			}
 		});
 		btnMiperfil.setBounds(0, 621, 183, 42);
@@ -140,8 +165,8 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		
 		lblImagenPrincipio = new JLabel("New label");
 		lblImagenPrincipio
-				.setIcon(new ImageIcon(_06_PantallaPrincipal.class.getResource("/assets/BookShare_Presentacion3.jpg")));
-		lblImagenPrincipio.setBounds(260, 0, 701, 663);
+				.setIcon(new ImageIcon(_06_PantallaPrincipal.class.getResource("/Assets/BookShare_Presentacion.jpg")));
+		lblImagenPrincipio.setBounds(185, 0, 801, 663);
 		contentPane.add(lblImagenPrincipio);
 	}
 }
