@@ -386,6 +386,11 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		contentPane.add(btnAltaLibro);
 
 		btnDejar = new JButton("Dejar");
+		btnDejar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(7, 9);
+			}
+		});
 		btnDejar.setBackground(new Color(128, 255, 128));
 		btnDejar.setBounds(843, 602, 112, 39);
 		contentPane.add(btnDejar);

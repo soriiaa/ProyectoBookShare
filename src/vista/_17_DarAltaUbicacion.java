@@ -306,7 +306,7 @@ public class _17_DarAltaUbicacion extends JFrame implements Vista {
 		lblTituloPantalla = new JLabel("Alta Lugares");
 		lblTituloPantalla.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloPantalla.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblTituloPantalla.setBounds(466, 23, 298, 36);
+		lblTituloPantalla.setBounds(433, 22, 298, 36);
 		contentPane.add(lblTituloPantalla);
 
 		lblEjemplo = new JLabel("Ej: Calle/Avenida/Rotonda nombre de la via, N.º Portal");
@@ -317,7 +317,7 @@ public class _17_DarAltaUbicacion extends JFrame implements Vista {
 		lblIndicacionDireccion = new JLabel(
 				"Por favor, introduzca la dirrección que desea activar y registrar en el sistema:\r\n");
 		lblIndicacionDireccion.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblIndicacionDireccion.setBounds(248, 123, 728, 36);
+		lblIndicacionDireccion.setBounds(228, 123, 728, 36);
 		contentPane.add(lblIndicacionDireccion);
 
 		btnDarDeAlta = new JButton("Dar de Alta\r\n");
