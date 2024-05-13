@@ -60,7 +60,8 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private JButton btnDarDeAlta;
 	private JButton btnFaq;
 	private JButton btnHistorialLibros;
-	private JButton btnBandejaEntrada;
+	private JButton btnBandejaDeEntrada;
+	private JButton btnMiperfil;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
@@ -95,14 +96,16 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		panelMenuNavegacion.setLayout(null);
 		
 		panelTituloMenu = new JPanel();
-		panelTituloMenu.setBackground(new Color(230, 230, 250));
+		panelTituloMenu.setForeground(new Color(0, 0, 0));
+		panelTituloMenu.setBackground(new Color(0, 0, 0));
 		panelTituloMenu.setBounds(0, 0, 183, 40);
 		panelMenuNavegacion.add(panelTituloMenu);
 		panelTituloMenu.setLayout(null);
 		
 		lblTituloMenu = new JLabel("Menu Navegacion");
+		lblTituloMenu.setForeground(new Color(255, 255, 255));
 		lblTituloMenu.setBackground(new Color(255, 255, 255));
-		lblTituloMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTituloMenu.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTituloMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloMenu.setBounds(0, 0, 183, 40);
 		panelTituloMenu.add(lblTituloMenu);
@@ -284,31 +287,69 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnHistorialLibros.setBounds(0, 198, 183, 40);
 		panelMenuNavegacion.add(btnHistorialLibros);
-				
-		btnBandejaEntrada = new JButton("Bandeja de Entrada");
-		btnBandejaEntrada.setBorderPainted(false);
-		btnBandejaEntrada.setBackground(new Color(230, 230, 250));
-		btnBandejaEntrada.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		btnBandejaEntrada.setHorizontalAlignment(SwingConstants.RIGHT);
-		btnBandejaEntrada.addActionListener(new ActionListener() {
+		
+		btnBandejaDeEntrada = new JButton("Bandeja de Entrada");
+		btnBandejaDeEntrada.setHorizontalAlignment(SwingConstants.LEFT);
+		btnBandejaDeEntrada.setForeground(new Color(0, 0, 128));
+		btnBandejaDeEntrada.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnBandejaDeEntrada.setBorderPainted(false);
+		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));		
+		btnBandejaDeEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(12, 13);
 			}
 		});
-		btnBandejaEntrada.addMouseListener(new MouseAdapter() {
+		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnBandejaEntrada.setBackground(new Color (220, 220, 220));
+				btnHistorialLibros.setBackground(new Color(230, 230, 250));
+			}
+		});
+		btnHistorialLibros.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
+			}
+		});
+		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBandejaDeEntrada.setBackground(new Color (220, 220, 220));
+			}
+		});
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
+			}
+		});
+		btnBandejaDeEntrada.setBounds(0, 237, 198, 40);
+		panelMenuNavegacion.add(btnBandejaDeEntrada);
+				
+		btnMiperfil = new JButton("Mi perfil");
+		btnMiperfil.setBorderPainted(false);
+		btnMiperfil.setBackground(new Color(230, 230, 250));
+		btnMiperfil.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnMiperfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(12, 12);
+			}
+		});
+		btnMiperfil.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnMiperfil.setBackground(new Color (220, 220, 220));
 			}
 		});
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnBandejaEntrada.setBackground(new Color(230, 230, 250));
+				btnMiperfil.setBackground(new Color(230, 230, 250));
 			}
 		});
-		btnBandejaEntrada.setBounds(0, 621, 183, 42);
-		contentPane.add(btnBandejaEntrada);
+		btnMiperfil.setBounds(0, 621, 183, 42);
+		contentPane.add(btnMiperfil);
 
 		txtNicknameUsuario = new JTextField();
 		txtNicknameUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -467,13 +508,14 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.add(btnAplicarCambios);
 		
 		JComboBox comboBox_2 = new JComboBox();
+		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Pregunta de Seguridad 1", "Pregunta de Seguridad 2", "Pregunta de Seguridad 3"}));
 		comboBox_2.setBounds(299, 593, 230, 29);
 		contentPane.add(comboBox_2);
 		
 		PasswordContraseña = new JPasswordField();
 		PasswordContraseña.setHorizontalAlignment(SwingConstants.CENTER);
 		PasswordContraseña.setFont(new Font("Tahoma", Font.BOLD, 12));
-		PasswordContraseña.setBounds(299, 477, 230, 27);
+		PasswordContraseña.setBounds(299, 477, 230, 29);
 		contentPane.add(PasswordContraseña);
 		PasswordContraseña.setText("Predeterminado");
 		PasswordContraseña.setEditable(false);
