@@ -3,6 +3,11 @@
  */
 package vista;
 
+/*
+ * Pedro, hemos hecho todas las pruebas en portatil y lo hemos puesto un momento en una pantalla más grande, una de sobremesa y hay
+ * cosas que no se ven bien.
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -24,7 +29,6 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 	private JLabel lblTitulo;
 	private JProgressBar progressBar;
 	private JLabel lblImagen;
-	private JButton btnVolverLanzadera;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
@@ -40,7 +44,7 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 	}
 
 	public _00_PantallaInicio() {
-		
+
 		setResizable(false);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 918, 604);
@@ -56,22 +60,13 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 		progressBar.setBackground(new Color(230, 230, 230));
 		progressBar.setForeground(new Color(255, 255, 255));
 		progressBar.setBounds(228, 501, 448, 28);
-		
+
 		getContentPane().add(progressBar);
 
 		lblImagen = new JLabel("New label");
 		lblImagen.setIcon(new ImageIcon(_00_PantallaInicio.class.getResource("/assets/BookShareImagen.png")));
 		lblImagen.setBounds(228, 147, 448, 311);
 		getContentPane().add(lblImagen);
-
-		btnVolverLanzadera = new JButton("Volver a la Lanzadera");
-		btnVolverLanzadera.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(0, 20);
-			}
-		});
-		btnVolverLanzadera.setBounds(0, 0, 175, 28);
-		getContentPane().add(btnVolverLanzadera);
 
 		Timer timer = new Timer(20, new ActionListener() {
 			int progress = 0;
@@ -82,11 +77,11 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 				progressBar.setValue(progress);
 				if (progress >= 100) {
 					((Timer) e.getSource()).stop();
+					miControlador.cambiarVentana(0, 3);
 				}
 			}
 		});
 
 		timer.start();
-
 	}
 }
