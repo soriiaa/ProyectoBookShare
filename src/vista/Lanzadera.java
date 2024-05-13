@@ -149,7 +149,7 @@ public class Lanzadera extends JFrame implements Vista {
 		JButton btnNewButton_11 = new JButton("FAQ");
 		btnNewButton_11.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(20, 18);
+				miControlador.cambiarVentana(20, 11);
 			}
 		});
 		btnNewButton_11.setBounds(690, 152, 115, 23);
