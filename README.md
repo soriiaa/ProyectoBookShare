@@ -1,0 +1,1 @@
+Pedro hemos añadido un boton extra en mi perfil que te lleva a la ventana principal de admin, el boton lo quitaremos una vez podamos validar en el registro el codigo de admin para acceder desde ahi, pero ahora no sabiamos como hacerlo y decidimos añadirlo ahi simplemente para que puedas ver como quedaron las pestañas
