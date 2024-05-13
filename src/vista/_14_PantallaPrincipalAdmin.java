@@ -105,7 +105,7 @@ public class _14_PantallaPrincipalAdmin extends JFrame implements Vista {
 		contentPane.add(btnMiPerfil);
 
 		lblImagenInicio = new JLabel("New label");
-		lblImagenInicio.setIcon(new ImageIcon(_14_PantallaPrincipalAdmin.class.getResource("/assets/BookShare_Presentacion3.jpg")));
+		lblImagenInicio.setIcon(new ImageIcon(_14_PantallaPrincipalAdmin.class.getResource("/assets/BookShare_Presentacion.jpg")));
 		lblImagenInicio.setBounds(260, 11, 705, 622);
 		contentPane.add(lblImagenInicio);
 	}
