@@ -16,30 +16,33 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
 import modelo.Modelo;
 
 public class _09_DejarLibro extends JFrame implements Vista {
-
-	private JButton btnMiPerfil;
-	private JButton btnCogerLibro;
-	private JPanel panel;
+	private Controlador miControlador;
+	private Modelo miModelo;
+	private JPanel contentPane;
 	private JTextField txtBuscador;
 	private JTextField textField;
 	private JTextField textField_1;
-	private JButton btnDejarLibro;
-	private JButton btnAltaDeLibro;
-	private JButton btnFaq;
-	private JButton btnHistorialLibros;
 	private JLabel lblTexto1;
 	private JLabel lblFechaEnLa;
 	private JLabel lblCdigoPostalEn;
 	private JLabel lblEscribeUnaValoracin;
-	private JButton btnVolverLanzadera;
-
-	private Controlador miControlador;
-	private Modelo miModelo;
+	private JPanel panelMenuNavegacion;
+	private JPanel panelTituloMenu;
+	private JLabel lblTituloMenu;
+	private JButton btnCogerLibro;
+	private JButton btnDejarUnLibro;
+	private JButton btnDarDeAlta;
+	private JButton btnFaq;
+	private JButton btnHistorialLibros;
+	private JButton btnMiperfil;
+	private JButton btnDejar;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -57,111 +60,164 @@ public class _09_DejarLibro extends JFrame implements Vista {
 
 	private void initialize() {
 		setResizable(false);
-		getContentPane().setBackground(new Color(20, 154, 235));
-		setBounds(100, 100, 908, 716);
+		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
+		setBounds(100, 100, 1000, 700);
+		contentPane = new JPanel();
+		contentPane.setBackground(new Color(224, 255, 255));
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 10, 193, 607);
-		getContentPane().add(panel_1);
-		panel_1.setLayout(null);
-
-		panel = new JPanel();
-		panel.setBackground(new Color(192, 192, 192));
-		panel.setBounds(0, 0, 193, 42);
-		panel_1.add(panel);
-		panel.setLayout(null);
-
-		JLabel lblMenuNavegacion = new JLabel("Menú Navegación");
-		lblMenuNavegacion.setBounds(33, 11, 126, 20);
-		panel.add(lblMenuNavegacion);
-		lblMenuNavegacion.setBackground(new Color(192, 192, 192));
-		lblMenuNavegacion.setFont(new Font("Tahoma", Font.PLAIN, 16));
-
-		btnCogerLibro = new JButton("Coger Libro");
-		btnCogerLibro.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnCogerLibro.setBackground(new Color(255, 255, 255));
-		btnCogerLibro.setBounds(0, 41, 193, 35);
-		panel_1.add(btnCogerLibro);
-
-		btnDejarLibro = new JButton("Dejar Libro");
-		btnDejarLibro.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnDejarLibro.setBackground(Color.WHITE);
-		btnDejarLibro.setBounds(0, 74, 193, 35);
-		panel_1.add(btnDejarLibro);
-
-		btnAltaDeLibro = new JButton("Alta de Libro");
-		btnAltaDeLibro.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnAltaDeLibro.setBackground(Color.WHITE);
-		btnAltaDeLibro.setBounds(0, 107, 193, 35);
-		panel_1.add(btnAltaDeLibro);
-
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		panelMenuNavegacion = new JPanel();
+		panelMenuNavegacion.setBackground(new Color(255, 255, 255));
+		panelMenuNavegacion.setBounds(0, 0, 183, 622);
+		contentPane.add(panelMenuNavegacion);
+		panelMenuNavegacion.setLayout(null);
+		
+		panelTituloMenu = new JPanel();
+		panelTituloMenu.setBackground(new Color(128, 128, 192));
+		panelTituloMenu.setBounds(0, 0, 183, 40);
+		panelMenuNavegacion.add(panelTituloMenu);
+		panelTituloMenu.setLayout(null);
+		
+		lblTituloMenu = new JLabel("Menu Navegacion");
+		lblTituloMenu.setBackground(new Color(255, 255, 255));
+		lblTituloMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTituloMenu.setHorizontalAlignment(SwingConstants.CENTER);
+		lblTituloMenu.setBounds(0, 0, 183, 40);
+		panelTituloMenu.add(lblTituloMenu);
+		
+		btnCogerLibro = new JButton("Coger un Libro");
+		btnCogerLibro.setBorderPainted(false);
+		btnCogerLibro.setBackground(new Color(255, 250, 250));
+		btnCogerLibro.setForeground(new Color(204, 204, 51));
+		btnCogerLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnCogerLibro.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCogerLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(9, 8);
+			}
+		});
+		btnCogerLibro.setBounds(0, 39, 183, 40);
+		panelMenuNavegacion.add(btnCogerLibro);
+		
+		btnDejarUnLibro = new JButton("Dejar un Libro");
+		btnDejarUnLibro.setBorderPainted(false);
+		btnDejarUnLibro.setHorizontalAlignment(SwingConstants.LEFT);
+		btnDejarUnLibro.setBackground(new Color(255, 250, 250));
+		btnDejarUnLibro.setForeground(new Color(204, 204, 51));	
+		btnDejarUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnDejarUnLibro.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(9, 9);
+			}
+		});
+		btnDejarUnLibro.setBounds(0, 79, 183, 40);
+		panelMenuNavegacion.add(btnDejarUnLibro);
+		
+		btnDarDeAlta = new JButton("Dar de alta un Libro");
+		btnDarDeAlta.setBorderPainted(false);
+		btnDarDeAlta.setHorizontalAlignment(SwingConstants.LEFT);
+		btnDarDeAlta.setBackground(new Color(255, 250, 250));
+		btnDarDeAlta.setForeground(new Color(204, 204, 51));
+		btnDarDeAlta.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnDarDeAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(9, 7);
+			}
+		});
+		btnDarDeAlta.setBounds(0, 119, 183, 40);
+		panelMenuNavegacion.add(btnDarDeAlta);
+		
 		btnFaq = new JButton("FAQ");
-		btnFaq.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnFaq.setBackground(Color.WHITE);
-		btnFaq.setBounds(0, 140, 193, 35);
-		panel_1.add(btnFaq);
-
+		btnFaq.setBorderPainted(false);
+		btnFaq.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFaq.setBackground(new Color(255, 250, 250));
+		btnFaq.setForeground(new Color(204, 204, 51));
+		btnFaq.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnFaq.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(9, 11);
+			}
+		});
+		btnFaq.setBounds(0, 159, 183, 40);
+		panelMenuNavegacion.add(btnFaq);
+		
 		btnHistorialLibros = new JButton("Historial Libros");
-		btnHistorialLibros.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnHistorialLibros.setBackground(Color.WHITE);
-		btnHistorialLibros.setBounds(0, 172, 193, 35);
-		panel_1.add(btnHistorialLibros);
-
-		btnMiPerfil = new JButton("Mi Perfil");
-		btnMiPerfil.setBackground(new Color(255, 255, 255));
-		btnMiPerfil.setFont(new Font("Tahoma", Font.PLAIN, 23));
-		btnMiPerfil.setBounds(10, 627, 193, 42);
-		getContentPane().add(btnMiPerfil);
+		btnHistorialLibros.setBorderPainted(false);
+		btnHistorialLibros.setHorizontalAlignment(SwingConstants.LEFT);
+		btnHistorialLibros.setBackground(new Color(255, 250, 250));
+		btnHistorialLibros.setForeground(new Color(204, 204, 51));
+		btnHistorialLibros.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		btnHistorialLibros.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(9, 10);
+			}
+		});
+		btnHistorialLibros.setBounds(0, 198, 183, 40);
+		panelMenuNavegacion.add(btnHistorialLibros);
+				
+		btnMiperfil = new JButton("Mi perfil");
+		btnMiperfil.setBackground(new Color(128, 128, 192));
+		btnMiperfil.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnMiperfil.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(9, 12);
+			}
+		});
+		btnMiperfil.setBounds(0, 621, 183, 42);
+		contentPane.add(btnMiperfil);
 
 		JLabel lblCogerUnLibro = new JLabel("Dejar un libro");
 		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		lblCogerUnLibro.setBounds(401, 26, 284, 66);
+		lblCogerUnLibro.setBounds(436, 26, 284, 66);
 		getContentPane().add(lblCogerUnLibro);
 
 		txtBuscador = new JTextField();
 		txtBuscador.setToolTipText("");
-		txtBuscador.setBounds(608, 153, 228, 30);
+		txtBuscador.setBounds(643, 153, 228, 30);
 		getContentPane().add(txtBuscador);
 		txtBuscador.setColumns(10);
 
 		textField = new JTextField();
 		textField.setToolTipText("");
 		textField.setColumns(10);
-		textField.setBounds(667, 264, 169, 30);
+		textField.setBounds(702, 264, 169, 30);
 		getContentPane().add(textField);
 
 		textField_1 = new JTextField();
 		textField_1.setToolTipText("");
 		textField_1.setColumns(10);
-		textField_1.setBounds(513, 209, 323, 30);
+		textField_1.setBounds(548, 209, 323, 30);
 		getContentPane().add(textField_1);
 
-		JButton btnGuardarYSalir = new JButton("Dejar");
-		btnGuardarYSalir.setBackground(new Color(128, 179, 77));
-		btnGuardarYSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnGuardarYSalir.setBounds(767, 627, 117, 42);
-		getContentPane().add(btnGuardarYSalir);
+		btnDejar = new JButton("Dejar");
+		btnDejar.setBackground(new Color(128, 255, 128));
+		btnDejar.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		btnDejar.setBounds(845, 622, 117, 42);
+		getContentPane().add(btnDejar);
 
 		lblTexto1 = new JLabel("Introduce el nombre del libro a dejar:");
 		lblTexto1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTexto1.setBounds(297, 143, 315, 42);
+		lblTexto1.setBounds(332, 143, 315, 42);
 		getContentPane().add(lblTexto1);
 
 		lblFechaEnLa = new JLabel("Fecha en la que se cogió:");
 		lblFechaEnLa.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFechaEnLa.setBounds(297, 208, 216, 24);
+		lblFechaEnLa.setBounds(332, 208, 216, 24);
 		getContentPane().add(lblFechaEnLa);
 
 		lblCdigoPostalEn = new JLabel("Código Postal en el que se va a dejar el libro:");
 		lblCdigoPostalEn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCdigoPostalEn.setBounds(297, 263, 371, 24);
+		lblCdigoPostalEn.setBounds(332, 263, 371, 24);
 		getContentPane().add(lblCdigoPostalEn);
 
 		lblEscribeUnaValoracin = new JLabel("Escribe una valoración sobre el libro:");
 		lblEscribeUnaValoracin.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblEscribeUnaValoracin.setBounds(297, 322, 295, 24);
+		lblEscribeUnaValoracin.setBounds(332, 322, 295, 24);
 		getContentPane().add(lblEscribeUnaValoracin);
 
 		JTextField txtPuntuacion = new JTextField();
@@ -176,7 +232,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		txtPuntuacion.setText("X/5");
 		txtPuntuacion.setToolTipText("");
 		txtPuntuacion.setColumns(10);
-		txtPuntuacion.setBounds(602, 321, 29, 30);
+		txtPuntuacion.setBounds(637, 321, 42, 30);
 		getContentPane().add(txtPuntuacion);
 
 		JTextArea textComentario = new JTextArea();
@@ -189,17 +245,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		textComentario.setForeground(new Color(145, 145, 145));
 		textComentario.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		textComentario.setText("Comentario...");
-		textComentario.setBounds(297, 376, 540, 152);
+		textComentario.setBounds(332, 376, 540, 152);
 		getContentPane().add(textComentario);
-
-		btnVolverLanzadera = new JButton("Volver a la Lanzadera");
-		btnVolverLanzadera.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(9, 20);
-			}
-		});
-		btnVolverLanzadera.setBounds(726, 0, 168, 21);
-		getContentPane().add(btnVolverLanzadera);
-
 	}
 }
