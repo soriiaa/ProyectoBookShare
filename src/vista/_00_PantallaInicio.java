@@ -3,6 +3,11 @@
  */
 package vista;
 
+/*
+ * Pedro, hemos hecho todas las pruebas en portatil y lo hemos puesto un momento en una pantalla más grande, una de sobremesa y hay
+ * cosas que no se ven bien.
+ */
+
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
