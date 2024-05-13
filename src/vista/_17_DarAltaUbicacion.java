@@ -144,8 +144,7 @@ public class _17_DarAltaUbicacion extends JFrame implements Vista {
 		contentPane.add(lblDireccion);
 
 		comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(
-				new String[] { "Ningun estado seleccionado", "Ubicación Privado", "Ubicación Público" }));
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Ningun estado seleccionado", "Ubicación Privada", "Ubicación Pública"}));
 		comboBox.setBounds(335, 290, 429, 36);
 		contentPane.add(comboBox);
 
