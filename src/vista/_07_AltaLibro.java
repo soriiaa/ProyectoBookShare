@@ -49,7 +49,8 @@ public class _07_AltaLibro extends JFrame implements Vista {
 	private JButton btnFaq;
 	private JButton btnHistorialLibros;
 	private JButton btnMiperfil;
-
+	private JButton btnBandejaDeEntrada;
+	
 	@Override
 	public void setModelo(Modelo miModelo) {
 		this.miModelo = miModelo;
@@ -79,14 +80,16 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		panelMenuNavegacion.setLayout(null);
 		
 		panelTituloMenu = new JPanel();
-		panelTituloMenu.setBackground(new Color(230, 230, 250));
+		panelTituloMenu.setForeground(new Color(0, 0, 0));
+		panelTituloMenu.setBackground(new Color(0, 0, 0));
 		panelTituloMenu.setBounds(0, 0, 183, 40);
 		panelMenuNavegacion.add(panelTituloMenu);
 		panelTituloMenu.setLayout(null);
 		
 		lblTituloMenu = new JLabel("Menu Navegacion");
+		lblTituloMenu.setForeground(new Color(255, 255, 255));
 		lblTituloMenu.setBackground(new Color(255, 255, 255));
-		lblTituloMenu.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		lblTituloMenu.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblTituloMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloMenu.setBounds(0, 0, 183, 40);
 		panelTituloMenu.add(lblTituloMenu);
@@ -102,6 +105,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				miControlador.cambiarVentana(7, 8);
 			}
 		});
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima
 		btnCogerLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -128,6 +132,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				miControlador.cambiarVentana(7, 9);
 			}
 		});
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
 		btnDejarUnLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -166,6 +171,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				miControlador.cambiarVentana(7, 7);
 			}
 		});
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
 		btnDarDeAlta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -204,6 +210,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				miControlador.cambiarVentana(7, 11);
 			}
 		});
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
 		btnFaq.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -242,6 +249,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				miControlador.cambiarVentana(7, 10);
 			}
 		});
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
 		btnHistorialLibros.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -260,7 +268,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				btnHistorialLibros.setBackground(new Color (220, 220, 220));
 			}
 		});
-		getContentPane().addMouseListener(new MouseAdapter() {
+		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnHistorialLibros.setBackground(new Color(230, 230, 250));
@@ -268,11 +276,50 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		});
 		btnHistorialLibros.setBounds(0, 198, 183, 40);
 		panelMenuNavegacion.add(btnHistorialLibros);
+		
+		btnBandejaDeEntrada = new JButton("Bandeja de Entrada");
+		btnBandejaDeEntrada.setHorizontalAlignment(SwingConstants.LEFT);
+		btnBandejaDeEntrada.setForeground(new Color(0, 0, 128));
+		btnBandejaDeEntrada.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnBandejaDeEntrada.setBorderPainted(false);
+		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));		
+		btnBandejaDeEntrada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(7, 13);
+			}
+		});
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnHistorialLibros.setBackground(new Color(230, 230, 250));
+			}
+		});
+		btnHistorialLibros.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
+			}
+		});
+		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBandejaDeEntrada.setBackground(new Color (220, 220, 220));
+			}
+		});
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
+			}
+		});
+		btnBandejaDeEntrada.setBounds(0, 237, 198, 40);
+		panelMenuNavegacion.add(btnBandejaDeEntrada);
 				
 		btnMiperfil = new JButton("Mi perfil");
 		btnMiperfil.setBorderPainted(false);
 		btnMiperfil.setBackground(new Color(230, 230, 250));
-		btnMiperfil.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnMiperfil.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnMiperfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
