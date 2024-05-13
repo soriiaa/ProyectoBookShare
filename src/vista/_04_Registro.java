@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -53,7 +55,7 @@ public class _04_Registro extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 255));
+		contentPane.setBackground(new Color(135, 206, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -133,22 +135,61 @@ public class _04_Registro extends JFrame implements Vista {
 		lblNewLabel_1_1_1.setBounds(228, 175, 136, 14);
 		contentPane.add(lblNewLabel_1_1_1);
 
-		JButton btnNewButton = new JButton("Register");
-		btnNewButton.addActionListener(new ActionListener() {
+		JButton btnRegistro = new JButton("Register");
+		btnRegistro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(4, 1);
 			}
 		});
-		btnNewButton.setBackground(new Color(128, 255, 128));
-		btnNewButton.setBounds(289, 220, 89, 23);
-		contentPane.add(btnNewButton);
-
+		btnRegistro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnRegistro.setBackground(new Color (220, 220, 220));
+			}
+		});
+		btnRegistro.setBackground(new Color(128, 255, 128));
+		btnRegistro.setBounds(289, 220, 89, 23);
+		contentPane.add(btnRegistro);
+		
+		btnRegistro.setBorder(null);
 		JButton btnVolverLanzadera = new JButton("Volver a la Lanzadera");
 		btnVolverLanzadera.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(4, 20);
 			}
 		});
+		
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnRegistro.setBackground(new Color(255, 255, 255));
+			}
+		});
 		btnVolverLanzadera.setBounds(268, 0, 168, 21);
 		contentPane.add(btnVolverLanzadera);
+		
+		JButton btnVueltaLogin = new JButton("Volver");
+		btnVueltaLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(4, 1);
+			}
+		});
+		btnVueltaLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnVueltaLogin.setBackground(new Color (220, 220, 220));
+			}
+		});		
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnVueltaLogin.setBackground(new Color(255, 255, 255));
+			}
+		});
+		
+		btnVueltaLogin.setBorder(null);
+		btnVueltaLogin.setBackground(new Color(255, 128, 128));
+		btnVueltaLogin.setBounds(192, 220, 89, 23);
+		contentPane.add(btnVueltaLogin);
 	}
 }

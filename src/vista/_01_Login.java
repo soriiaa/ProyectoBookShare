@@ -51,7 +51,7 @@ public class _01_Login extends JFrame implements Vista {
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		
-		contentPane.setBackground(new Color(128, 128, 255));
+		contentPane.setBackground(new Color(135, 206, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -65,9 +65,23 @@ public class _01_Login extends JFrame implements Vista {
 		txtUsuario.setColumns(10);
 
 		JButton btnLogin = new JButton("Login");
-		btnLogin.setBackground(new Color(0, 255, 128));
+		btnLogin.setBackground(new Color(255, 255, 255));
+		btnLogin.setBorder(null);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(1, 6);
+			}
+		});
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnLogin.setBackground(new Color (220, 220, 220));
+			}
+		});
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnLogin.setBackground(new Color(255, 255, 255));
 			}
 		});
 		btnLogin.setBounds(168, 153, 89, 23);
@@ -78,6 +92,7 @@ public class _01_Login extends JFrame implements Vista {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Clic en 'Olvidaste tu contraseña'");
+				miControlador.cambiarVentana(1, 5);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -97,6 +112,7 @@ public class _01_Login extends JFrame implements Vista {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Clic en '¿No tiene cuenta? Registrese'");
+				miControlador.cambiarVentana(1, 4);
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {

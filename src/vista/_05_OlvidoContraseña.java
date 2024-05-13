@@ -8,6 +8,8 @@ package vista;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -49,7 +51,7 @@ public class _05_OlvidoContraseña extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(128, 128, 255));
+		contentPane.setBackground(new Color(135, 206, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
@@ -74,6 +76,24 @@ public class _05_OlvidoContraseña extends JFrame implements Vista {
 		contentPane.add(passwordField_1);
 
 		JButton btnNewButton = new JButton("Enviar");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(5, 1);
+			}
+		});
+		btnNewButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnNewButton.setBackground(new Color (220, 220, 220));
+			}
+		});	
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnNewButton.setBackground(new Color(255, 255, 255));
+			}
+		});
+		btnNewButton.setBorder(null);
 		btnNewButton.setBackground(new Color(0, 255, 128));
 		btnNewButton.setBounds(316, 229, 89, 23);
 		contentPane.add(btnNewButton);
@@ -103,6 +123,24 @@ public class _05_OlvidoContraseña extends JFrame implements Vista {
 		contentPane.add(lblPreguntaDeSeguridad);
 
 		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(5, 1);
+			}
+		});
+		btnVolver.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnVolver.setBackground(new Color (220, 220, 220));
+			}
+		});	
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnVolver.setBackground(new Color(255, 255, 255));
+			}
+		});
+		btnVolver.setBorder(null);
 		btnVolver.setBackground(new Color(255, 128, 128));
 		btnVolver.setBounds(26, 229, 89, 23);
 		contentPane.add(btnVolver);
