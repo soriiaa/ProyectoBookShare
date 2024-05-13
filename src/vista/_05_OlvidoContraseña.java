@@ -144,14 +144,5 @@ public class _05_OlvidoContraseña extends JFrame implements Vista {
 		btnVolver.setBackground(new Color(255, 128, 128));
 		btnVolver.setBounds(26, 229, 89, 23);
 		contentPane.add(btnVolver);
-
-		JButton btnVolverLanzadera = new JButton("Volver a la Lanzadera");
-		btnVolverLanzadera.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(5, 20);
-			}
-		});
-		btnVolverLanzadera.setBounds(268, 0, 168, 21);
-		contentPane.add(btnVolverLanzadera);
 	}
 }

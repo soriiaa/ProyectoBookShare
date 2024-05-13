@@ -29,7 +29,6 @@ public class _01_Login extends JFrame implements Vista {
 	private JTextField txtUsuario;
 	private JLabel lblNoTieneCuenta;
 	private JPasswordField txtContraseña;
-	private JButton btnVolverLanzadera;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
@@ -148,15 +147,6 @@ public class _01_Login extends JFrame implements Vista {
 				lblNoTieneCuenta.setText("¿No tiene cuenta? Registrese");
 			}
 		});
-		
-		btnVolverLanzadera = new JButton("Volver a la Lanzadera");
-		btnVolverLanzadera.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(1, 20);
-			}
-		});
-		btnVolverLanzadera.setBounds(0, 0, 149, 21);
-		contentPane.add(btnVolverLanzadera);
 		
 		
 	}
