@@ -152,12 +152,6 @@ public class _04_Registro extends JFrame implements Vista {
 		contentPane.add(btnRegistro);
 		
 		btnRegistro.setBorder(null);
-		JButton btnVolverLanzadera = new JButton("Volver a la Lanzadera");
-		btnVolverLanzadera.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(4, 20);
-			}
-		});
 		
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
@@ -165,8 +159,6 @@ public class _04_Registro extends JFrame implements Vista {
 				btnRegistro.setBackground(new Color(255, 255, 255));
 			}
 		});
-		btnVolverLanzadera.setBounds(268, 0, 168, 21);
-		contentPane.add(btnVolverLanzadera);
 		
 		JButton btnVueltaLogin = new JButton("Volver");
 		btnVueltaLogin.addActionListener(new ActionListener() {
