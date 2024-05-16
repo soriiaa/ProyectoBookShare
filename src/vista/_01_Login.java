@@ -8,9 +8,14 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -25,14 +30,13 @@ import modelo.Modelo;
 public class _01_Login extends JFrame implements Vista {
 
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	private JTextField txtUsuario;
 	private JLabel lblNoTieneCuenta;
-	private JPasswordField txtContraseña;
+	private JButton btnLogin;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
-	
+	private FocusListener focusListener;
+
 	@Override
 	public void setModelo(Modelo miModelo) {
 		this.miModelo = miModelo;
@@ -42,78 +46,38 @@ public class _01_Login extends JFrame implements Vista {
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
 	}
-	
+
 	public _01_Login() {
 		setTitle("BookShare2.0");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
-		contentPane = new JPanel();
+		setBounds(100, 100, 450, 367);
+		JPanel contentPane = new JPanel();
 		setLocationRelativeTo(null);
-		
-		contentPane.setBackground(new Color(135, 206, 250));
+
+		contentPane.setBackground(new Color(0, 128, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		txtUsuario = new JTextField();
-		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		txtUsuario.setBounds(120, 44, 193, 29);
-		txtUsuario.setBorder(null);
-		contentPane.add(txtUsuario);
-		txtUsuario.setColumns(10);
-
-		JButton btnLogin = new JButton("Login");
-		btnLogin.setBackground(new Color(255, 255, 255));
-		btnLogin.setBorder(null);
-		btnLogin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(1, 6);
-			}
-		});
-		btnLogin.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnLogin.setBackground(new Color (220, 220, 220));
-			}
-		});
-		getContentPane().addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnLogin.setBackground(new Color(255, 255, 255));
-			}
-		});
-		btnLogin.setBounds(168, 153, 89, 23);
-		contentPane.add(btnLogin);
-
-		JLabel lblOlvidoContraseña = new JLabel("Olvidé la contraseña");
-		lblOlvidoContraseña.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				System.out.println("Clic en 'Olvidaste tu contraseña'");
-				miControlador.cambiarVentana(1, 5);
-			}
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				System.out.println("Entrado en el area del olvido de contraseña");
-				lblOlvidoContraseña.setForeground(Color.BLACK);
-				lblOlvidoContraseña.setText("<html><u>Olvidé la contraseña</u></html>");
-			}
-		});
-		lblOlvidoContraseña.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblOlvidoContraseña.setForeground(new Color(0, 0, 255));
-		lblOlvidoContraseña.setBounds(155, 187, 124, 14);
-		lblOlvidoContraseña.setFocusable(true);
-		contentPane.add(lblOlvidoContraseña);
+		JPanel panel = new JPanel();
+		
+		panel.setBackground(new Color(255, 255, 255));
+		panel.setBounds(96, 10, 244, 309);
+		contentPane.add(panel);
+		panel.setLayout(null);
 
 		lblNoTieneCuenta = new JLabel("¿No tiene cuenta? Registrese");
+		lblNoTieneCuenta.setBounds(38, 283, 167, 16);
+		panel.add(lblNoTieneCuenta);
 		lblNoTieneCuenta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				System.out.println("Clic en '¿No tiene cuenta? Registrese'");
 				miControlador.cambiarVentana(1, 4);
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				System.out.println("Entrado en el area del registro");
@@ -123,22 +87,80 @@ public class _01_Login extends JFrame implements Vista {
 		});
 		lblNoTieneCuenta.setForeground(Color.BLUE);
 		lblNoTieneCuenta.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		lblNoTieneCuenta.setBounds(130, 216, 175, 14);
-		contentPane.add(lblNoTieneCuenta);
 
-		txtContraseña = new JPasswordField();
-		txtContraseña.setBounds(120, 96, 193, 29);
+		JLabel lblTitulo = new JLabel("BIENVENIDO");
+		lblTitulo.setBounds(17, 23, 209, 61);
+		panel.add(lblTitulo);
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 35));
+
+		JLabel lblOlvidoContraseña = new JLabel("Olvidé la contraseña");
+		lblOlvidoContraseña.setBounds(62, 259, 120, 14);
+		panel.add(lblOlvidoContraseña);
+		lblOlvidoContraseña.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				System.out.println("Clic en 'Olvidaste tu contraseña'");
+				miControlador.cambiarVentana(1, 5);
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				System.out.println("Entrado en el area del olvido de contraseña");
+				lblOlvidoContraseña.setForeground(Color.BLACK);
+				lblOlvidoContraseña.setText("<html><u>Olvidé la contraseña</u></html>");
+			}
+		});
+		lblOlvidoContraseña.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		lblOlvidoContraseña.setForeground(new Color(0, 0, 255));
+		lblOlvidoContraseña.setFocusable(true);
+
+		btnLogin = new JButton("Login");
+		btnLogin.setBounds(77, 217, 89, 23);
+		panel.add(btnLogin);
+		btnLogin.setForeground(new Color(255, 255, 255));
+		btnLogin.setBackground(new Color(0, 0, 0));
+		btnLogin.setBorder(null);
+
+		JPasswordField txtContraseña = new JPasswordField();
+		txtContraseña.setBounds(25, 163, 193, 29);
+		panel.add(txtContraseña);
+		txtContraseña.setBackground(new Color(192, 192, 192));
+		focusListener = new PlaceholderFocusListener(txtContraseña, "Contraseña");
+		txtContraseña.setText("Contraseña");
+		txtContraseña.setEchoChar((char) 0);
+		txtContraseña.addFocusListener(focusListener);
+		txtContraseña.addFocusListener(new PlaceholderFocusListener(txtContraseña, "Contraseña"));
+		txtContraseña.setForeground(Color.GRAY);
 		txtContraseña.setBorder(null);
-		contentPane.add(txtContraseña);
+		txtContraseña.setBorder(BorderFactory.createCompoundBorder(txtContraseña.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 
-		JLabel lblContraseña = new JLabel("Contraseña");
-		lblContraseña.setBounds(120, 82, 124, 14);
-		contentPane.add(lblContraseña);
-
-		JLabel lblUsuario = new JLabel("Nombre de Usuario");
-		lblUsuario.setBounds(120, 28, 185, 14);
-		contentPane.add(lblUsuario);
 		
+		
+		JTextField txtUsuario = new JTextField();
+		txtUsuario.setBounds(25, 112, 193, 29);
+		panel.add(txtUsuario);
+		txtUsuario.setBackground(new Color(192, 192, 192));
+		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtUsuario, "Usuario");
+		txtUsuario.addFocusListener(focusListener);
+		txtUsuario.setText("Usuario");
+		txtUsuario.addFocusListener(new PlaceholderFocusListener(txtUsuario, "Usuario"));
+		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtUsuario.setForeground(Color.GRAY);
+		txtUsuario.setBorder(null);
+		txtUsuario.setBorder(BorderFactory.createCompoundBorder(txtUsuario.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		txtUsuario.setColumns(10);
+		btnLogin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(1, 6);
+			}
+		});
+		btnLogin.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnLogin.setBackground(new Color(70, 70, 70));
+			}
+		});
+
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -147,8 +169,72 @@ public class _01_Login extends JFrame implements Vista {
 				lblNoTieneCuenta.setForeground(new Color(0, 0, 255));
 				lblNoTieneCuenta.setText("¿No tiene cuenta? Registrese");
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitulo.requestFocusInWindow();
+			}
+		});
+
+		getContentPane().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnLogin.setBackground(new Color(0, 0, 0));
+			}
+		});
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				btnLogin.requestFocusInWindow();
+			}
 		});
 		
-		
+		panel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitulo.requestFocusInWindow();
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnLogin.setBackground(new Color(0, 0, 0));
+				lblOlvidoContraseña.setForeground(new Color(0, 0, 255));
+				lblOlvidoContraseña.setText("Olvidé la contraseña");
+				lblNoTieneCuenta.setForeground(new Color(0, 0, 255));
+				lblNoTieneCuenta.setText("¿No tiene cuenta? Registrese");
+			}
+		});
+
+		btnLogin.requestFocusInWindow();
+
+	}
+
+	private static class PlaceholderFocusListener implements FocusListener {
+		private final JTextField field;
+		private final String placeholder;
+
+		public PlaceholderFocusListener(JTextField field, String placeholder) {
+			this.field = field;
+			this.placeholder = placeholder;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			if (field.getText().equals(placeholder)) {
+				field.setText("");
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar('*'); // Para ocultar los caracteres al escribir
+				}
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (field.getText().isEmpty()) {
+				field.setText(placeholder);
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar((char) 0); // Para que el texto sea visible
+				}
+			}
+		}
 	}
 }
