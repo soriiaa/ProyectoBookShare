@@ -28,6 +28,19 @@ import vista._19_DarDeBajaLugar;
 
 public class Main {
 	public static void main(String[] args) {
+		
+		Conexion ejemplo = new Conexion();
+		ejemplo.consultaStatement("SELECT * FROM usuario", 2);
+//		ejemplo.consultaPrepared("SELECT * FROM world.city WHERE CountryCode = ?", "ESP", 2);
+//		ejemplo.consultaPrepareCall(3000000);
+//		System.out.println(ejemplo.insertar("pedro", "secreto"));
+//		ejemplo.consultaStatement("Select * from world.users",2);
+//		System.out.println(ejemplo.modificar("oculto"));
+//		System.out.println(ejemplo.borrar("pedro"));
+//		ejemplo.consultaStatement("select * from world.users", 1);
+//		ejemplo.estructuraTabla();
+//		ejemplo.infoBaseDatos();
+//		ejemplo.terminar();
 
 		// Creo tres objetos de las diferentes clases del proyecto
 		// La encargada del modelo
