@@ -4,7 +4,6 @@
 package controlador;
 
 import modelo.Modelo;
-import vista.Lanzadera;
 import vista.Vista;
 import vista._00_PantallaInicio;
 import vista._01_Login;
@@ -34,7 +33,7 @@ public class Main {
 		// La encargada del modelo
 		Modelo miModelo = new Modelo();
 		// Un Array de Vistas con todas las vistas que tendrá la app
-		Vista[] misVistas = new Vista[21];
+		Vista[] misVistas = new Vista[20];
 		// La encargada del controlador
 		Controlador miControlador = new Controlador();
 
@@ -59,7 +58,6 @@ public class Main {
 		misVistas[17] = new _17_DarAltaUbicacion();
 		misVistas[18] = new _18_DarDeBajaLibro();
 		misVistas[19] = new _19_DarDeBajaLugar();
-		misVistas[20] = new Lanzadera();
 
 		// Con estos metodos permito que se conozcan el modelo el controlador y las
 		// vistas
@@ -76,7 +74,7 @@ public class Main {
 
 		// Por último hago visible la lanzadera para poder navegar por todas partes
 		
-		Lanzadera frame = (Lanzadera) misVistas[20];
+		_00_PantallaInicio frame = (_00_PantallaInicio) misVistas[0];
 		
 		frame.setVisible(true);
 

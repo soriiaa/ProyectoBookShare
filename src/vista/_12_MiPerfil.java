@@ -493,6 +493,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.add(btnCambiarPreguntas);
 
 		btnAplicarCambios = new JButton("Aplicar Cambios");
+		btnAplicarCambios.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnAplicarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtFotoUsuario.setEditable(false);
@@ -504,7 +505,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 			}
 		});
 		btnAplicarCambios.setBackground(new Color(0, 255, 128));
-		btnAplicarCambios.setBounds(785, 619, 201, 44);
+		btnAplicarCambios.setBounds(758, 593, 201, 44);
 		contentPane.add(btnAplicarCambios);
 		
 		JComboBox comboBox_2 = new JComboBox();
@@ -519,5 +520,16 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.add(PasswordContraseña);
 		PasswordContraseña.setText("Predeterminado");
 		PasswordContraseña.setEditable(false);
+		
+		JButton btnAdmin = new JButton("ADMIN");
+		btnAdmin.setFont(new Font("Tahoma", Font.BOLD, 15));
+		btnAdmin.setBackground(new Color(255, 255, 128));
+		btnAdmin.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(12, 14);
+			}
+		});
+		btnAdmin.setBounds(695, 347, 201, 40);
+		contentPane.add(btnAdmin);
 	}
 }
