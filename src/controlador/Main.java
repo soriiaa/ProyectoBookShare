@@ -30,7 +30,7 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Conexion ejemplo = new Conexion();
-		ejemplo.consultaStatement("SELECT * FROM usuario", 2);
+//		ejemplo.consultaStatement("SELECT * FROM usuario", 2);
 //		ejemplo.consultaPrepared("SELECT * FROM world.city WHERE CountryCode = ?", "ESP", 2);
 //		ejemplo.consultaPrepareCall(3000000);
 //		System.out.println(ejemplo.insertar("pedro", "secreto"));
