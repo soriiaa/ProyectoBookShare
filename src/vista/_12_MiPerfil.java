@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -25,7 +26,6 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
 import modelo.Modelo;
-import javax.swing.JPasswordField;
 
 public class _12_MiPerfil extends JFrame implements Vista {
 
@@ -85,6 +85,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(135, 206, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);

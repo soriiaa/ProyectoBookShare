@@ -49,6 +49,8 @@ public class Main {
 		Vista[] misVistas = new Vista[20];
 		// La encargada del controlador
 		Controlador miControlador = new Controlador();
+		
+		
 
 		// Tengo que introducir manualmente en el array todas las vistas creadas
 		misVistas[0] = new _00_PantallaInicio();

@@ -22,15 +22,15 @@ public class Conexion {
 		try {
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conexion = DriverManager.getConnection(url, login, pwd);
-			System.out.println("-> Conexi�n con MySQL establecida");
+			System.out.println("-> Proyecto conectado con la BBDD.");
 		} catch (ClassNotFoundException e) {
 			System.out.println("Driver JDBC No encontrado");
 			e.printStackTrace();
 		} catch (SQLException e) {
-			System.out.println("Error al conectarse a la BD");
+			System.out.println("Error al conectarse a la BBDD");
 			e.printStackTrace();
 		} catch (Exception e) {
-			System.out.println("Error general de Conexi�n");
+			System.out.println("Error general de Conexión");
 			e.printStackTrace();
 		}
 	}

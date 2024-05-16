@@ -14,13 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.Timer;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 import controlador.Controlador;
 import modelo.Modelo;
@@ -45,6 +42,7 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 
 	public _00_PantallaInicio() {
 
+		
 		setResizable(false);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 918, 604);
@@ -54,6 +52,7 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 55));
 		lblTitulo.setBounds(272, 19, 360, 107);
 		getContentPane().add(lblTitulo);
+		setLocationRelativeTo(null);
 
 		progressBar = new JProgressBar();
 		progressBar.setToolTipText("");
@@ -68,7 +67,7 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 		lblImagen.setBounds(228, 147, 448, 311);
 		getContentPane().add(lblImagen);
 
-		Timer timer = new Timer(20, new ActionListener() {
+		Timer timer = new Timer(6, new ActionListener() {
 			int progress = 0;
 
 			@Override
