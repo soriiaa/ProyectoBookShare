@@ -76,3 +76,10 @@ primary key(id),
 foreign key(codigo_postal)
 references cod_postal(codigo_postal)
 )engine=innodb;
+
+insert into usuario(Nick, nombre, apellido, pwd, Rol, img, cp) values("MenteFria", "Maxi", "angulo", "Estabasededatosmola_5", "Administrador", "Imagen1", "28354");
+insert into notificaciones(Contenido) values("Hola");
+insert into pregunta_recuperacion(Pregunta, respuesta, nick) values("Bebida favorita", "Coca Cola", "MenteFria"); 
+insert into libro(titulo, autor, disponible, genero, valoracion, fecha, comentario,nick)values("Moby Dick", "Herman Melville", TRUE, "Novela de aventuras", 8, '2024-04-11', "Espectacular", "MenteFria");
+insert into Cod_Postal(Codigo_Postal, comunidad_autonoma, provincia, poblacion)values(28001, "Comunidad de Madrid", "Madrid", 3220000);
+insert into Lugar(Nombre, codigo_postal)values("Madrid", 28001);
