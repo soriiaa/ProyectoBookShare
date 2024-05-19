@@ -42,16 +42,29 @@ public class Conexion {
 			e.printStackTrace();
 		}
 	}
+	
+	public void imprimir(String query, int columna) {
+		try {
+			Statement stmt = conexion.createStatement();
+			ResultSet rset = stmt.executeQuery(query);
+			while (rset.next())
+				System.out.println(rset.getString(columna));
+			rset.close();
+			stmt.close();
+		} catch (SQLException s) {
+			s.printStackTrace();
+		}
+	}
 
 	public int consultaStatement(String query, int columna) {
 		int res = 0;
 		try {
 			Statement stmt = conexion.createStatement();
 			ResultSet rset = stmt.executeQuery(query);
-			
+
 			while (rset.next())
 				res = 1;
-				System.out.println(rset.getString(columna));
+			System.out.println(rset.getString(columna));
 			rset.close();
 			stmt.close();
 			return res;
@@ -61,7 +74,42 @@ public class Conexion {
 		}
 	}
 
-	public int consultaPrepared(String query, int cod, int columna) {
+	public int devueltaPregunta(String query, String cod, int columna) {
+		int res = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, cod);
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next())
+				res = 1;
+			rset.close();
+			pstmt.close();
+			return res;
+		} catch (SQLException s) {
+			s.printStackTrace();
+			return res;
+		}
+	}
+	
+	public boolean comproLogin(String query, String usr, String pwd) {
+		boolean existe = false;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usr);
+			pstmt.setString(2, pwd);
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next())
+				existe = true;
+			rset.close();
+			pstmt.close();
+			return existe;
+		} catch (SQLException s) {
+			s.printStackTrace();
+			return existe;
+		}
+	}
+
+	public int comproAdmin(String query, int cod, int columna) {
 		int res = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
@@ -69,7 +117,6 @@ public class Conexion {
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				res = 1;
-				System.out.println(rset.getString(columna));
 			rset.close();
 			pstmt.close();
 			return res;
@@ -95,17 +142,22 @@ public class Conexion {
 		}
 	}
 
-	public int insertar(String usr, String pwd, String apellido, String rol, int cp) {
+	public int insertar(String usr, String nombre, String apellido, String pwd, String rol, int cp,
+			int codigoPreguntaRecuperacion, String respuestaPreguntaRecuperacion) {
 		int resultado = 0;
 		try {
-			String query = "INSERT INTO usuario (nick,pwd,apellido,rol,cp) VALUES (?,?,?,?,?)";
+			String nick = "Nick";
+			String query = "INSERT INTO users (usr,nombre,apellido,pwd,rol,cp,codigoPreguntaRecuperacion,respuestaPreguntaRecuperacion) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, usr);
-			pstmt.setString(2, pwd);
+			pstmt.setString(2, nombre);
 			pstmt.setString(3, apellido);
-			pstmt.setString(4, rol);
-			pstmt.setInt(5, cp);
-			
+			pstmt.setString(4, pwd);
+			pstmt.setString(5, rol);
+			pstmt.setInt(6, cp);
+			pstmt.setInt(7, codigoPreguntaRecuperacion);
+			pstmt.setString(8, respuestaPreguntaRecuperacion);
+
 			resultado = pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {

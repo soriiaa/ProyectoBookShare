@@ -1,5 +1,7 @@
 package modelo;
 
+import java.sql.SQLException;
+
 /**
  * @author Andrés
  */
@@ -20,27 +22,35 @@ public class Modelo {
 	public void setVista(Vista[] misVistas) {
 		this.misVistas = misVistas;
 	}
-
+	
 	public boolean validarUsuario(String usuario, String pwd) {
 		boolean comprobacion = false;
 		miConexion = new Conexion();
-
+		if (miConexion.comproLogin("select * from BookShare.users where usr = ? and pwd = ?", usuario, pwd)) {
+			comprobacion = true;
+		}
 		return comprobacion;
 	}
 
-	public void insertarUsuario(String nombre, String pwd, String apellido,int codPostal, String pregunta, String respuesta,
-			String admin, int claveAdmin) {
+	public int sacarPregunta(String pregunta) {
 		miConexion = new Conexion();
-		
-		int valor = miConexion.consultaPrepared("Select * from BookShare.administracion where valor = ?",claveAdmin,2);
-		
-		if(valor == 1) {
-			admin = "si";
-		}else {
-			admin = "no";
+		return (miConexion.devueltaPregunta("select * from BookShare.pregunta_recuperacion where pregunta = ?",
+				pregunta, 1) + 1);
+	}
+
+	public void insertarUsuario(String usr, String nombre, String apellido, String pwd, int codPostal, int pregunta,
+			String respuesta, String rol, int claveAdmin) {
+
+		int valor = miConexion.comproAdmin("Select * from BookShare.administracion where valor = ?", claveAdmin,
+				2);
+
+		if (valor == 1) {
+			rol = "Administrador";
+		} else {
+			rol = "Usuario";
 		}
-		
-		miConexion.insertar(nombre, pwd, apellido, admin, codPostal);
+
+		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
 	}
 
 }

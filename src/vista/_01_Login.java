@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -33,11 +35,34 @@ public class _01_Login extends JFrame implements Vista {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblNoTieneCuenta;
-	private JButton btnLogin;
+	public JButton btnLogin;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private FocusListener focusListener;
+	private JTextField txtUsuario;
+	private JPasswordField txtContraseña;
+	private int contador = 1;
+	private JLabel lblIntentosRestantes;
+	
+	private boolean usuarioLleno;
+	private boolean contraseñaLlena;
+	
+	public boolean getUsuarioLleno() {
+		return usuarioLleno;
+	}
+	
+	public boolean getContraseñaLlena() {
+		return contraseñaLlena;
+	}
+
+	public JTextField getUsuario() {
+		return txtUsuario;
+	}
+
+	public JPasswordField getTxtContrasea() {
+		return txtContraseña;
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -64,11 +89,19 @@ public class _01_Login extends JFrame implements Vista {
 		contentPane.setLayout(null);
 
 		JPanel panel = new JPanel();
-		
+
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(96, 10, 244, 309);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
+		btnLogin = new JButton("Login");
+		btnLogin.setBounds(77, 217, 89, 23);
+		panel.add(btnLogin);
+		btnLogin.setForeground(new Color(255, 255, 255));
+		btnLogin.setBackground(new Color(0, 0, 0));
+		btnLogin.setBorder(null);
+		btnLogin.setEnabled(false);
 
 		lblNoTieneCuenta = new JLabel("¿No tiene cuenta? Registrese");
 		lblNoTieneCuenta.setBounds(38, 283, 167, 16);
@@ -116,14 +149,14 @@ public class _01_Login extends JFrame implements Vista {
 		lblOlvidoContraseña.setForeground(new Color(0, 0, 255));
 		lblOlvidoContraseña.setFocusable(true);
 
-		btnLogin = new JButton("Login");
-		btnLogin.setBounds(77, 217, 89, 23);
-		panel.add(btnLogin);
-		btnLogin.setForeground(new Color(255, 255, 255));
-		btnLogin.setBackground(new Color(0, 0, 0));
-		btnLogin.setBorder(null);
-
-		JPasswordField txtContraseña = new JPasswordField();
+		txtContraseña = new JPasswordField();
+		txtContraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtContraseña.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.comprobarCamposLogin();
+			}
+		});
 		txtContraseña.setBounds(25, 163, 193, 29);
 		panel.add(txtContraseña);
 		txtContraseña.setBackground(new Color(192, 192, 192));
@@ -135,6 +168,7 @@ public class _01_Login extends JFrame implements Vista {
 		txtContraseña.setForeground(Color.GRAY);
 		txtContraseña.setBorder(null);
 		txtContraseña.setBorder(BorderFactory.createCompoundBorder(txtContraseña.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+
 
 		txtContraseña.getDocument().addDocumentListener(new DocumentListener() {
 		    @Override
@@ -158,7 +192,16 @@ public class _01_Login extends JFrame implements Vista {
 		});
 		
 		
-		JTextField txtUsuario = new JTextField();
+		txtUsuario = new JTextField();
+
+		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.comprobarCamposLogin();
+			}
+		});
+
 		txtUsuario.setBounds(25, 112, 193, 29);
 		panel.add(txtUsuario);
 		txtUsuario.setBackground(new Color(192, 192, 192));
@@ -193,8 +236,21 @@ public class _01_Login extends JFrame implements Vista {
 		    public void changedUpdate(DocumentEvent e) {}
 		});
 		
+
+		lblIntentosRestantes = new JLabel("");
+		lblIntentosRestantes.setForeground(new Color(255, 0, 0));
+		lblIntentosRestantes.setVisible(true);
+		lblIntentosRestantes.setBounds(70, 203, 135, 14);
+		panel.add(lblIntentosRestantes);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if (!miControlador.recogerLogIn() && contador < 3) {
+					contador++;
+					lblIntentosRestantes.setText("Te quedan " + (4 - contador) + " intentos");
+					miControlador.cambiarVentana(1, 1);
+				} else if (contador == 3) {
+					System.exit(0);
+				}
 				miControlador.cambiarVentana(1, 6);
 			}
 		});
@@ -213,6 +269,7 @@ public class _01_Login extends JFrame implements Vista {
 				lblNoTieneCuenta.setForeground(new Color(0, 0, 255));
 				lblNoTieneCuenta.setText("¿No tiene cuenta? Registrese");
 			}
+
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				lblTitulo.requestFocusInWindow();
@@ -232,12 +289,13 @@ public class _01_Login extends JFrame implements Vista {
 				btnLogin.requestFocusInWindow();
 			}
 		});
-		
+
 		panel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				lblTitulo.requestFocusInWindow();
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnLogin.setBackground(new Color(0, 0, 0));
