@@ -12,8 +12,9 @@ pregunta varchar(50),
 primary key(codigo)
 )engine=innodb;
 
-insert into pregunta_recuperacion(Pregunta) values("Bebida favorita");
-insert into pregunta_recuperacion(Pregunta) values("Nombre de mascota");
+insert into pregunta_recuperacion(Pregunta) values("¿Como se llama tu perro?");
+insert into pregunta_recuperacion(Pregunta) values("¿Cual es tu comida favorita?");
+insert into pregunta_recuperacion(Pregunta) values("¿Cual es tu superheroe favorito?");
 
 create table users(
 usr varchar(40) not null,

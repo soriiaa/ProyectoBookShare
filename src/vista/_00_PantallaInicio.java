@@ -67,7 +67,7 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 		lblImagen.setBounds(228, 147, 448, 311);
 		getContentPane().add(lblImagen);
 
-		Timer timer = new Timer(6, new ActionListener() {
+		Timer timer = new Timer(20, new ActionListener() {
 			int progress = 0;
 
 			@Override
