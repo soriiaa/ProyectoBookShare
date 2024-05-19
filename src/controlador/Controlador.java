@@ -31,12 +31,12 @@ public class Controlador {
 		((JFrame) misVistas[desde]).setVisible(false);
 		((JFrame) misVistas[hasta]).setVisible(true);
 	}
-	
-	public boolean recogerInfo() throws NumberFormatException{
-		miModelo = new Modelo();
-		
-		String apellido = "lol";
-		String usuario = ((_04_Registro) misVistas[4]).getUsuario().getText();
+
+	public boolean recogerInfo() throws NumberFormatException {
+
+		String nombre = ((_04_Registro) misVistas[4]).getNombre().getText();
+		String apellido = ((_04_Registro) misVistas[4]).getApellido().getText();
+		String usr = ((_04_Registro) misVistas[4]).getUsuario().getText();
 		String administrador = ((_04_Registro) misVistas[4]).getAdmin().getText();
 		String pregunta = ((_04_Registro) misVistas[4]).getPreguntaSeguridad().getToolTipText();
 		String respuesta = ((_04_Registro) misVistas[4]).getTxtRespuestaPreguntaSeguridad().getText();
@@ -44,11 +44,22 @@ public class Controlador {
 		String contraseña = String.valueOf(((_04_Registro) misVistas[4]).geTtxtContraseñaComprobar().getPassword());
 		String codigoPostal = ((_04_Registro) misVistas[4]).getTxtCodigoPostal().getText();
 		
+		if(administrador.equals(null)) {
+			administrador = "Usuario";
+		}
+		
+		if(codigoAdmin.equals("Código")) {
+			codigoAdmin = "0";
+		}
+
 		int codAdmin = Integer.parseInt(codigoAdmin);
 		int codPostal = Integer.parseInt(codigoPostal);
 		
-		miModelo.insertarUsuario(usuario,contraseña,apellido,codPostal,pregunta,respuesta,administrador,codAdmin);
+		int numPregunta = miModelo.sacarPregunta(pregunta);
 		
+		miModelo.insertarUsuario(usr, nombre, apellido, contraseña, codPostal, numPregunta, respuesta, administrador,
+				codAdmin);
+
 		return true;
 	}
 }
