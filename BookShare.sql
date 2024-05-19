@@ -1,3 +1,6 @@
+/*
+@author: Pablo
+*/
 drop database if exists bookshare;
 create database bookshare;
 use bookshare;
