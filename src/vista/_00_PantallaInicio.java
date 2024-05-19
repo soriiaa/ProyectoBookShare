@@ -42,7 +42,6 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 
 	public _00_PantallaInicio() {
 
-		
 		setResizable(false);
 		getContentPane().setBackground(new Color(255, 255, 255));
 		setBounds(100, 100, 918, 604);
@@ -72,6 +71,7 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
 				progress++;
 				progressBar.setValue(progress);
 				if (progress >= 100) {
