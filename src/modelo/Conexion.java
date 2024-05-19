@@ -95,16 +95,18 @@ public class Conexion {
 		}
 	}
 
-	public int insertar(String usr, String pwd, String apellido, String rol, int cp) {
+	public int insertar(String nombre, String pwd, String apellido, String rol, int cp) {
 		int resultado = 0;
 		try {
-			String query = "INSERT INTO usuario (nick,pwd,apellido,rol,cp) VALUES (?,?,?,?,?)";
+			String nick = "Nick";
+			String query = "INSERT INTO usuario (nombre,apellido,pwd,rol,cp) VALUES (?,?,?,?,?)";
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1, usr);
-			pstmt.setString(2, pwd);
-			pstmt.setString(3, apellido);
+			pstmt.setString(1, nombre);
+			pstmt.setString(2, apellido);
+			pstmt.setString(3, pwd);
 			pstmt.setString(4, rol);
 			pstmt.setInt(5, cp);
+//			pstmt.setInt(7, cp); 
 			
 			resultado = pstmt.executeUpdate();
 			pstmt.close();
