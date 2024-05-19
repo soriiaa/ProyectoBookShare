@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 
 import modelo.Modelo;
 import vista.Vista;
+import vista._01_Login;
 import vista._04_Registro;
 
 public class Controlador {
@@ -61,5 +62,11 @@ public class Controlador {
 				codAdmin);
 
 		return true;
+	}
+	
+	public boolean recogerLogIn() {
+		String contraseña = String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword());
+		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
+		return miModelo.validarUsuario(usuario,contraseña);
 	}
 }
