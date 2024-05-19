@@ -4,9 +4,11 @@
 package controlador;
 
 import javax.swing.JFrame;
+import javax.swing.JTextField;
 
 import modelo.Modelo;
 import vista.Vista;
+import vista._04_Registro;
 
 public class Controlador {
 
@@ -28,5 +30,25 @@ public class Controlador {
 	public void cambiarVentana(int desde, int hasta) {
 		((JFrame) misVistas[desde]).setVisible(false);
 		((JFrame) misVistas[hasta]).setVisible(true);
+	}
+	
+	public boolean recogerInfo() throws NumberFormatException{
+		miModelo = new Modelo();
+		
+		String apellido = "lol";
+		String usuario = ((_04_Registro) misVistas[4]).getUsuario().getText();
+		String administrador = ((_04_Registro) misVistas[4]).getAdmin().getText();
+		String pregunta = ((_04_Registro) misVistas[4]).getPreguntaSeguridad().getToolTipText();
+		String respuesta = ((_04_Registro) misVistas[4]).getTxtRespuestaPreguntaSeguridad().getText();
+		String codigoAdmin = ((_04_Registro) misVistas[4]).getTxtCódigo().getText();
+		String contraseña = ((_04_Registro) misVistas[4]).geTtxtContraseñaComprobar().getText();
+		String codigoPostal = ((_04_Registro) misVistas[4]).getTxtCodigoPostal().getText();
+		
+		int codAdmin = Integer.parseInt(codigoAdmin);
+		int codPostal = Integer.parseInt(codigoPostal);
+		
+		miModelo.insertarUsuario(usuario,contraseña,apellido,codPostal,pregunta,respuesta,administrador,codAdmin);
+		
+		return true;
 	}
 }
