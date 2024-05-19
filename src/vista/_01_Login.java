@@ -26,12 +26,14 @@ import javax.swing.border.EmptyBorder;
 
 import controlador.Controlador;
 import modelo.Modelo;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class _01_Login extends JFrame implements Vista {
 
 	private static final long serialVersionUID = 1L;
 	private JLabel lblNoTieneCuenta;
-	private JButton btnLogin;
+	public JButton btnLogin;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
@@ -79,6 +81,14 @@ public class _01_Login extends JFrame implements Vista {
 		panel.setBounds(96, 10, 244, 309);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
+		btnLogin = new JButton("Login");
+		btnLogin.setBounds(77, 217, 89, 23);
+		panel.add(btnLogin);
+		btnLogin.setForeground(new Color(255, 255, 255));
+		btnLogin.setBackground(new Color(0, 0, 0));
+		btnLogin.setBorder(null);
+		btnLogin.setEnabled(false);
 
 		lblNoTieneCuenta = new JLabel("¿No tiene cuenta? Registrese");
 		lblNoTieneCuenta.setBounds(38, 283, 167, 16);
@@ -126,14 +136,13 @@ public class _01_Login extends JFrame implements Vista {
 		lblOlvidoContraseña.setForeground(new Color(0, 0, 255));
 		lblOlvidoContraseña.setFocusable(true);
 
-		btnLogin = new JButton("Login");
-		btnLogin.setBounds(77, 217, 89, 23);
-		panel.add(btnLogin);
-		btnLogin.setForeground(new Color(255, 255, 255));
-		btnLogin.setBackground(new Color(0, 0, 0));
-		btnLogin.setBorder(null);
-
 		txtContraseña = new JPasswordField();
+		txtContraseña.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.comprobarCamposLogin();
+			}
+		});
 		txtContraseña.setBounds(25, 163, 193, 29);
 		panel.add(txtContraseña);
 		txtContraseña.setBackground(new Color(192, 192, 192));
@@ -148,6 +157,12 @@ public class _01_Login extends JFrame implements Vista {
 				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 
 		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.comprobarCamposLogin();
+			}
+		});
 		txtUsuario.setBounds(25, 112, 193, 29);
 		panel.add(txtUsuario);
 		txtUsuario.setBackground(new Color(192, 192, 192));
@@ -162,7 +177,7 @@ public class _01_Login extends JFrame implements Vista {
 				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		txtUsuario.setColumns(10);
 
-		lblIntentosRestantes = new JLabel("Te quedan " + (4 - contador) + " intentos");
+		lblIntentosRestantes = new JLabel("");
 		lblIntentosRestantes.setForeground(new Color(255, 0, 0));
 		lblIntentosRestantes.setVisible(true);
 		lblIntentosRestantes.setBounds(70, 203, 135, 14);
@@ -171,6 +186,7 @@ public class _01_Login extends JFrame implements Vista {
 			public void actionPerformed(ActionEvent e) {
 				if (!miControlador.recogerLogIn() && contador < 3) {
 					contador++;
+					lblIntentosRestantes.setText("Te quedan " + (4 - contador) + " intentos");
 					miControlador.cambiarVentana(1, 1);
 				} else if (contador == 3) {
 					System.exit(0);

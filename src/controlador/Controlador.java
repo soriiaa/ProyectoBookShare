@@ -77,6 +77,13 @@ public class Controlador {
 		((_04_Registro) misVistas[4]).btnRegistro_1.setEnabled(camposRellenos);
 	}
 	
+	// No sabemos porque no funciona ya que true && false da false con lo cual el boton no se deberia habilitar ademas de que es 
+	// igual que el de arriba que si funciona
+	public void comprobarCamposLogin() {
+		boolean camposRellenos = !((_01_Login) misVistas[1]).getUsuario().getText().isEmpty() && !String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword()).isEmpty();
+		((_01_Login) misVistas[1]).btnLogin.setEnabled(camposRellenos);
+	}
+	
 	public boolean recogerLogIn() {
 		String contraseña = String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword());
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
