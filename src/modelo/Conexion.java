@@ -90,6 +90,24 @@ public class Conexion {
 			return res;
 		}
 	}
+	
+	public boolean comproLogin(String query, String usr, String pwd) {
+		boolean existe = false;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usr);
+			pstmt.setString(2, pwd);
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next())
+				existe = true;
+			rset.close();
+			pstmt.close();
+			return existe;
+		} catch (SQLException s) {
+			s.printStackTrace();
+			return existe;
+		}
+	}
 
 	public int comproAdmin(String query, int cod, int columna) {
 		int res = 0;
