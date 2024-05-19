@@ -62,4 +62,17 @@ public class Controlador {
 
 		return true;
 	}
+	
+	public void camposRellenados() {
+		boolean camposRellenos = !((_04_Registro) misVistas[4]).getUsuario().getText().isEmpty()
+		        && !String.valueOf(((_04_Registro) misVistas[4]).getTxtContraseña().getPassword()).isEmpty()
+		        && !String.valueOf(((_04_Registro) misVistas[4]).geTtxtContraseñaComprobar().getPassword()).isEmpty()
+		        && !((_04_Registro) misVistas[4]).getNombre().getText().isEmpty()
+		        && !((_04_Registro) misVistas[4]).getApellido().getText().isEmpty()
+		        && !((_04_Registro) misVistas[4]).getTxtCodigoPostal().getText().isEmpty()
+		        && !((_04_Registro) misVistas[4]).getTxtRespuestaPreguntaSeguridad().getText().isEmpty()
+		        && ((_04_Registro) misVistas[4]).getPreguntaSeguridad().getSelectedIndex() != 0;
+
+		((_04_Registro) misVistas[4]).btnRegistro_1.setEnabled(camposRellenos);
+	}
 }

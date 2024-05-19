@@ -32,6 +32,8 @@ import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class _04_Registro extends JFrame implements Vista {
 
@@ -53,6 +55,9 @@ public class _04_Registro extends JFrame implements Vista {
 	private JTextField txtNombre;
 	private JTextField txtApellidos;
 	private JLabel lblTitulo;
+	private JPasswordField txtContraseña;
+	public JButton btnRegistro_1;
+	private JButton btnVueltaLogin_1;
 
 	public JTextField getNombre() {
 		return txtNombre;
@@ -84,6 +89,10 @@ public class _04_Registro extends JFrame implements Vista {
 
 	public JPasswordField geTtxtContraseñaComprobar() {
 		return txtContraseñaComprobar;
+	}
+	
+	public JPasswordField getTxtContraseña() {
+		return txtContraseña;
 	}
 
 	public JTextField getTxtCodigoPostal() {
@@ -119,8 +128,34 @@ public class _04_Registro extends JFrame implements Vista {
 		panel.setBounds(65, 27, 311, 451);
 		contentPane.add(panel);
 		panel.setLayout(null);
+		
+		btnRegistro_1 = new JButton("Registrar");
+		btnRegistro_1.setBounds(159, 408, 108, 23);
+		panel.add(btnRegistro_1);
+		btnRegistro_1.setForeground(new Color(255, 255, 255));
+		btnRegistro_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.recogerInfo();
+				miControlador.cambiarVentana(4, 1);
+			}
+		});
+		btnRegistro_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnRegistro_1.setBackground(new Color(70, 70, 70));
+			}
+		});
+		btnRegistro_1.setBackground(new Color(0, 0, 0));
+		btnRegistro_1.setBorder(null);
+		btnRegistro_1.setEnabled(false);
 
 		txtUsuario = new JTextField();
+		txtUsuario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtUsuario.setBounds(20, 116, 117, 29);
 		panel.add(txtUsuario);
 		txtUsuario.setBackground(new Color(192, 192, 192));
@@ -157,7 +192,13 @@ public class _04_Registro extends JFrame implements Vista {
 			}
 		});
 
-		JPasswordField txtContraseña = new JPasswordField();
+		txtContraseña = new JPasswordField();
+		txtContraseña.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtContraseña.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtContraseña.setBounds(20, 164, 117, 29);
 		panel.add(txtContraseña);
@@ -194,44 +235,24 @@ public class _04_Registro extends JFrame implements Vista {
 			}
 		});
 
-		JButton btnVueltaLogin = new JButton("Volver");
-		btnVueltaLogin.setBounds(46, 408, 103, 23);
-		panel.add(btnVueltaLogin);
-		btnVueltaLogin.setForeground(new Color(255, 255, 255));
-		btnVueltaLogin.addActionListener(new ActionListener() {
+		btnVueltaLogin_1 = new JButton("Volver");
+		btnVueltaLogin_1.setBounds(46, 408, 103, 23);
+		panel.add(btnVueltaLogin_1);
+		btnVueltaLogin_1.setForeground(new Color(255, 255, 255));
+		btnVueltaLogin_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(4, 1);
 			}
 		});
-		btnVueltaLogin.addMouseListener(new MouseAdapter() {
+		btnVueltaLogin_1.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnVueltaLogin.setBackground(new Color(70, 70, 70));
+				btnVueltaLogin_1.setBackground(new Color(70, 70, 70));
 			}
 		});
 
-		btnVueltaLogin.setBorder(null);
-		btnVueltaLogin.setBackground(new Color(0, 0, 0));
-
-		JButton btnRegistro = new JButton("Registrar");
-		btnRegistro.setBounds(159, 408, 108, 23);
-		panel.add(btnRegistro);
-		btnRegistro.setForeground(new Color(255, 255, 255));
-		btnRegistro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.recogerInfo();
-				miControlador.cambiarVentana(4, 1);
-			}
-		});
-		btnRegistro.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnRegistro.setBackground(new Color(70, 70, 70));
-			}
-		});
-		btnRegistro.setBackground(new Color(0, 0, 0));
-
-		btnRegistro.setBorder(null);
+		btnVueltaLogin_1.setBorder(null);
+		btnVueltaLogin_1.setBackground(new Color(0, 0, 0));
 
 		chckbxAdministrador = new JCheckBox("¿Administrador?");
 		chckbxAdministrador.setBounds(170, 218, 103, 23);
@@ -261,6 +282,12 @@ public class _04_Registro extends JFrame implements Vista {
 				"¿Cual es tu superheroe favorito?" };
 
 		comboBoxPreguntaSeguridad = new JComboBox<>(opciones);
+		comboBoxPreguntaSeguridad.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		comboBoxPreguntaSeguridad.insertItemAt("Seleccione la Pregunta de Seguridad", 0);
 		comboBoxPreguntaSeguridad.setSelectedIndex(0);
 		comboBoxPreguntaSeguridad.setBounds(20, 315, 267, 29);
@@ -277,7 +304,7 @@ public class _04_Registro extends JFrame implements Vista {
 		});
 
 		panel.add(comboBoxPreguntaSeguridad);
-		add(panel);
+		getContentPane().add(panel);
 
 		lblTitulo = new JLabel("REGÍSTRESE");
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 42));
@@ -285,6 +312,12 @@ public class _04_Registro extends JFrame implements Vista {
 		panel.add(lblTitulo);
 
 		txtContraseñaComprobar = new JPasswordField();
+		txtContraseñaComprobar.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtContraseñaComprobar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtContraseñaComprobar.setText("C. Contraseña");
 		txtContraseñaComprobar.setForeground(Color.GRAY);
@@ -322,6 +355,12 @@ public class _04_Registro extends JFrame implements Vista {
 		});
 
 		txtCodigoPostal = new JTextField();
+		txtCodigoPostal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtCodigoPostal.setText("Código Postal");
 		txtCodigoPostal.setForeground(Color.GRAY);
 		txtCodigoPostal.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -359,6 +398,12 @@ public class _04_Registro extends JFrame implements Vista {
 		});
 
 		txtRespuesta = new JTextField();
+		txtRespuesta.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtRespuesta.setText("Respuesta");
 		txtRespuesta.setForeground(Color.GRAY);
 		txtRespuesta.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -434,6 +479,12 @@ public class _04_Registro extends JFrame implements Vista {
 		});
 
 		txtNombre = new JTextField();
+		txtNombre.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtNombre.setText("Nombre");
 		txtNombre.setForeground(Color.GRAY);
 		txtNombre.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -471,6 +522,12 @@ public class _04_Registro extends JFrame implements Vista {
 		});
 
 		txtApellidos = new JTextField();
+		txtApellidos.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
+			}
+		});
 		txtApellidos.setText("Apellidos");
 		txtApellidos.setForeground(Color.GRAY);
 		txtApellidos.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -510,7 +567,7 @@ public class _04_Registro extends JFrame implements Vista {
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnRegistro.setBackground(new Color(0, 0, 0));
+				btnRegistro_1.setBackground(new Color(0, 0, 0));
 			}
 
 			@Override
@@ -522,7 +579,7 @@ public class _04_Registro extends JFrame implements Vista {
 		getContentPane().addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnVueltaLogin.setBackground(new Color(0, 0, 0));
+				btnVueltaLogin_1.setBackground(new Color(0, 0, 0));
 			}
 		});
 
@@ -541,11 +598,10 @@ public class _04_Registro extends JFrame implements Vista {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnRegistro.setBackground(new Color(0, 0, 0));
-				btnVueltaLogin.setBackground(new Color(0, 0, 0));
+				btnRegistro_1.setBackground(new Color(0, 0, 0));
+				btnVueltaLogin_1.setBackground(new Color(0, 0, 0));
 			}
 		});
-
 	}
 
 	private static class PlaceholderFocusListener implements FocusListener {

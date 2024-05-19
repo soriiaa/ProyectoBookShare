@@ -74,7 +74,7 @@ public class Conexion {
 		}
 	}
 
-	public int consultaPrepared(String query, String cod, int columna) {
+	public int devueltaPregunta(String query, String cod, int columna) {
 		int res = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
@@ -82,7 +82,6 @@ public class Conexion {
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				res = 1;
-			System.out.println(rset.getString(columna));
 			rset.close();
 			pstmt.close();
 			return res;
@@ -92,7 +91,7 @@ public class Conexion {
 		}
 	}
 
-	public int consultaPrepared(String query, int cod, int columna) {
+	public int comproAdmin(String query, int cod, int columna) {
 		int res = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
@@ -100,7 +99,6 @@ public class Conexion {
 			ResultSet rset = pstmt.executeQuery();
 			while (rset.next())
 				res = 1;
-			System.out.println(rset.getString(columna));
 			rset.close();
 			pstmt.close();
 			return res;

@@ -32,14 +32,14 @@ public class Modelo {
 
 	public int sacarPregunta(String pregunta) {
 		miConexion = new Conexion();
-		return (miConexion.consultaPrepared("select * from BookShare.pregunta_recuperacion where pregunta = ?",
+		return (miConexion.devueltaPregunta("select * from BookShare.pregunta_recuperacion where pregunta = ?",
 				pregunta, 1) + 1);
 	}
 
 	public void insertarUsuario(String usr, String nombre, String apellido, String pwd, int codPostal, int pregunta,
 			String respuesta, String rol, int claveAdmin) {
 
-		int valor = miConexion.consultaPrepared("Select * from BookShare.administracion where valor = ?", claveAdmin,
+		int valor = miConexion.comproAdmin("Select * from BookShare.administracion where valor = ?", claveAdmin,
 				2);
 
 		if (valor == 1) {
@@ -49,8 +49,6 @@ public class Modelo {
 		}
 
 		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
-
-		miConexion.imprimir("select * from BookShare.users", 1);
 	}
 
 }
