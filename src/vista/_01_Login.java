@@ -23,6 +23,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
@@ -134,6 +136,26 @@ public class _01_Login extends JFrame implements Vista {
 		txtContraseña.setBorder(null);
 		txtContraseña.setBorder(BorderFactory.createCompoundBorder(txtContraseña.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 
+		txtContraseña.getDocument().addDocumentListener(new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		        if ("Contraseña".equals(txtContraseña.getText())) {
+		        	txtContraseña.setForeground(Color.GRAY);
+		        } else {
+		        	txtContraseña.setForeground(Color.BLACK);
+		        }
+		    }
+
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		        if (txtContraseña.getText().isEmpty()) {
+		        	txtContraseña.setForeground(Color.GRAY);
+		        }
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {}
+		});
 		
 		
 		JTextField txtUsuario = new JTextField();
@@ -149,6 +171,28 @@ public class _01_Login extends JFrame implements Vista {
 		txtUsuario.setBorder(null);
 		txtUsuario.setBorder(BorderFactory.createCompoundBorder(txtUsuario.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		txtUsuario.setColumns(10);
+		
+		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		        if ("Usuario".equals(txtUsuario.getText())) {
+		            txtUsuario.setForeground(Color.GRAY);
+		        } else {
+		            txtUsuario.setForeground(Color.BLACK);
+		        }
+		    }
+
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		        if (txtUsuario.getText().isEmpty()) {
+		            txtUsuario.setForeground(Color.GRAY);
+		        }
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {}
+		});
+		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(1, 6);
@@ -205,6 +249,13 @@ public class _01_Login extends JFrame implements Vista {
 		});
 
 		btnLogin.requestFocusInWindow();
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				lblTitulo.requestFocus();
+			}
+		});
 
 	}
 
