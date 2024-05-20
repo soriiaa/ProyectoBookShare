@@ -103,4 +103,18 @@ public class Modelo {
 	    return datos;
 	}
 
+	public boolean validarAdmin(String usuarioInput) {
+		boolean admin = false;
+		
+		String sentencia = "select rol from users where usr like ?";
+		
+		String rol = miConexion.consultaConFiltro(sentencia, usuarioInput);
+		
+		if(rol.equals("Administrador")) {
+			admin = true;
+		}
+		
+		return admin;
+	}
+
 }

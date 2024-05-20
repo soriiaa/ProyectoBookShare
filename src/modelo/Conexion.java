@@ -57,6 +57,28 @@ public class Conexion {
 			s.printStackTrace();
 		}
 	}
+	
+	public String consultaConFiltro(String query, String filtro) {
+		
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = "";
+		try {
+			pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1,filtro);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				res = rs.getString(1);
+			}
+			rs.close();
+			pstmt.close();
+			return res;
+		}catch(SQLException s) {
+			s.printStackTrace();
+			return res;
+		}
+		
+	}
 
 	public int consultaStatement(String query, int columna) {
 		int res = 0;

@@ -116,5 +116,13 @@ public class Controlador {
 		return info;
 
 	}
+	
+	public boolean comprobarAdmin() {
+		boolean admin = false;
+		
+		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
+
+		return miModelo.validarAdmin(usuario);
+	}
 
 }
