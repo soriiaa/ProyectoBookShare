@@ -495,7 +495,23 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		
 		System.out.println("Tabla actualizada por lugar");
 		
+		ArrayList<String> listaTitulosPorLugar = new ArrayList<>();
 		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			if (arrayLibrosIdTituloGeneroLugar[i][2].equalsIgnoreCase(lugarBuscado)) {
+				listaTitulosPorLugar.add(arrayLibrosIdTituloGeneroLugar[i][1]);
+			}
+		}
+		
+		String[][] titulosBuscadosPorLugar = new String[listaTitulosPorLugar.size()][1];
+		
+		for (int i = 0; i < listaTitulosPorLugar.size(); i++) {
+			titulosBuscadosPorLugar[i][0] = listaTitulosPorLugar.get(i);
+		}
+		
+		String[] columnas = {"Libros"};
+		
+		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorLugar, columnas));
 		
 	}
 }
