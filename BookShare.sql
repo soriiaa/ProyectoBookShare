@@ -131,3 +131,12 @@ insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
 select * from users;
+<<<<<<< HEAD
+=======
+
+<<<<<<< HEAD
+SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id; 
+=======
+SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
+>>>>>>> 2bf8bf3e9aae8e2618704fec3b4c83839e894bbf
+>>>>>>> d43ac95593f7bcd0593fcb1a3e74cb9a6b3712f7

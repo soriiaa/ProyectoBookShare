@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 /vista/
 /controlador/
 =======
@@ -9,3 +10,8 @@
 >>>>>>> ea2ce0f0bc1d3a7e891e598c460a2dce66b451b1
 /modelo/
 >>>>>>> 043ba0d3cea096a3f05baf319d716f1a62954adc
+=======
+/modelo/
+/controlador/
+/vista/
+>>>>>>> d43ac95593f7bcd0593fcb1a3e74cb9a6b3712f7

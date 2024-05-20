@@ -85,7 +85,7 @@ public class Main {
 
 		// Por último hago visible la lanzadera para poder navegar por todas partes
 		
-		_00_PantallaInicio frame = (_00_PantallaInicio) misVistas[0];
+		_03_PaginaPrincipalSinLog frame = (_03_PaginaPrincipalSinLog) misVistas[3];
 		
 		frame.setVisible(true);
 

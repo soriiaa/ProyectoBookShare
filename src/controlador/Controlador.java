@@ -46,62 +46,75 @@ public class Controlador {
 		String codigoAdmin = ((_04_Registro) misVistas[4]).getTxtCódigo().getText();
 		String contraseña = String.valueOf(((_04_Registro) misVistas[4]).geTtxtContraseñaComprobar().getPassword());
 		String codigoPostal = ((_04_Registro) misVistas[4]).getTxtCodigoPostal().getText();
-		
-		if(administrador.equals(null)) {
+
+		if (administrador.equals(null)) {
 			administrador = "Usuario";
 		}
-		
-		if(codigoAdmin.equals("Código")) {
+
+		if (codigoAdmin.equals("Código")) {
 			codigoAdmin = "0";
 		}
 
 		int codAdmin = Integer.parseInt(codigoAdmin);
 		int codPostal = Integer.parseInt(codigoPostal);
-		
+
 		int numPregunta = miModelo.sacarPregunta(pregunta);
-		
+
 		miModelo.insertarUsuario(usr, nombre, apellido, contraseña, codPostal, numPregunta, respuesta, administrador,
 				codAdmin);
 
 		return true;
 	}
-	
+
 	public void camposRellenados() {
 		boolean camposRellenos = !((_04_Registro) misVistas[4]).getUsuario().getText().isEmpty()
-		        && !String.valueOf(((_04_Registro) misVistas[4]).getTxtContraseña().getPassword()).isEmpty()
-		        && !String.valueOf(((_04_Registro) misVistas[4]).geTtxtContraseñaComprobar().getPassword()).isEmpty()
-		        && !((_04_Registro) misVistas[4]).getNombre().getText().isEmpty()
-		        && !((_04_Registro) misVistas[4]).getApellido().getText().isEmpty()
-		        && !((_04_Registro) misVistas[4]).getTxtCodigoPostal().getText().isEmpty()
-		        && !((_04_Registro) misVistas[4]).getTxtRespuestaPreguntaSeguridad().getText().isEmpty()
-		        && ((_04_Registro) misVistas[4]).getPreguntaSeguridad().getSelectedIndex() != 0;
+				&& !String.valueOf(((_04_Registro) misVistas[4]).getTxtContraseña().getPassword()).isEmpty()
+				&& !String.valueOf(((_04_Registro) misVistas[4]).geTtxtContraseñaComprobar().getPassword()).isEmpty()
+				&& !((_04_Registro) misVistas[4]).getNombre().getText().isEmpty()
+				&& !((_04_Registro) misVistas[4]).getApellido().getText().isEmpty()
+				&& !((_04_Registro) misVistas[4]).getTxtCodigoPostal().getText().isEmpty()
+				&& !((_04_Registro) misVistas[4]).getTxtRespuestaPreguntaSeguridad().getText().isEmpty()
+				&& ((_04_Registro) misVistas[4]).getPreguntaSeguridad().getSelectedIndex() != 0;
 
 		((_04_Registro) misVistas[4]).btnRegistro_1.setEnabled(camposRellenos);
 	}
-	
-	// No sabemos porque no funciona ya que true && false da false con lo cual el boton no se deberia habilitar ademas de que es 
+
+	// No sabemos porque no funciona ya que true && false da false con lo cual el
+	// boton no se deberia habilitar ademas de que es
 	// igual que el de arriba que si funciona
 	public void comprobarCamposLogin() {
-		boolean camposRellenos = ( ((!((_01_Login) misVistas[1]).getUsuario().getText().isEmpty()) && (!((_01_Login) misVistas[1]).getUsuario().getText().equals("Usuario"))) && ((!String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword()).isEmpty()) && (!String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword()).equals("Contraseña"))) );
+		boolean camposRellenos = (((!((_01_Login) misVistas[1]).getUsuario().getText().isEmpty())
+				&& (!((_01_Login) misVistas[1]).getUsuario().getText().equals("Usuario")))
+				&& ((!String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword()).isEmpty()) && (!String
+						.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword()).equals("Contraseña"))));
 		((_01_Login) misVistas[1]).btnLogin.setEnabled(camposRellenos);
 	}
-	
+
 	public boolean recogerLogIn() {
 		String contraseña = String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword());
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
-		return miModelo.validarUsuario(usuario,contraseña);
+		return miModelo.validarUsuario(usuario, contraseña);
 	}
-	
+
 	public Object[][] guardarCodPostal() {
 		String busqueda = ((_02_BuscarPorLocalidad) misVistas[2]).getTxtBuscador().getText();
-		
+
 		int filtro = Integer.parseInt(busqueda);
-		
+
 		Object[][] lista = new Object[2][2];
-		
+
 		lista = miModelo.busquedaCodPostal(filtro);
-		
+
 		return lista;
-		
+
 	}
+	
+	public Object[][] sacarHistorial() {
+
+		Object[][] info = miModelo.sentenciaHistorial();
+		
+		return info;
+
+	}
+
 }
