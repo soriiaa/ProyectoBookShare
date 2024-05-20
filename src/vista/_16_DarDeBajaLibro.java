@@ -8,6 +8,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -26,13 +28,12 @@ import javax.swing.table.DefaultTableModel;
 import controlador.Controlador;
 import modelo.Modelo;
 
-public class _18_DarDeBajaLibro extends JFrame implements Vista {
+public class _16_DarDeBajaLibro extends JFrame implements Vista {
 	private static final long serialVersionUID = 1L;
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private JPanel contentPane;
 	private JTextField txtPorFavorIntroduzca;
-	private JTextField textField;
 	private JTable table;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
@@ -43,6 +44,11 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 	private JButton btnBajaLibro;
 	private JButton btnEnviarMensaje;
 	private JButton btnMiperfil;
+	private DefaultTableModel modelo;
+	private JButton btnAlta, btnBaja, btnModificar;
+	private JTextField txtTitulo;
+	private JTextField txtAutor;
+	private JTextField txtGenero;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -54,7 +60,7 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		this.miControlador = miControlador;
 	}
 
-	public _18_DarDeBajaLibro() {
+	public _16_DarDeBajaLibro() {
 		setResizable(false);
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -63,6 +69,13 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		contentPane.setBackground(new Color(135, 206, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				table.getSelectionModel().clearSelection();
+				limpiarCampos();
+			}
+		});
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -72,14 +85,14 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		panelMenuNavegacion.setBounds(0, 0, 195, 622);
 		contentPane.add(panelMenuNavegacion);
 		panelMenuNavegacion.setLayout(null);
-		
+
 		panelTituloMenu = new JPanel();
 		panelTituloMenu.setForeground(new Color(0, 0, 0));
 		panelTituloMenu.setBackground(new Color(0, 0, 0));
 		panelTituloMenu.setBounds(0, 0, 198, 40);
 		panelMenuNavegacion.add(panelTituloMenu);
 		panelTituloMenu.setLayout(null);
-		
+
 		lblTituloMenu = new JLabel("Menu Navegacion");
 		lblTituloMenu.setForeground(new Color(255, 255, 255));
 		lblTituloMenu.setBackground(new Color(255, 255, 255));
@@ -87,101 +100,24 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		lblTituloMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloMenu.setBounds(0, 0, 194, 40);
 		panelTituloMenu.add(lblTituloMenu);
-		
-		btnAltaLugar = new JButton("Dar de alta un Lugar");
-		btnAltaLugar.setBorderPainted(false);
-		btnAltaLugar.setBackground(new Color(230, 230, 250));
-		btnAltaLugar.setForeground(new Color(0, 0, 128));
-		btnAltaLugar.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnAltaLugar.setHorizontalAlignment(SwingConstants.LEFT);
-		btnAltaLugar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(18, 17);
-			}
-		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima
-		btnAltaLugar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnAltaLugar.setBackground(new Color (220, 220, 220));
-			}
-		});
-		contentPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnAltaLugar.setBackground(new Color(230, 230, 250));
-			}
-		});
-		btnAltaLugar.setBounds(0, 39, 198, 40);
-		panelMenuNavegacion.add(btnAltaLugar);
-		
-		btnAltaLibro = new JButton("Dar de baja un Lugar");
-		btnAltaLibro.setBorderPainted(false);
-		btnAltaLibro.setHorizontalAlignment(SwingConstants.LEFT);
-		btnAltaLibro.setBackground(new Color(230, 230, 250));
-		btnAltaLibro.setForeground(new Color(0, 0, 128));	
-		btnAltaLibro.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnAltaLibro.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(18, 19);
-			}
-		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
-		btnAltaLibro.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnAltaLugar.setBackground(new Color(230, 230, 250));
-			}
-		});
-		btnAltaLugar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnAltaLibro.setBackground(new Color(230, 230, 250));
-			}
-		});
-		btnAltaLibro.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnAltaLibro.setBackground(new Color (220, 220, 220));
-			}
-		});
-		contentPane.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnAltaLibro.setBackground(new Color(230, 230, 250));
-			}
-		});
-		btnAltaLibro.setBounds(0, 79, 209, 40);
-		panelMenuNavegacion.add(btnAltaLibro);
-		
-		btnBajaLugar = new JButton("Dar de alta un Libro");
+
+		btnBajaLugar = new JButton("Dar de baja y alta un Lugar");
 		btnBajaLugar.setBorderPainted(false);
 		btnBajaLugar.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBajaLugar.setBackground(new Color(230, 230, 250));
 		btnBajaLugar.setForeground(new Color(0, 0, 128));
-		btnBajaLugar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnBajaLugar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnBajaLugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(18, 16);
+				miControlador.cambiarVentana(16, 17);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnBajaLugar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnAltaLibro.setBackground(new Color(230, 230, 250));
-			}
-		});
-		btnAltaLibro.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnBajaLugar.setBackground(new Color(230, 230, 250));
-			}
-		});
-		btnBajaLugar.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				btnBajaLugar.setBackground(new Color (220, 220, 220));
+				btnBajaLugar.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -190,21 +126,22 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 				btnBajaLugar.setBackground(new Color(230, 230, 250));
 			}
 		});
-		btnBajaLugar.setBounds(0, 119, 198, 40);
+		btnBajaLugar.setBounds(0, 42, 217, 40);
 		panelMenuNavegacion.add(btnBajaLugar);
-		
-		btnBajaLibro = new JButton("Dar de baja un Libro");
+
+		btnBajaLibro = new JButton("Dar de baja y alta un Libro");
 		btnBajaLibro.setBorderPainted(false);
 		btnBajaLibro.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBajaLibro.setBackground(new Color(230, 230, 250));
 		btnBajaLibro.setForeground(new Color(0, 0, 128));
-		btnBajaLibro.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnBajaLibro.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnBajaLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(18, 18);
+				miControlador.cambiarVentana(16, 16);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnBajaLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -220,7 +157,7 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		btnBajaLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnBajaLibro.setBackground(new Color (220, 220, 220));
+				btnBajaLibro.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -229,21 +166,22 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 				btnBajaLibro.setBackground(new Color(230, 230, 250));
 			}
 		});
-		btnBajaLibro.setBounds(0, 159, 198, 40);
+		btnBajaLibro.setBounds(0, 80, 217, 40);
 		panelMenuNavegacion.add(btnBajaLibro);
-		
+
 		btnEnviarMensaje = new JButton("Enviar Mensaje");
 		btnEnviarMensaje.setBorderPainted(false);
 		btnEnviarMensaje.setHorizontalAlignment(SwingConstants.LEFT);
 		btnEnviarMensaje.setBackground(new Color(230, 230, 250));
 		btnEnviarMensaje.setForeground(new Color(0, 0, 128));
-		btnEnviarMensaje.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnEnviarMensaje.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnEnviarMensaje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(18, 15);
+				miControlador.cambiarVentana(16, 15);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnEnviarMensaje.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -259,7 +197,7 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		btnEnviarMensaje.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnEnviarMensaje.setBackground(new Color (220, 220, 220));
+				btnEnviarMensaje.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -268,9 +206,9 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 				btnEnviarMensaje.setBackground(new Color(230, 230, 250));
 			}
 		});
-		btnEnviarMensaje.setBounds(0, 198, 183, 40);
+		btnEnviarMensaje.setBounds(0, 119, 183, 40);
 		panelMenuNavegacion.add(btnEnviarMensaje);
-				
+
 		btnMiperfil = new JButton("Mi perfil");
 		btnMiperfil.setBorderPainted(false);
 		btnMiperfil.setBackground(new Color(230, 230, 250));
@@ -278,13 +216,13 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnMiperfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(18, 12);
+				miControlador.cambiarVentana(16, 12);
 			}
 		});
 		btnMiperfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnMiperfil.setBackground(new Color (220, 220, 220));
+				btnMiperfil.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -296,50 +234,176 @@ public class _18_DarDeBajaLibro extends JFrame implements Vista {
 		btnMiperfil.setBounds(0, 621, 195, 42);
 		contentPane.add(btnMiperfil);
 
-		JLabel lblNewLabel_1 = new JLabel("Baja Libros");
+		JLabel lblNewLabel_1 = new JLabel("Alta y Baja Libros");
 		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblNewLabel_1.setBounds(463, 36, 182, 39);
+		lblNewLabel_1.setBounds(463, 36, 307, 39);
 		contentPane.add(lblNewLabel_1);
 
 		txtPorFavorIntroduzca = new JTextField();
+		txtPorFavorIntroduzca.setHorizontalAlignment(SwingConstants.CENTER);
 		txtPorFavorIntroduzca.setText(
-				"Por favor, introduzca el titulo del libro que desea anular y eliminar del registro del sistema");
-		txtPorFavorIntroduzca.setBounds(308, 165, 515, 30);
+				"Por favor, introduzca el titulo del libro que desea anular y eliminar del registro del sistema y la informacion del libro que desee dar de alta");
+		txtPorFavorIntroduzca.setBounds(235, 105, 741, 42);
 		contentPane.add(txtPorFavorIntroduzca);
 		txtPorFavorIntroduzca.setColumns(10);
 
-		textField = new JTextField();
-		textField.setColumns(10);
-		textField.setBounds(308, 247, 416, 20);
-		contentPane.add(textField);
-
-		JLabel lblNewLabel_2 = new JLabel("Titulo");
-		lblNewLabel_2.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblNewLabel_2.setBounds(308, 222, 105, 14);
-		contentPane.add(lblNewLabel_2);
-
 		JScrollPane scrollPane_1 = new JScrollPane();
-		scrollPane_1.setBounds(311, 343, 515, 115);
+		scrollPane_1.setBounds(308, 168, 591, 115);
 		contentPane.add(scrollPane_1);
 
 		table = new JTable();
-		scrollPane_1.setViewportView(table);
-		table.setEnabled(false);
-		table.setRowSelectionAllowed(false);
-		table.setModel(new DefaultTableModel(
-				new Object[][] { { "Libro 1", "Autor 1", "Terror", "5/5", "230" },
-						{ "Libro 2", "Autor 2", "Ficci\u00F3n", "4.3/5", "510" },
-						{ "Libro 3", "Autor 3", "Aventura", "4/5", "240" }, },
-				new String[] { "T\u00EDtulo", "Autor", "G\u00E9nero", "Valoraci\u00F3n",
-						"N\u00FAmero de P\u00E1ginas" }));
-		table.getColumnModel().getColumn(4).setPreferredWidth(112);
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int fila = table.getSelectedRow();
+				txtTitulo.setText((String) modelo.getValueAt(fila, 0));
+				txtAutor.setText((String) modelo.getValueAt(fila, 1));
+				txtGenero.setText((String) modelo.getValueAt(fila, 2));
+				updateBaja();
+				updateModificar();
+			}
+		});
+		modelo = new DefaultTableModel(
+				new Object[][] { 
+						{ "Libro 1", "Autor 1", "Terror"},
+						{ "Libro 2", "Autor 2", "Ficci\u00F3n"},
+						{ "Libro 3", "Autor 3", "Aventura"}, 
+					},
+				new String[] { 
+						"T\u00EDtulo", "Autor", "G\u00E9nero"
+						})
+				;
+		table.setModel(modelo);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_1.setViewportView(table);
 		table.setToolTipText("\r\n");
-
-		JButton btnNewButton_1_1 = new JButton("Dar de baja");
-		btnNewButton_1_1.setBackground(new Color(128, 255, 128));
-		btnNewButton_1_1.setBounds(843, 602, 112, 39);
-		contentPane.add(btnNewButton_1_1);
+		
+		// btnAlta
+		btnAlta = new JButton("Alta");
+		btnAlta.setEnabled(false);
+		btnAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modelo.addRow(new String [] {txtTitulo.getText(), txtAutor.getText(), txtGenero.getText()});
+				limpiarCampos();
+			}
+		});
+		btnAlta.setBounds(419, 526, 103, 42);
+		contentPane.add(btnAlta);
+		
+		//btnBaja
+		btnBaja = new JButton("Baja");
+		btnBaja.setBackground(new Color(0, 255, 0));
+		btnBaja.setEnabled(false);
+		btnBaja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modelo.removeRow(table.getSelectedRow());
+				limpiarCampos();
+			}
+		});
+		btnBaja.setBounds(573, 526, 103, 44);
+		contentPane.add(btnBaja);
+		
+		// btnModificar
+		btnModificar = new JButton("Modificar");
+		btnModificar.setEnabled(false);
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = table.getSelectedRow();
+				modelo.setValueAt(txtTitulo.getText(), fila, 0);
+				modelo.setValueAt(txtAutor.getText(), fila, 1);
+				modelo.setValueAt(txtGenero.getText(), fila, 2);
+				limpiarCampos();
+			}
+		});
+		btnModificar.setBounds(731, 528, 93, 39);
+		contentPane.add(btnModificar);
+		
+		JLabel lblTituloLibro = new JLabel("Titulo del Libro:");
+		lblTituloLibro.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTituloLibro.setBounds(308, 322, 130, 30);
+		contentPane.add(lblTituloLibro);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtTitulo.setColumns(10);
+		txtTitulo.setBounds(448, 324, 436, 30);
+		txtTitulo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAlta();
+				updateModificar();
+			}
+		});
+		contentPane.add(txtTitulo);
+		
+		txtAutor = new JTextField();
+		txtAutor.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtAutor.setColumns(10);
+		txtAutor.setBounds(448, 377, 436, 30);
+		txtAutor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAlta();
+				updateModificar();
+			}
+		});
+		contentPane.add(txtAutor);
+		
+		JLabel lblAutor = new JLabel("Autor del Libro:");
+		lblAutor.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAutor.setBounds(308, 375, 130, 30);
+		contentPane.add(lblAutor);
+		
+		JLabel lblGenero = new JLabel("Género Literario:");
+		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGenero.setBounds(308, 430, 130, 30);
+		contentPane.add(lblGenero);
+		
+		txtGenero = new JTextField();
+		txtGenero.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtGenero.setColumns(10);
+		txtGenero.setBounds(450, 432, 436, 30);
+		txtGenero.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAlta();
+				updateModificar();
+			}
+		});
+		contentPane.add(txtGenero);
+	}
+	
+	private void updateAlta() {
+		if(txtTitulo.getText().length() == 0 || txtAutor.getText().length() == 0 || txtGenero.getText().length() == 0) {
+			btnAlta.setEnabled(false);
+		}else {
+			btnAlta.setEnabled(true);
+		}	
+	}
+	
+	private void updateBaja() {
+		if(table.getSelectedRow() == -1) {
+			btnBaja.setEnabled(false);
+		}else {
+			btnBaja.setEnabled(true);
+		}
+	}
+	
+	private void updateModificar() {
+		if(txtTitulo.getText().length() == 0 || txtAutor.getText().length() == 0 || txtGenero.getText().length() == 0 || table.getSelectedRow() == -1) {
+			btnModificar.setEnabled(false);
+		}else {
+			btnModificar.setEnabled(true);
+		}		
+	}
+	
+	private void limpiarCampos() {
+		txtTitulo.setText("");
+		txtAutor.setText("");
+		txtGenero.setText("");
+		updateAlta();
+		updateModificar();
+		updateBaja();
 	}
 }

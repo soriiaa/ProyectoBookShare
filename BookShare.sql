@@ -56,8 +56,8 @@ id int auto_increment,
 titulo varchar(80) not null,
 autor varchar(80) not null,
 genero varchar(50)not null,
-disponible boolean not null,
-activo boolean not null,
+disponible boolean ,
+activo boolean ,
 primary key (id)
 )engine innodb;
 
@@ -131,3 +131,5 @@ insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
 select * from users;
+
+SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
