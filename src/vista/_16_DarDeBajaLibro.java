@@ -42,6 +42,19 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 	private JButton btnAltaLibro;
 	private JButton btnBajaLugar;
 	private JButton btnBajaLibro;
+	
+	public JTextField getTxtTitulo() {
+		return txtTitulo;
+	}
+
+	public JTextField getTxtAutor() {
+		return txtAutor;
+	}
+
+	public JTextField getTxtGenero() {
+		return txtGenero;
+	}
+
 	private JButton btnEnviarMensaje;
 	private JButton btnMiperfil;
 	private DefaultTableModel modelo;
