@@ -1,9 +1,5 @@
 package modelo;
 
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Iterator;
-
 /**
  * @author Andrés
  */
@@ -15,7 +11,7 @@ public class Modelo {
 
 	private Vista[] misVistas;
 	private Controlador miControlador;
-	private Conexion miConexion;
+	private Conexion miConexion = new Conexion();
 	private String consultaLibros;
 	private String usuario;
 
@@ -30,7 +26,7 @@ public class Modelo {
 	public boolean validarUsuario(String usuario, String pwd) {
 		this.usuario = usuario;
 		boolean comprobacion = false;
-		miConexion = new Conexion();
+		
 		if (miConexion.comproLogin("select * from BookShare.users where usr = ? and pwd = ?", usuario, pwd)) {
 			comprobacion = true;
 		}
@@ -38,7 +34,7 @@ public class Modelo {
 	}
 
 	public int sacarPregunta(String pregunta) {
-		miConexion = new Conexion();
+		
 		return (miConexion.devueltaPregunta("select * from BookShare.pregunta_recuperacion where pregunta = ?",
 				pregunta, 1) + 1);
 	}
@@ -59,7 +55,7 @@ public class Modelo {
 
 	public Object[][] busquedaCodPostal(int busqueda) {
 
-		Conexion miConexion = new Conexion();
+		
 
 		String consulta = "SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where cod_postal.codigo_postal = ?";
 
@@ -76,17 +72,17 @@ public class Modelo {
 
 	public String[][] cogerLibroBaseDatos() {
 
-		Conexion miConexion = new Conexion();
+		
 
-		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id";
+		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id WHERE libro.disponible = 1";
 
 		String[][] arrayLibros = miConexion.cogerLibrosIdTituloLugarGenero(consultaLibros);
 
 		return arrayLibros;
 	}
 	
-	public Object[][] sentenciaHistorial(){
-	    miConexion = new Conexion();
+	public Object[][] sentenciaHistorial() {
+	  
 	    // ? == usuario atributo
 	    String cons = "select id from coger where usr like ?";
 	    int numeroFilas = miConexion.contarRegistros(cons, usuario);
@@ -99,6 +95,15 @@ public class Modelo {
 	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilas, filtro);
 	    
 	    return datos;
+	}
+	
+	public void libroNoDisponible(String titulo) {
+		
+		String consulta1 = "SET SQL_SAFE_UPDATES = 0";
+		String consulta2 = "UPDATE libro SET disponible = 0 WHERE titulo = ?";
+		
+		miConexion.actualizarDisponibilidadANoDisponible(consulta1, consulta2, titulo);
+		
 	}
 
 }
