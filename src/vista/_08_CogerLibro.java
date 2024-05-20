@@ -125,7 +125,8 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				btnCogerLibro.setBackground(new Color(230, 230, 230));
+				btnGuardarYSalir.setBackground(new Color(255, 255, 255));
 			}
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
@@ -366,6 +367,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		txtBuscadorTitulo.setText("Título...");
 		txtBuscadorTitulo.setToolTipText("");
 		txtBuscadorTitulo.setBounds(366, 141, 117, 30);
+		txtBuscadorTitulo.setBorder(null);
 		getContentPane().add(txtBuscadorTitulo);
 		txtBuscadorTitulo.setColumns(10);
 
@@ -376,6 +378,8 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		tablaLibros = new JTable();
 		
 		System.out.println("Tabla actualizada");
+		
+		
 		
 		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
 		String[] columnas = {"Libros"};
@@ -399,6 +403,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		txtBuscadorGenero.setToolTipText("");
 		txtBuscadorGenero.setColumns(10);
 		txtBuscadorGenero.setBounds(677, 141, 117, 30);
+		txtBuscadorGenero.setBorder(null);
 		getContentPane().add(txtBuscadorGenero);
 
 		txtBuscadorLugar = new JTextField();
@@ -412,9 +417,16 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		txtBuscadorLugar.setToolTipText("");
 		txtBuscadorLugar.setColumns(10);
 		txtBuscadorLugar.setBounds(523, 141, 117, 30);
+		txtBuscadorLugar.setBorder(null);
 		getContentPane().add(txtBuscadorLugar);
 
 		btnGuardarYSalir = new JButton("Guardar y salir");
+		btnGuardarYSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnGuardarYSalir.setBackground(new Color(220, 220, 220));
+			}
+		});
 		btnGuardarYSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtBuscadorLugar.setText("Lugar...");
@@ -422,9 +434,10 @@ public class _08_CogerLibro extends JFrame implements Vista {
 				txtBuscadorTitulo.setText("Título...");
 			}
 		});
-		btnGuardarYSalir.setBackground(new Color(128, 255, 128));
+		btnGuardarYSalir.setBackground(new Color(255, 255, 255));
 		btnGuardarYSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnGuardarYSalir.setBounds(843, 610, 133, 42);
+		btnGuardarYSalir.setBorder(null);
 		getContentPane().add(btnGuardarYSalir);
 
 		btnNewButton = new JButton("");
@@ -432,6 +445,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		getContentPane().add(btnNewButton);
 		
 		btnBuscarTitulo = new JButton("Buscar por Título");
+		btnBuscarTitulo.setBackground(new Color(255, 255, 255));
 		btnBuscarTitulo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -444,6 +458,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		contentPane.add(btnBuscarTitulo);
 		
 		btnBuscarPorLugar = new JButton("Buscar por Lugar");
+		btnBuscarPorLugar.setBackground(new Color(255, 255, 255));
 		btnBuscarPorLugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String lugarBuscado = txtBuscadorLugar.getText();
@@ -455,6 +470,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		contentPane.add(btnBuscarPorLugar);
 		
 		btnBuscarPorGénero = new JButton("Buscar por Género");
+		btnBuscarPorGénero.setBackground(new Color(255, 255, 255));
 		btnBuscarPorGénero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String generoBuscado = txtBuscadorGenero.getText();
