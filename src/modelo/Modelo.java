@@ -86,5 +86,21 @@ public class Modelo {
 		return listaLibros;
 
 	}
+	
+	public Object[][] sentenciaHistorial(){
+	    miConexion = new Conexion();
+	    // ? == usuario atributo
+	    String cons = "select id from coger where usr like ?";
+	    int numeroFilas = miConexion.contarRegistros(cons, usuario);
+	    System.out.println(numeroFilas);
+	    int[] filtro = miConexion.sacarIdCoger(cons, usuario, numeroFilas);
+	    
+	    // ? == filtro
+	    String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal INNER JOIN dejar ON libro.id = dejar.id where libro.id = ?";
+	    Object[][] datos = new Object[numeroFilas][8];
+	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilas, filtro);
+	    
+	    return datos;
+	}
 
 }

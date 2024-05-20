@@ -108,5 +108,13 @@ public class Controlador {
 		return lista;
 
 	}
+	
+	public Object[][] sacarHistorial() {
+
+		Object[][] info = miModelo.sentenciaHistorial();
+		
+		return info;
+
+	}
 
 }

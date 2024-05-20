@@ -43,6 +43,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 	private JButton btnHistorialLibros;
 	private JButton btnMiperfil;
 	private JButton btnBandejaDeEntrada;
+	private DefaultTableModel modelo;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -72,14 +73,14 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		panelMenuNavegacion.setBounds(0, 0, 183, 622);
 		contentPane.add(panelMenuNavegacion);
 		panelMenuNavegacion.setLayout(null);
-		
+
 		panelTituloMenu = new JPanel();
 		panelTituloMenu.setForeground(new Color(0, 0, 0));
 		panelTituloMenu.setBackground(new Color(0, 0, 0));
 		panelTituloMenu.setBounds(0, 0, 183, 40);
 		panelMenuNavegacion.add(panelTituloMenu);
 		panelTituloMenu.setLayout(null);
-		
+
 		lblTituloMenu = new JLabel("Menu Navegacion");
 		lblTituloMenu.setForeground(new Color(255, 255, 255));
 		lblTituloMenu.setBackground(new Color(255, 255, 255));
@@ -87,7 +88,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		lblTituloMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloMenu.setBounds(0, 0, 183, 40);
 		panelTituloMenu.add(lblTituloMenu);
-		
+
 		btnCogerLibro = new JButton("Coger un Libro");
 		btnCogerLibro.setBorderPainted(false);
 		btnCogerLibro.setBackground(new Color(230, 230, 250));
@@ -99,11 +100,12 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 				miControlador.cambiarVentana(10, 8);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima
 		btnCogerLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnCogerLibro.setBackground(new Color (220, 220, 220));
+				btnCogerLibro.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -114,19 +116,20 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
 		panelMenuNavegacion.add(btnCogerLibro);
-		
+
 		btnDejarUnLibro = new JButton("Dejar un Libro");
 		btnDejarUnLibro.setBorderPainted(false);
 		btnDejarUnLibro.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDejarUnLibro.setBackground(new Color(230, 230, 250));
-		btnDejarUnLibro.setForeground(new Color(0, 0, 128));	
+		btnDejarUnLibro.setForeground(new Color(0, 0, 128));
 		btnDejarUnLibro.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnDejarUnLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(10, 9);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnDejarUnLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -142,7 +145,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		btnDejarUnLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnDejarUnLibro.setBackground(new Color (220, 220, 220));
+				btnDejarUnLibro.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -153,7 +156,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		});
 		btnDejarUnLibro.setBounds(0, 79, 183, 40);
 		panelMenuNavegacion.add(btnDejarUnLibro);
-		
+
 		btnDarDeAlta = new JButton("Dar de alta un Libro");
 		btnDarDeAlta.setBorderPainted(false);
 		btnDarDeAlta.setHorizontalAlignment(SwingConstants.LEFT);
@@ -165,7 +168,8 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 				miControlador.cambiarVentana(10, 7);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnDarDeAlta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -181,7 +185,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		btnDarDeAlta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnDarDeAlta.setBackground(new Color (220, 220, 220));
+				btnDarDeAlta.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -192,7 +196,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		});
 		btnDarDeAlta.setBounds(0, 119, 195, 40);
 		panelMenuNavegacion.add(btnDarDeAlta);
-		
+
 		btnFaq = new JButton("FAQ");
 		btnFaq.setBorderPainted(false);
 		btnFaq.setHorizontalAlignment(SwingConstants.LEFT);
@@ -204,7 +208,8 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 				miControlador.cambiarVentana(10, 11);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnFaq.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -220,7 +225,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		btnFaq.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnFaq.setBackground(new Color (220, 220, 220));
+				btnFaq.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -231,7 +236,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		});
 		btnFaq.setBounds(0, 159, 183, 40);
 		panelMenuNavegacion.add(btnFaq);
-		
+
 		btnHistorialLibros = new JButton("Historial Libros");
 		btnHistorialLibros.setBorderPainted(false);
 		btnHistorialLibros.setHorizontalAlignment(SwingConstants.LEFT);
@@ -243,7 +248,8 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 				miControlador.cambiarVentana(10, 10);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnHistorialLibros.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -259,7 +265,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		btnHistorialLibros.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnHistorialLibros.setBackground(new Color (220, 220, 220));
+				btnHistorialLibros.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -270,19 +276,20 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		});
 		btnHistorialLibros.setBounds(0, 198, 183, 40);
 		panelMenuNavegacion.add(btnHistorialLibros);
-		
+
 		btnBandejaDeEntrada = new JButton("Bandeja de Entrada");
 		btnBandejaDeEntrada.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBandejaDeEntrada.setForeground(new Color(0, 0, 128));
 		btnBandejaDeEntrada.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnBandejaDeEntrada.setBorderPainted(false);
-		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));		
+		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
 		btnBandejaDeEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(10, 13);
 			}
 		});
-		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima y ademas cambiar el anterior a su color 
+		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
+		// encima y ademas cambiar el anterior a su color
 		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -298,7 +305,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnBandejaDeEntrada.setBackground(new Color (220, 220, 220));
+				btnBandejaDeEntrada.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -309,7 +316,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		});
 		btnBandejaDeEntrada.setBounds(0, 237, 198, 40);
 		panelMenuNavegacion.add(btnBandejaDeEntrada);
-				
+
 		btnMiperfil = new JButton("Mi perfil");
 		btnMiperfil.setBorderPainted(false);
 		btnMiperfil.setBackground(new Color(230, 230, 250));
@@ -323,7 +330,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		btnMiperfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnMiperfil.setBackground(new Color (220, 220, 220));
+				btnMiperfil.setBackground(new Color(220, 220, 220));
 			}
 		});
 		getContentPane().addMouseListener(new MouseAdapter() {
@@ -350,26 +357,19 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		tableDatos.setEnabled(false);
 		tableDatos.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		tableDatos.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		tableDatos.setModel(new DefaultTableModel(
-				
-			new Object[][] {
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-				{null, null, null, null, null, null, null, null},
-			},
-			new String[] {
-				"Titulo", "Autor", "Genero", "Disponible", "Activo", "Valoracion", "Codigo Postal", "Fecha operacion"
+
+		JButton btnRefresh = new JButton("Refrescar");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[][] datos = miControlador.sacarHistorial();
+				String[] columnas = { "Titulo", "Autor", "Genero", "Disponible", "Activo", "Valoracion",
+						"Codigo Postal", "Fecha operacion" };
+				modelo = new DefaultTableModel(datos,columnas);
+				tableDatos.setModel(modelo);
 			}
-		));
-		tableDatos.getColumnModel().getColumn(4).setPreferredWidth(102);
-		tableDatos.getColumnModel().getColumn(5).setPreferredWidth(72);
-		tableDatos.getColumnModel().getColumn(6).setPreferredWidth(92);
+		});
+		btnRefresh.setBounds(783, 118, 89, 23);
+		contentPane.add(btnRefresh);
+
 	}
 }

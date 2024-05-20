@@ -66,21 +66,5 @@ public class _00_PantallaInicio extends JFrame implements Vista {
 		lblImagen.setBounds(228, 147, 448, 311);
 		getContentPane().add(lblImagen);
 
-		Timer timer = new Timer(20, new ActionListener() {
-			int progress = 0;
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-
-				progress++;
-				progressBar.setValue(progress);
-				if (progress >= 100) {
-					((Timer) e.getSource()).stop();
-					miControlador.cambiarVentana(0, 3);
-				}
-			}
-		});
-
-		timer.start();
 	}
 }
