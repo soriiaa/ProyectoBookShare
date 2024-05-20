@@ -1,7 +1,6 @@
 package modelo;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 /**
  * @author Andrés
@@ -52,11 +51,15 @@ public class Modelo {
 		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
 	}
 	
-	public ArrayList<Objects> cogerLibroBaseDatos () {
+	public ArrayList<Object> cogerLibroBaseDatos () {
 		
-		ArrayList<Objects> listaLibros = new ArrayList<>();
+		ArrayList<Object> listaLibros = new ArrayList<>();
 		
+		String consultaNumeroLibros = "Select * from libro";
+		int numeroLibros;
 		
+		Conexion miConexion = new Conexion();
+		numeroLibros = miConexion.contarRegistrosTablaLibros(consultaNumeroLibros);
 		
 		return listaLibros;
 	}
