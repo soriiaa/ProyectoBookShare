@@ -116,5 +116,33 @@ public class Modelo {
 		
 		return admin;
 	}
+	
+	public Object[][] sacarLugaresBase(){
+		
+		String consulta = "select * from cod_postal";
+		
+		int numFilas = miConexion.contarRegistros(consulta);
+		
+		Object[][] datos = miConexion.sacarLugares(consulta, numFilas);
+		
+		return datos;
+	}
+
+	public void conectorInsertLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+		
+		miConexion.insertarLugar(codPostal, comunidad, provincia, poblacion);
+	}
+
+	public void conectorDeleteLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+		miConexion.deleteLugar(codPostal, comunidad, provincia, poblacion);
+	}
+
+	public void conectorUpdateLugar(int codPostal, String comunidad, String provincia, int poblacion,
+			int codPostalAntiguo) {
+
+		String consulta = "update cod_postal set codigo_postal = ?, comunidad_autonoma = ?, provincia = ?, poblacion = ? where codigo_postal = ?";
+		
+		miConexion.updateLugar(consulta, codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
+	}
 
 }
