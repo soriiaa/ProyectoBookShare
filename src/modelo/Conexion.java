@@ -229,6 +229,23 @@ public class Conexion {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	public int contarRegistros(String query) {
+		int contador = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next()) {
+				contador++;
+			}
+			rset.close();
+			pstmt.close();
+			return contador;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return contador;
+		}
+	}
 
 	public int contarRegistros(String query, int filtro) {
 		int contador = 0;
@@ -439,5 +456,41 @@ public class Conexion {
 
 		return datos;
 
+	}
+	
+	public Object[][] sacarDatosAltaBajaLibros(String query, int filas){
+		Object[][] datos = new Object[filas][3]; 
+		try {
+			PreparedStatement pmtst = conexion.prepareStatement(query);
+			ResultSet rset = pmtst.executeQuery();
+			int i = 0;
+			while(rset.next()) {
+				datos[i][0] = rset.getObject(1);
+                datos[i][1] = rset.getObject(2);
+                datos[i][2] = rset.getObject(3);
+                i++;
+			}
+			rset.close();
+			pmtst.close();
+			return datos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return datos;
+		}	
+	}
+
+	public void actualizarAltaBajaLibros(String query, String titulo, String autor, String genero, String tituloAntiguo) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1,titulo);
+			pstmt.setString(2,autor);
+			pstmt.setString(3,genero);
+			pstmt.setString(4, tituloAntiguo);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

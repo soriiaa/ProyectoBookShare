@@ -63,6 +63,7 @@ primary key (id)
 
 insert into libro(titulo, autor, genero,  disponible, activo)values("Moby Dick", "Herman Melville", "Novela de aventuras", TRUE, TRUE);
 insert into libro(titulo, autor, genero,  disponible, activo)values("Jurassic Park", "Michael Crichton", "Ciencia Ficcion", TRUE, TRUE);
+insert into libro(titulo, autor, genero,  disponible, activo)values("Jurassic Park2", "Michael Crichton", "Ciencia Ficcion", TRUE, TRUE);
 
 create table coger(
 usr varchar(40),
@@ -130,7 +131,6 @@ insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
 
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
-select * from users;
+select * from libro;
 
-SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
-
+SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;

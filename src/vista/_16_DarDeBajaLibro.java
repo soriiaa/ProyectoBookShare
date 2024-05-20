@@ -42,6 +42,11 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 	private JButton btnAltaLibro;
 	private JButton btnBajaLugar;
 	private JButton btnBajaLibro;
+	private String tituloOriginal;
+	
+	public String getTituloOriginal() {
+		return tituloOriginal;	
+	}
 	
 	public JTextField getTxtTitulo() {
 		return txtTitulo;
@@ -277,17 +282,6 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 				updateModificar();
 			}
 		});
-		modelo = new DefaultTableModel(
-				new Object[][] { 
-						{ "Libro 1", "Autor 1", "Terror"},
-						{ "Libro 2", "Autor 2", "Ficci\u00F3n"},
-						{ "Libro 3", "Autor 3", "Aventura"}, 
-					},
-				new String[] { 
-						"T\u00EDtulo", "Autor", "G\u00E9nero"
-						})
-				;
-		table.setModel(modelo);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane_1.setViewportView(table);
 		table.setToolTipText("\r\n");
@@ -323,11 +317,12 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
+				tituloOriginal = (String) modelo.getValueAt(fila, 0);
 				modelo.setValueAt(txtTitulo.getText(), fila, 0);
 				modelo.setValueAt(txtAutor.getText(), fila, 1);
 				modelo.setValueAt(txtGenero.getText(), fila, 2);
 				limpiarCampos();
-				miModelo.editarDatosAltaBajaLibros();
+				miControlador.ModificarDatosAltaBajaLibros();
 			}
 		});
 		btnModificar.setBounds(731, 528, 93, 39);
@@ -386,6 +381,18 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtGenero);
+		
+		JButton btnRefresh = new JButton("Cargar");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[][] datos = miControlador.sacarDatosLibro();
+				String[] titulo = {"T\u00EDtulo", "Autor", "G\u00E9nero"};
+				modelo = new DefaultTableModel(datos, titulo);
+				table.setModel(modelo);
+			}
+		});
+		btnRefresh.setBounds(205, 191, 89, 23);
+		contentPane.add(btnRefresh);
 	}
 	
 	private void updateAlta() {

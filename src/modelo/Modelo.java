@@ -100,9 +100,16 @@ public class Modelo {
 	    
 	    return datos;
 	}
-	
-	public void editarDatosAltaBajaLibros() {
-		
+
+	public Object[][] sacarDatosLibro() {
+		String consulta = "select titulo, autor, genero from libro";
+		int filas = miConexion.contarRegistros(consulta);
+		Object[][] datos = miConexion.sacarDatosAltaBajaLibros(consulta, filas);	
+		return datos;
 	}
 
+	public void actualizarDatosBajaAltaLibro(String titulo, String autor, String genero, String tituloAntiguo) {
+		String consulta = "update libro set titulo = ?, autor = ?, genero = ? where titulo = ?";
+		miConexion.actualizarAltaBajaLibros(consulta, titulo, autor, genero, tituloAntiguo);
+	}
 }

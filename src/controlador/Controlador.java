@@ -3,8 +3,6 @@
  */
 package controlador;
 
-import java.util.ArrayList;
-
 import javax.swing.JFrame;
 
 import modelo.Modelo;
@@ -12,6 +10,7 @@ import vista.Vista;
 import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._04_Registro;
+import vista._16_DarDeBajaLibro;
 
 public class Controlador {
 
@@ -112,6 +111,19 @@ public class Controlador {
 		
 		return info;
 
+	}
+	
+	public void ModificarDatosAltaBajaLibros() {
+		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
+		String autor = ((_16_DarDeBajaLibro) misVistas[16]).getTxtAutor().getText();
+		String genero = ((_16_DarDeBajaLibro) misVistas[16]).getTxtGenero().getText();
+		String tituloAntiguo = ((_16_DarDeBajaLibro) misVistas[16]).getTituloOriginal();
+		miModelo.actualizarDatosBajaAltaLibro(titulo, autor, genero, tituloAntiguo);
+	}
+
+	public Object[][] sacarDatosLibro() {
+		Object[][] datos = miModelo.sacarDatosLibro();
+		return datos;		
 	}
 
 }
