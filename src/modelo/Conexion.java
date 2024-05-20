@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Conexion {
 
@@ -42,7 +44,7 @@ public class Conexion {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void imprimir(String query, int columna) {
 		try {
 			Statement stmt = conexion.createStatement();
@@ -90,7 +92,7 @@ public class Conexion {
 			return res;
 		}
 	}
-	
+
 	public boolean comproLogin(String query, String usr, String pwd) {
 		boolean existe = false;
 		try {
@@ -227,21 +229,84 @@ public class Conexion {
 			System.err.println(e.getMessage());
 		}
 	}
-	
-	public int contarRegistrosTablaLibros (String query) {
+
+	public int contarRegistros(String query, int filtro) {
 		int contador = 0;
 		try {
-			PreparedStatement preparedStatement = conexion.prepareStatement(query);
-			ResultSet resultSet = preparedStatement.executeQuery();
-			while (resultSet.next()) {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setInt(1, filtro);
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next()) {
 				contador++;
 			}
-			resultSet.close();
-			preparedStatement.close();
+			rset.close();
+			pstmt.close();
 			return contador;
 		} catch (SQLException error) {
 			error.printStackTrace();
 			return contador;
+		}
+	}
+
+	/**
+	 * El arrayList guardará en los pares el codigo postal, y en los impares la
+	 * comunidad
+	 * 
+	 * @param query
+	 * @param filtro
+	 * @return
+	 */
+	public ArrayList<Object> buscarLocalidad(String query, String filtro) {
+		ArrayList<Object> lugares = new ArrayList<>();
+		PreparedStatement pstmt;
+		try {
+			pstmt = conexion.prepareStatement(query);
+			pstmt.setString(3, filtro);
+			ResultSet rs = pstmt.executeQuery(query);
+			while (rs.next()) {
+				int columna = 2;
+				lugares.add(rs.getString(columna));
+				columna++;
+				lugares.add(rs.getString(columna));
+			}
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		return lugares;
+	}
+	
+	public Object[][] sacarLibroLugar(String query, int cod, int numFilas) {
+		int res = 0;
+		boolean vacio = false;
+		if(numFilas == 0) {
+			numFilas = 1;
+			vacio = true;
+		}
+		Object[][] info = new Object[numFilas][2];
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setInt(1, cod);
+			ResultSet rset = pstmt.executeQuery();
+			int i = 0;
+
+			if(rset == null || vacio) {
+				info[0][0] = "";
+				info[0][1] = "";
+				return info;
+			}
+			while (rset.next()) {
+				info[i][0] = rset.getObject(1);
+				info[i][1] = rset.getObject(2);
+				i++;
+			}
+			rset.close();
+			pstmt.close();
+			return info;
+		} catch (SQLException s) {
+			s.printStackTrace();
+			return info;
 		}
 	}
 }

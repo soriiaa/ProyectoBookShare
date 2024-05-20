@@ -73,7 +73,7 @@ foreign key (usr) references users(usr),
 foreign key (id) references libro(id)
 )engine innodb;
 
-insert into coger(usr, id, Fecha) values("TinkyWinky1", 2, '2024-05-07');
+insert into coger(usr, id, Fecha) values("a", 2, '2024-05-07');
 
 create table dejar(
 usr varchar(40),
@@ -131,3 +131,5 @@ insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
 select * from users;
+
+SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id; 

@@ -3,8 +3,9 @@
  */
 package controlador;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
-import javax.swing.JTextField;
 
 import modelo.Modelo;
 import vista.Vista;
@@ -91,11 +92,16 @@ public class Controlador {
 		return miModelo.validarUsuario(usuario,contraseña);
 	}
 	
-	public void guardarCodPostal() {
+	public Object[][] guardarCodPostal() {
 		String busqueda = ((_02_BuscarPorLocalidad) misVistas[2]).getTxtBuscador().getText();
 		
-		miModelo.busquedaCodPostal(busqueda);
+		int filtro = Integer.parseInt(busqueda);
 		
+		Object[][] lista = new Object[2][2];
+		
+		lista = miModelo.busquedaCodPostal(filtro);
+		
+		return lista;
 		
 	}
 }
