@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -47,6 +49,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JButton btnHistorialLibros;
 	private JButton btnMiperfil;
 	private JButton btnBandejaDeEntrada;
+	private String[][] arrayLibrosIdTituloGeneroLugar;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -63,6 +66,9 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	}
 
 	private void initialize() {
+		
+		miModelo = new Modelo();
+		arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
 		setResizable(false);
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -366,9 +372,17 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		getContentPane().add(scrollPane);
 
 		tablaLibros = new JTable();
-		tablaLibros.setModel(
-				new DefaultTableModel(new Object[][] { { "Libro 1" }, { "Libro 2" }, { "Libro 3" }, { "Libro 4" }, },
-						new String[] { "Libros" }));
+		
+		
+		
+		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
+		String[] columnas = {"Libros"};
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			titulos[i][0] = arrayLibrosIdTituloGeneroLugar[i][1];
+		}
+		
+		tablaLibros.setModel(new DefaultTableModel(titulos, columnas));
 		scrollPane.setViewportView(tablaLibros);
 
 		txtGenero = new JTextField();
@@ -413,6 +427,8 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		btnNewButton = new JButton("");
 		btnNewButton.setBounds(804, 162, 21, 21);
 		getContentPane().add(btnNewButton);
+		
+		
 
 	}
 }

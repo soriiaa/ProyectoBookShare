@@ -1,6 +1,6 @@
 package modelo;
 
-import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * @author Andrés
@@ -14,6 +14,7 @@ public class Modelo {
 	private Vista[] misVistas;
 	private Controlador miControlador;
 	private Conexion miConexion;
+	private String consultaLibros;
 
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
@@ -51,17 +52,17 @@ public class Modelo {
 		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
 	}
 	
-	public ArrayList<Object> cogerLibroBaseDatos () {
-		
-		ArrayList<Object> listaLibros = new ArrayList<>();
-		
-		String consultaNumeroLibros = "Select * from libro";
-		int numeroLibros;
+	public String[][] cogerLibroBaseDatos () {
 		
 		Conexion miConexion = new Conexion();
-		numeroLibros = miConexion.contarRegistrosTablaLibros(consultaNumeroLibros);
 		
-		return listaLibros;
+		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id";
+		
+		String[][] arrayLibros = miConexion.cogerLibrosIdTituloLugarGenero(consultaLibros);
+		
+		return arrayLibros;
+		
+		 
 	}
 
 }
