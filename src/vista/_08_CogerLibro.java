@@ -10,8 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -50,6 +49,9 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JButton btnMiperfil;
 	private JButton btnBandejaDeEntrada;
 	private String[][] arrayLibrosIdTituloGeneroLugar;
+	private JButton btnBuscarTitulo;
+	private JButton btnBuscarPorLugar;
+	private JButton btnBuscarPorGénero;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -363,17 +365,17 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		});
 		txtBuscador.setText("Título...");
 		txtBuscador.setToolTipText("");
-		txtBuscador.setBounds(366, 153, 117, 30);
+		txtBuscador.setBounds(366, 141, 117, 30);
 		getContentPane().add(txtBuscador);
 		txtBuscador.setColumns(10);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(364, 232, 430, 346);
 		getContentPane().add(scrollPane);
-
+		
 		tablaLibros = new JTable();
 		
-		
+		System.out.println("Tabla actualizada");
 		
 		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
 		String[] columnas = {"Libros"};
@@ -384,6 +386,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		
 		tablaLibros.setModel(new DefaultTableModel(titulos, columnas));
 		scrollPane.setViewportView(tablaLibros);
+		
 
 		txtGenero = new JTextField();
 		txtGenero.addMouseListener(new MouseAdapter() {
@@ -395,7 +398,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		txtGenero.setText("Género...");
 		txtGenero.setToolTipText("");
 		txtGenero.setColumns(10);
-		txtGenero.setBounds(677, 153, 117, 30);
+		txtGenero.setBounds(677, 141, 117, 30);
 		getContentPane().add(txtGenero);
 
 		txtLugar = new JTextField();
@@ -408,7 +411,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		txtLugar.setText("Lugar...");
 		txtLugar.setToolTipText("");
 		txtLugar.setColumns(10);
-		txtLugar.setBounds(523, 153, 117, 30);
+		txtLugar.setBounds(523, 141, 117, 30);
 		getContentPane().add(txtLugar);
 
 		btnGuardarYSalir = new JButton("Guardar y salir");
@@ -425,10 +428,64 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		getContentPane().add(btnGuardarYSalir);
 
 		btnNewButton = new JButton("");
-		btnNewButton.setBounds(804, 162, 21, 21);
+		btnNewButton.setBounds(804, 150, 21, 21);
 		getContentPane().add(btnNewButton);
+		
+		btnBuscarTitulo = new JButton("Buscar por Título");
+		btnBuscarTitulo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String tituloBuscado = txtBuscador.getText();
+				actualizarTablaPorTitulo(tituloBuscado);
+			}
+		});
+		btnBuscarTitulo.setBounds(366, 181, 117, 29);
+		btnBuscarTitulo.setBorder(null);
+		contentPane.add(btnBuscarTitulo);
+		
+		btnBuscarPorLugar = new JButton("Buscar por Lugar");
+		btnBuscarPorLugar.setBorder(null);
+		btnBuscarPorLugar.setBounds(523, 181, 117, 29);
+		contentPane.add(btnBuscarPorLugar);
+		
+		btnBuscarPorGénero = new JButton("Buscar por Género");
+		btnBuscarPorGénero.setBorder(null);
+		btnBuscarPorGénero.setBounds(677, 181, 117, 29);
+		contentPane.add(btnBuscarPorGénero);
 		
 		
 
+	}
+	
+	public void actualizarTablaPorTitulo(String titulo) {
+		
+		System.out.println("Tabla actualizada por título");
+		
+		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			titulos[i][0] = arrayLibrosIdTituloGeneroLugar[i][1];
+		}
+		
+		ArrayList<String> listaTitulosBuscados = new ArrayList<>();
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			if (titulos[i][0].equalsIgnoreCase(titulo)) {
+				listaTitulosBuscados.add(titulos[i][0]);
+			}
+		}
+		
+		String[][] titulosBuscadosPorTitulo = new String[listaTitulosBuscados.size()][1];
+		
+		for (int i = 0; i < listaTitulosBuscados.size(); i++) {
+			titulosBuscadosPorTitulo[i][0] = listaTitulosBuscados.get(i);
+		}
+		
+		String[] columnas = {"Libros"};
+		
+		
+		
+		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorTitulo, columnas));
+		
 	}
 }
