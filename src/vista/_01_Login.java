@@ -173,7 +173,7 @@ public class _01_Login extends JFrame implements Vista {
 		txtContraseña.getDocument().addDocumentListener(new DocumentListener() {
 		    @Override
 		    public void insertUpdate(DocumentEvent e) {
-		        if ("Contraseña".equals(txtContraseña.getText())) {
+		        if ("Contraseña".equals(String.valueOf(txtContraseña.getPassword()))) {
 		        	txtContraseña.setForeground(Color.GRAY);
 		        } else {
 		        	txtContraseña.setForeground(Color.BLACK);
@@ -182,7 +182,7 @@ public class _01_Login extends JFrame implements Vista {
 
 		    @Override
 		    public void removeUpdate(DocumentEvent e) {
-		        if (txtContraseña.getText().isEmpty()) {
+		        if (String.valueOf(txtContraseña.getPassword()).isEmpty()) {
 		        	txtContraseña.setForeground(Color.GRAY);
 		        }
 		    }
@@ -250,8 +250,9 @@ public class _01_Login extends JFrame implements Vista {
 					miControlador.cambiarVentana(1, 1);
 				} else if (contador == 3) {
 					System.exit(0);
-				}
-				miControlador.cambiarVentana(1, 6);
+				}else {
+					miControlador.cambiarVentana(1, 6);
+				}				
 			}
 		});
 		btnLogin.addMouseListener(new MouseAdapter() {

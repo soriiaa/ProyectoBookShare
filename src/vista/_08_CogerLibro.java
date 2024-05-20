@@ -67,8 +67,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		initialize();
 	}
 
-	private void initialize() {
-		
+	private void initialize() {		
 		miModelo = new Modelo();
 		arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
 		setResizable(false);

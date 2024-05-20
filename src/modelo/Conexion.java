@@ -430,7 +430,6 @@ public class Conexion {
 					datos[i][6] = rs.getObject(7);
 					datos[i][7] = rs.getObject(8);
 				}
-
 				rs.close();
 				pstmt.close();
 			} catch (SQLException e) {
