@@ -31,7 +31,7 @@ foreign key (codigoPreguntaRecuperacion) references pregunta_recuperacion(codigo
 )engine=innodb;
 
 insert into users(usr, nombre, apellido, pwd, Rol, img, cp, codigoPreguntaRecuperacion, respuestaPreguntaRecuperacion) values("MenteFria", "Maxi", "angulo", "CañaAqui_33", "Administrador", "Imagen1", "28360", 1, "Coca Cola");
-insert into users(usr, nombre, apellido, pwd, Rol, img, cp, codigoPreguntaRecuperacion, respuestaPreguntaRecuperacion) values("TinkyWinky1", "Tinky", "Winky", "Lala", "usuario", "ImagenTeletubbie", "15001", 2, "Rogelio");
+insert into users(usr, nombre, apellido, pwd, Rol, img, cp, codigoPreguntaRecuperacion, respuestaPreguntaRecuperacion) values("a", "Tinky", "Winky", "a", "usuario", "ImagenTeletubbie", "15001", 2, "Rogelio");
 
 create table notificaciones(
 id int auto_increment,
@@ -130,3 +130,4 @@ insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
 
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
+select * from users;
