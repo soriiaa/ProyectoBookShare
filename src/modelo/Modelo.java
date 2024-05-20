@@ -2,6 +2,7 @@ package modelo;
 
 import java.util.ArrayList;
 import java.util.Objects;
+import java.util.Iterator;
 
 /**
  * @author Andrés
@@ -15,6 +16,7 @@ public class Modelo {
 	private Vista[] misVistas;
 	private Controlador miControlador;
 	private Conexion miConexion;
+	private String consultaLibros;
 
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
@@ -52,7 +54,6 @@ public class Modelo {
 
 		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
 	}
-		
 
 	public Object[][] busquedaCodPostal(int busqueda) {
 
@@ -61,9 +62,9 @@ public class Modelo {
 		String consulta = "SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where cod_postal.codigo_postal = ?";
 
 		String consultaCp = "select codigo_postal from cod_postal where codigo_postal = ?";
-		
+
 		int numeroFilas = miConexion.contarRegistros(consultaCp, busqueda);
-		
+
 		Object[][] info = new Object[numeroFilas][2];
 
 		info = miConexion.sacarLibroLugar(consulta, busqueda, numeroFilas);
@@ -71,11 +72,15 @@ public class Modelo {
 		return info;
 	}
 
-	public ArrayList<Objects> cogerLibroBaseDatos() {
+	public String[][] cogerLibroBaseDatos() {
 
-		ArrayList<Objects> listaLibros = new ArrayList<>();
+		Conexion miConexion = new Conexion();
 
-		return listaLibros;
+		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id";
+
+		String[][] arrayLibros = miConexion.cogerLibrosIdTituloLugarGenero(consultaLibros);
+
+		return arrayLibros;
 
 	}
 

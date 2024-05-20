@@ -309,4 +309,50 @@ public class Conexion {
 			return info;
 		}
 	}
+	
+	public String[][] cogerLibrosIdTituloLugarGenero (String query) {
+		
+		String[][] error2 = new String[1][1];
+		
+		try {
+			int i = 0;
+			PreparedStatement preparedStatement = conexion.prepareStatement(query);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while(resultSet.next()) {
+				i++;
+			}
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			String[][] libros = new String[i][4];
+			
+			System.out.println("Coger Libro Funciona");
+			
+			int j = 0;
+			
+			while(resultSet.next()) {
+			
+				
+				int idLibro = resultSet.getInt("idLibro");
+	            String tituloLibro = resultSet.getString("tituloLibro");
+	            String nombreLugar = resultSet.getString("nombreLugar");
+	            String generoLibro = resultSet.getString("generoLibro");
+	            
+	            libros[j][0] = Integer.toString(idLibro);
+	            libros[j][1] = tituloLibro;
+	            libros[j][2] = nombreLugar;
+	            libros[j][3] = generoLibro;
+	           
+	            j++;
+				
+			}
+			
+			resultSet.close();
+			preparedStatement.close();
+			return libros;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return error2;
+		}
+	}
 }
