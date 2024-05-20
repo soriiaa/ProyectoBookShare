@@ -250,8 +250,10 @@ public class _01_Login extends JFrame implements Vista {
 					miControlador.cambiarVentana(1, 1);
 				} else if (contador == 3) {
 					System.exit(0);
+				}else {
+					miControlador.cambiarVentana(1, 6);
 				}
-				miControlador.cambiarVentana(1, 6);
+					
 			}
 		});
 		btnLogin.addMouseListener(new MouseAdapter() {
