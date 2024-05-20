@@ -88,16 +88,18 @@ public class Modelo {
 	public Object[][] sentenciaHistorial(){
 	    miConexion = new Conexion();
 	    // ? == usuario atributo
-	    String cons = "select id from coger where usr like ?";
-	    int numeroFilas = miConexion.contarRegistros(cons, usuario);
-	    System.out.println(numeroFilas);
-	    int[] filtro = miConexion.sacarIdCoger(cons, usuario, numeroFilas);
-	    
+	    String queryCoger = "select id from coger where usr like ?";
+	    int numeroFilasCoger = miConexion.contarRegistros(queryCoger, usuario);
+	    String queryDejar = "select id from dejar where usr like ?";
+	    int numeroFilasDejar = miConexion.contarRegistros(queryDejar, usuario);
+	    int[] filtroCoger = miConexion.sacarIdCoger(queryCoger, usuario, numeroFilasCoger);
+	    int[] filtroDejar = miConexion.sacarIdCoger(queryDejar, usuario, numeroFilasDejar);
+
 	    // ? == filtro
-	    String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal INNER JOIN dejar ON libro.id = dejar.id where libro.id = ?";
-	    Object[][] datos = new Object[numeroFilas][8];
-	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilas, filtro);
-	    
+	    String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where libro.id = ?";
+	    Object[][] datos = new Object[numeroFilasCoger+numeroFilasDejar][9];
+	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilasCoger, numeroFilasDejar, filtroCoger, filtroDejar);
+
 	    return datos;
 	}
 

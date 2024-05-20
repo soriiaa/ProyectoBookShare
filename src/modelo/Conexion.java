@@ -410,13 +410,18 @@ public class Conexion {
 		}
 	}
 
-	public Object[][] sacarHistorialLibros(String query, int numeroFilas, int[] filtro) {
-		Object[][] datos = new Object[numeroFilas][8];
+	public Object[][] sacarHistorialLibros(String query, int numeroFilasCoger, int numeroFilasDejar,int[] filtroCoger, int[] filtroDejar) {
+		Object[][] datos = new Object[numeroFilasCoger+numeroFilasDejar][9];
 
-		for (int i = 0; i < numeroFilas; i++) {
+		for (int i = 0; i < numeroFilasCoger+numeroFilasDejar; i++) {
 			try {
 				PreparedStatement pstmt = conexion.prepareStatement(query);
-				pstmt.setInt(1, filtro[i]);
+				if(i < filtroCoger.length) {
+					pstmt.setInt(1, filtroCoger[i]);
+				}else if(i < filtroDejar.length) {
+					pstmt.setInt(1, filtroDejar[i]);
+				}
+				
 				ResultSet rs = pstmt.executeQuery();
 
 				// Verificar si hay resultados antes de procesarlos
@@ -429,6 +434,7 @@ public class Conexion {
 					datos[i][5] = rs.getObject(6);
 					datos[i][6] = rs.getObject(7);
 					datos[i][7] = rs.getObject(8);
+					datos[i][8] = rs.getObject(9);
 				}
 
 				rs.close();
