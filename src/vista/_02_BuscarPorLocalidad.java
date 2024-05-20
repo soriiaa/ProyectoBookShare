@@ -40,9 +40,15 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 	private JLabel lblTituloMenu;
 	private JButton btnBuscarPorLocalidad2;
 	private JButton btnIniciarSesion;
+	private DefaultTableModel modelo;
 
 	private Controlador miControlador;
 	private Modelo miModelo;
+	private JTextField txtBuscador;
+	
+	public JTextField getTxtBuscador() {
+		return txtBuscador;
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -214,7 +220,7 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		lblBuscarPorLocalidad.setBounds(359, 31, 446, 93);
 		getContentPane().add(lblBuscarPorLocalidad);
 
-		JTextField txtBuscador = new JTextField();
+		txtBuscador = new JTextField();
 		txtBuscador.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -231,7 +237,7 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		});
 		txtBuscador.setText("Buscar...");
 		txtBuscador.setToolTipText("");
-		txtBuscador.setBounds(263, 147, 542, 30);
+		txtBuscador.setBounds(263, 149, 542, 30);
 		txtBuscador.setBorder(null);
 		Border border = BorderFactory.createEmptyBorder(0, 10, 0, 0);
 		txtBuscador.setBorder(border);
@@ -247,8 +253,10 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		table = new JTable();
 		table.setEnabled(false);
 		table.setBorder(null);
-		table.setModel(new DefaultTableModel(new Object[][] { { 25432, "Libro 1" }, { 52345, "Libro 2" },
-				{ 74562, "Libro 3" }, { 12522, "Libro 4" }, }, new String[] { "C\u00F3digo Postal", "Libro" }));
+		modelo = new DefaultTableModel(
+				new Object[][] { { 25432, "Libro 1" }, { 52345, "Libro 2" },
+				{ 74562, "Libro 3" }, { 12522, "Libro 4" }, }, new String[] { "C\u00F3digo Postal", "Libro" });
+		table.setModel(modelo);
 		scrollPane.setViewportView(table);
 
 		table.setRowHeight(30);
@@ -263,6 +271,17 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		table.setSelectionForeground(Color.BLACK);
 
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+//				limpiarCampos();
+				Object[][] info = miControlador.guardarCodPostal();
+				String[] columnas = {"Codigo Postal", "Libro"};
+				modelo = new DefaultTableModel(info,columnas);
+				table.setModel(modelo);
+				
+
+			}
+		});
 		btnBuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
@@ -289,5 +308,9 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 			}
 		});
 
+	}
+	
+	private void limpiarCampos() {
+		txtBuscador.setText("");
 	}
 }

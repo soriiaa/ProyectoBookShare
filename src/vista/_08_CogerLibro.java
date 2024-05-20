@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,10 +32,10 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JPanel contentPane;
 	private JButton btnNewButton;
 	private JLabel lblCogerUnLibro;
-	private JTextField txtBuscador;
+	private JTextField txtBuscadorTitulo;
 	private JScrollPane scrollPane;
-	private JTextField txtGenero;
-	private JTextField txtLugar;
+	private JTextField txtBuscadorGenero;
+	private JTextField txtBuscadorLugar;
 	private JButton btnGuardarYSalir;
 	private JTable tablaLibros;
 	private JPanel panelMenuNavegacion;
@@ -47,6 +48,10 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JButton btnHistorialLibros;
 	private JButton btnMiperfil;
 	private JButton btnBandejaDeEntrada;
+	private String[][] arrayLibrosIdTituloGeneroLugar;
+	private JButton btnBuscarTitulo;
+	private JButton btnBuscarPorLugar;
+	private JButton btnBuscarPorGénero;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -62,7 +67,9 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		initialize();
 	}
 
-	private void initialize() {
+	private void initialize() {		
+		miModelo = new Modelo();
+		arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
 		setResizable(false);
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,7 +124,8 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				btnCogerLibro.setBackground(new Color(230, 230, 230));
+				btnGuardarYSalir.setBackground(new Color(255, 255, 255));
 			}
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
@@ -348,71 +356,207 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		lblCogerUnLibro.setBounds(449, 26, 310, 86);
 		getContentPane().add(lblCogerUnLibro);
 
-		txtBuscador = new JTextField();
-		txtBuscador.addMouseListener(new MouseAdapter() {
+		txtBuscadorTitulo = new JTextField();
+		txtBuscadorTitulo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtBuscador.setText("");
+				txtBuscadorTitulo.setText("");
 			}
 		});
-		txtBuscador.setText("Título...");
-		txtBuscador.setToolTipText("");
-		txtBuscador.setBounds(366, 153, 117, 30);
-		getContentPane().add(txtBuscador);
-		txtBuscador.setColumns(10);
+		txtBuscadorTitulo.setText("Título...");
+		txtBuscadorTitulo.setToolTipText("");
+		txtBuscadorTitulo.setBounds(366, 141, 117, 30);
+		txtBuscadorTitulo.setBorder(null);
+		getContentPane().add(txtBuscadorTitulo);
+		txtBuscadorTitulo.setColumns(10);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(364, 232, 430, 346);
 		getContentPane().add(scrollPane);
-
+		
 		tablaLibros = new JTable();
-		tablaLibros.setModel(
-				new DefaultTableModel(new Object[][] { { "Libro 1" }, { "Libro 2" }, { "Libro 3" }, { "Libro 4" }, },
-						new String[] { "Libros" }));
+		
+		System.out.println("Tabla actualizada");
+		
+		
+		
+		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
+		String[] columnas = {"Libros"};
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			titulos[i][0] = arrayLibrosIdTituloGeneroLugar[i][1];
+		}
+		
+		tablaLibros.setModel(new DefaultTableModel(titulos, columnas));
 		scrollPane.setViewportView(tablaLibros);
+		
 
-		txtGenero = new JTextField();
-		txtGenero.addMouseListener(new MouseAdapter() {
+		txtBuscadorGenero = new JTextField();
+		txtBuscadorGenero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtGenero.setText("");
+				txtBuscadorGenero.setText("");
 			}
 		});
-		txtGenero.setText("Género...");
-		txtGenero.setToolTipText("");
-		txtGenero.setColumns(10);
-		txtGenero.setBounds(677, 153, 117, 30);
-		getContentPane().add(txtGenero);
+		txtBuscadorGenero.setText("Género...");
+		txtBuscadorGenero.setToolTipText("");
+		txtBuscadorGenero.setColumns(10);
+		txtBuscadorGenero.setBounds(677, 141, 117, 30);
+		txtBuscadorGenero.setBorder(null);
+		getContentPane().add(txtBuscadorGenero);
 
-		txtLugar = new JTextField();
-		txtLugar.addMouseListener(new MouseAdapter() {
+		txtBuscadorLugar = new JTextField();
+		txtBuscadorLugar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtLugar.setText("");
+				txtBuscadorLugar.setText("");
 			}
 		});
-		txtLugar.setText("Lugar...");
-		txtLugar.setToolTipText("");
-		txtLugar.setColumns(10);
-		txtLugar.setBounds(523, 153, 117, 30);
-		getContentPane().add(txtLugar);
+		txtBuscadorLugar.setText("Lugar...");
+		txtBuscadorLugar.setToolTipText("");
+		txtBuscadorLugar.setColumns(10);
+		txtBuscadorLugar.setBounds(523, 141, 117, 30);
+		txtBuscadorLugar.setBorder(null);
+		getContentPane().add(txtBuscadorLugar);
 
 		btnGuardarYSalir = new JButton("Guardar y salir");
-		btnGuardarYSalir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtLugar.setText("Lugar...");
-				txtGenero.setText("Género...");
-				txtBuscador.setText("Título...");
+		btnGuardarYSalir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnGuardarYSalir.setBackground(new Color(220, 220, 220));
 			}
 		});
-		btnGuardarYSalir.setBackground(new Color(128, 255, 128));
+		btnGuardarYSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				txtBuscadorLugar.setText("Lugar...");
+				txtBuscadorGenero.setText("Género...");
+				txtBuscadorTitulo.setText("Título...");
+			}
+		});
+		btnGuardarYSalir.setBackground(new Color(255, 255, 255));
 		btnGuardarYSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		btnGuardarYSalir.setBounds(843, 610, 133, 42);
+		btnGuardarYSalir.setBorder(null);
 		getContentPane().add(btnGuardarYSalir);
 
 		btnNewButton = new JButton("");
-		btnNewButton.setBounds(804, 162, 21, 21);
+		btnNewButton.setBounds(804, 150, 21, 21);
 		getContentPane().add(btnNewButton);
+		
+		btnBuscarTitulo = new JButton("Buscar por Título");
+		btnBuscarTitulo.setBackground(new Color(255, 255, 255));
+		btnBuscarTitulo.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				String tituloBuscado = txtBuscadorTitulo.getText();
+				actualizarTablaPorTitulo(tituloBuscado);
+			}
+		});
+		btnBuscarTitulo.setBounds(366, 181, 117, 29);
+		btnBuscarTitulo.setBorder(null);
+		contentPane.add(btnBuscarTitulo);
+		
+		btnBuscarPorLugar = new JButton("Buscar por Lugar");
+		btnBuscarPorLugar.setBackground(new Color(255, 255, 255));
+		btnBuscarPorLugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String lugarBuscado = txtBuscadorLugar.getText();
+				actualizarTablaPorLugar(lugarBuscado);
+			}
+		});
+		btnBuscarPorLugar.setBorder(null);
+		btnBuscarPorLugar.setBounds(523, 181, 117, 29);
+		contentPane.add(btnBuscarPorLugar);
+		
+		btnBuscarPorGénero = new JButton("Buscar por Género");
+		btnBuscarPorGénero.setBackground(new Color(255, 255, 255));
+		btnBuscarPorGénero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String generoBuscado = txtBuscadorGenero.getText();
+				actualizarTablaPorGenero(generoBuscado);
+			}
+		});
+		btnBuscarPorGénero.setBorder(null);
+		btnBuscarPorGénero.setBounds(677, 181, 117, 29);
+		contentPane.add(btnBuscarPorGénero);
+		
+		
 
+	}
+	
+	public void actualizarTablaPorTitulo(String titulo) {
+		
+		System.out.println("Tabla actualizada por título");
+		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			titulos[i][0] = arrayLibrosIdTituloGeneroLugar[i][1];
+		}
+		
+		ArrayList<String> listaTitulosBuscados = new ArrayList<>();
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			if (titulos[i][0].equalsIgnoreCase(titulo)) {
+				listaTitulosBuscados.add(titulos[i][0]);
+			}
+		}
+		
+		String[][] titulosBuscadosPorTitulo = new String[listaTitulosBuscados.size()][1];
+		
+		for (int i = 0; i < listaTitulosBuscados.size(); i++) {
+			titulosBuscadosPorTitulo[i][0] = listaTitulosBuscados.get(i);
+		}
+		
+		String[] columnas = {"Libros"};
+		
+		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorTitulo, columnas));
+	}
+	
+	public void actualizarTablaPorLugar(String lugarBuscado) {
+		
+		System.out.println("Tabla actualizada por lugar");
+		
+		ArrayList<String> listaTitulosPorLugar = new ArrayList<>();
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			if (arrayLibrosIdTituloGeneroLugar[i][2].equalsIgnoreCase(lugarBuscado)) {
+				listaTitulosPorLugar.add(arrayLibrosIdTituloGeneroLugar[i][1]);
+			}
+		}
+		
+		String[][] titulosBuscadosPorLugar = new String[listaTitulosPorLugar.size()][1];
+		
+		for (int i = 0; i < listaTitulosPorLugar.size(); i++) {
+			titulosBuscadosPorLugar[i][0] = listaTitulosPorLugar.get(i);
+		}
+		
+		String[] columnas = {"Libros"};
+		
+		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorLugar, columnas));
+		
+	}
+	
+	public void actualizarTablaPorGenero(String generoBuscado) {
+		
+		System.out.println("Tabla actualizada por género");
+		
+		ArrayList<String> listaTitulosPorGenero = new ArrayList<>();
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			if (arrayLibrosIdTituloGeneroLugar[i][3].equalsIgnoreCase(generoBuscado)) {
+				listaTitulosPorGenero.add(arrayLibrosIdTituloGeneroLugar[i][1]);
+			}
+		}
+		
+		String[][] titulosBuscadosPorGenero = new String[listaTitulosPorGenero.size()][1];
+		
+		for (int i = 0; i < listaTitulosPorGenero.size(); i++) {
+			titulosBuscadosPorGenero[i][0] = listaTitulosPorGenero.get(i);
+		}
+		
+		String[] columnas = {"Libros"};
+		
+		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorGenero, columnas));
+		
 	}
 }
