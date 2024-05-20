@@ -314,6 +314,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 				modelo.setValueAt(txtAutor.getText(), fila, 1);
 				modelo.setValueAt(txtGenero.getText(), fila, 2);
 				limpiarCampos();
+				miModelo.editarDatosAltaBajaLibros();
 			}
 		});
 		btnModificar.setBounds(731, 528, 93, 39);

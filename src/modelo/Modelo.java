@@ -63,5 +63,9 @@ public class Modelo {
 		
 		return listaLibros;
 	}
+	
+	public void editarDatosAltaBajaLibros() {
+		
+	}
 
 }
