@@ -227,4 +227,21 @@ public class Conexion {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	public int contarRegistrosTablaLibros (String query) {
+		int contador = 0;
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(query);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			while (resultSet.next()) {
+				contador++;
+			}
+			resultSet.close();
+			preparedStatement.close();
+			return contador;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return contador;
+		}
+	}
 }
