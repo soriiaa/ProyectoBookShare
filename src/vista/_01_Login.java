@@ -47,6 +47,9 @@ public class _01_Login extends JFrame implements Vista {
 	
 	private boolean usuarioLleno;
 	private boolean contraseñaLlena;
+	private JPanel panel;
+	private JLabel lblTitulo;
+	private JLabel lblOlvidoContraseña;
 	
 	public boolean getUsuarioLleno() {
 		return usuarioLleno;
@@ -88,7 +91,7 @@ public class _01_Login extends JFrame implements Vista {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
-		JPanel panel = new JPanel();
+		panel = new JPanel();
 
 		panel.setBackground(new Color(255, 255, 255));
 		panel.setBounds(96, 10, 244, 309);
@@ -96,7 +99,7 @@ public class _01_Login extends JFrame implements Vista {
 		panel.setLayout(null);
 		
 		btnLogin = new JButton("Login");
-		btnLogin.setBounds(77, 217, 89, 23);
+		btnLogin.setBounds(77, 225, 89, 23);
 		panel.add(btnLogin);
 		btnLogin.setForeground(new Color(255, 255, 255));
 		btnLogin.setBackground(new Color(0, 0, 0));
@@ -123,12 +126,12 @@ public class _01_Login extends JFrame implements Vista {
 		lblNoTieneCuenta.setForeground(Color.BLUE);
 		lblNoTieneCuenta.setFont(new Font("Tahoma", Font.PLAIN, 13));
 
-		JLabel lblTitulo = new JLabel("BIENVENIDO");
+		lblTitulo = new JLabel("BIENVENIDO");
 		lblTitulo.setBounds(17, 23, 209, 61);
 		panel.add(lblTitulo);
 		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 35));
 
-		JLabel lblOlvidoContraseña = new JLabel("Olvidé la contraseña");
+		lblOlvidoContraseña = new JLabel("Olvidé la contraseña");
 		lblOlvidoContraseña.setBounds(62, 259, 120, 14);
 		panel.add(lblOlvidoContraseña);
 		lblOlvidoContraseña.addMouseListener(new MouseAdapter() {
@@ -239,8 +242,7 @@ public class _01_Login extends JFrame implements Vista {
 
 		lblIntentosRestantes = new JLabel("");
 		lblIntentosRestantes.setForeground(new Color(255, 0, 0));
-		lblIntentosRestantes.setVisible(true);
-		lblIntentosRestantes.setBounds(70, 203, 135, 14);
+		lblIntentosRestantes.setBounds(58, 202, 135, 14);
 		panel.add(lblIntentosRestantes);
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -287,6 +289,7 @@ public class _01_Login extends JFrame implements Vista {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				btnLogin.requestFocusInWindow();
+				lblTitulo.requestFocus();
 			}
 		});
 
