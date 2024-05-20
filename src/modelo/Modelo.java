@@ -1,6 +1,7 @@
 package modelo;
 
-import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * @author Andrés
@@ -38,11 +39,9 @@ public class Modelo {
 				pregunta, 1) + 1);
 	}
 
-	public void insertarUsuario(String usr, String nombre, String apellido, String pwd, int codPostal, int pregunta,
-			String respuesta, String rol, int claveAdmin) {
+	public void insertarUsuario(String usr, String nombre, String apellido, String pwd, int codPostal, int pregunta, String respuesta, String rol, int claveAdmin) {
 
-		int valor = miConexion.comproAdmin("Select * from BookShare.administracion where valor = ?", claveAdmin,
-				2);
+		int valor = miConexion.comproAdmin("Select * from BookShare.administracion where valor = ?", claveAdmin, 2);
 
 		if (valor == 1) {
 			rol = "Administrador";
@@ -51,6 +50,15 @@ public class Modelo {
 		}
 
 		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
+	}
+	
+	public ArrayList<Objects> cogerLibroBaseDatos () {
+		
+		ArrayList<Objects> listaLibros = new ArrayList<>();
+		
+		
+		
+		return listaLibros;
 	}
 
 }
