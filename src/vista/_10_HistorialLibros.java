@@ -350,14 +350,24 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		tableDatos.setEnabled(false);
 		tableDatos.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		tableDatos.setFont(new Font("Tahoma", Font.PLAIN, 22));
-		tableDatos.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null }, { null, null, null, null, null, null, null, null },
-				{ null, null, null, null, null, null, null, null }, },
-				new String[] { "Titulo", "Autor", "Genero", "N\u00BA paginas", "Fecha operacion", "Valoracion",
-						"Codigo Postal", "Tipo" }));
+		tableDatos.setModel(new DefaultTableModel(
+				
+			new Object[][] {
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+				{null, null, null, null, null, null, null, null},
+			},
+			new String[] {
+				"Titulo", "Autor", "Genero", "Disponible", "Activo", "Valoracion", "Codigo Postal", "Fecha operacion"
+			}
+		));
 		tableDatos.getColumnModel().getColumn(4).setPreferredWidth(102);
 		tableDatos.getColumnModel().getColumn(5).setPreferredWidth(72);
 		tableDatos.getColumnModel().getColumn(6).setPreferredWidth(92);

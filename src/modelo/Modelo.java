@@ -15,6 +15,7 @@ public class Modelo {
 	private Vista[] misVistas;
 	private Controlador miControlador;
 	private Conexion miConexion;
+	private String usuario;
 
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
@@ -25,6 +26,7 @@ public class Modelo {
 	}
 
 	public boolean validarUsuario(String usuario, String pwd) {
+		this.usuario = usuario;
 		boolean comprobacion = false;
 		miConexion = new Conexion();
 		if (miConexion.comproLogin("select * from BookShare.users where usr = ? and pwd = ?", usuario, pwd)) {
@@ -69,6 +71,9 @@ public class Modelo {
 
 		return info;
 	}
+
+	
+	
 
 	public ArrayList<Objects> cogerLibroBaseDatos() {
 

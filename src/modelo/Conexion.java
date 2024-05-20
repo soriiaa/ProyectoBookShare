@@ -247,6 +247,24 @@ public class Conexion {
 			return contador;
 		}
 	}
+	
+	public int contarRegistros(String query, String filtro) {
+		int contador = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, filtro);
+			ResultSet rset = pstmt.executeQuery();
+			while (rset.next()) {
+				contador++;
+			}
+			rset.close();
+			pstmt.close();
+			return contador;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return contador;
+		}
+	}
 
 	/**
 	 * El arrayList guardará en los pares el codigo postal, y en los impares la
@@ -309,4 +327,5 @@ public class Conexion {
 			return info;
 		}
 	}
+
 }
