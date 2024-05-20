@@ -56,8 +56,8 @@ id int auto_increment,
 titulo varchar(80) not null,
 autor varchar(80) not null,
 genero varchar(50)not null,
-disponible boolean not null,
-activo boolean not null,
+disponible boolean ,
+activo boolean ,
 primary key (id)
 )engine innodb;
 
@@ -132,4 +132,8 @@ use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
 select * from users;
 
+<<<<<<< HEAD
 SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id; 
+=======
+SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
+>>>>>>> 2bf8bf3e9aae8e2618704fec3b4c83839e894bbf
