@@ -32,10 +32,10 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JPanel contentPane;
 	private JButton btnNewButton;
 	private JLabel lblCogerUnLibro;
-	private JTextField txtBuscador;
+	private JTextField txtBuscadorTitulo;
 	private JScrollPane scrollPane;
-	private JTextField txtGenero;
-	private JTextField txtLugar;
+	private JTextField txtBuscadorGenero;
+	private JTextField txtBuscadorLugar;
 	private JButton btnGuardarYSalir;
 	private JTable tablaLibros;
 	private JPanel panelMenuNavegacion;
@@ -356,18 +356,18 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		lblCogerUnLibro.setBounds(449, 26, 310, 86);
 		getContentPane().add(lblCogerUnLibro);
 
-		txtBuscador = new JTextField();
-		txtBuscador.addMouseListener(new MouseAdapter() {
+		txtBuscadorTitulo = new JTextField();
+		txtBuscadorTitulo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtBuscador.setText("");
+				txtBuscadorTitulo.setText("");
 			}
 		});
-		txtBuscador.setText("Título...");
-		txtBuscador.setToolTipText("");
-		txtBuscador.setBounds(366, 141, 117, 30);
-		getContentPane().add(txtBuscador);
-		txtBuscador.setColumns(10);
+		txtBuscadorTitulo.setText("Título...");
+		txtBuscadorTitulo.setToolTipText("");
+		txtBuscadorTitulo.setBounds(366, 141, 117, 30);
+		getContentPane().add(txtBuscadorTitulo);
+		txtBuscadorTitulo.setColumns(10);
 
 		scrollPane = new JScrollPane();
 		scrollPane.setBounds(364, 232, 430, 346);
@@ -388,38 +388,38 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		scrollPane.setViewportView(tablaLibros);
 		
 
-		txtGenero = new JTextField();
-		txtGenero.addMouseListener(new MouseAdapter() {
+		txtBuscadorGenero = new JTextField();
+		txtBuscadorGenero.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtGenero.setText("");
+				txtBuscadorGenero.setText("");
 			}
 		});
-		txtGenero.setText("Género...");
-		txtGenero.setToolTipText("");
-		txtGenero.setColumns(10);
-		txtGenero.setBounds(677, 141, 117, 30);
-		getContentPane().add(txtGenero);
+		txtBuscadorGenero.setText("Género...");
+		txtBuscadorGenero.setToolTipText("");
+		txtBuscadorGenero.setColumns(10);
+		txtBuscadorGenero.setBounds(677, 141, 117, 30);
+		getContentPane().add(txtBuscadorGenero);
 
-		txtLugar = new JTextField();
-		txtLugar.addMouseListener(new MouseAdapter() {
+		txtBuscadorLugar = new JTextField();
+		txtBuscadorLugar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				txtLugar.setText("");
+				txtBuscadorLugar.setText("");
 			}
 		});
-		txtLugar.setText("Lugar...");
-		txtLugar.setToolTipText("");
-		txtLugar.setColumns(10);
-		txtLugar.setBounds(523, 141, 117, 30);
-		getContentPane().add(txtLugar);
+		txtBuscadorLugar.setText("Lugar...");
+		txtBuscadorLugar.setToolTipText("");
+		txtBuscadorLugar.setColumns(10);
+		txtBuscadorLugar.setBounds(523, 141, 117, 30);
+		getContentPane().add(txtBuscadorLugar);
 
 		btnGuardarYSalir = new JButton("Guardar y salir");
 		btnGuardarYSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtLugar.setText("Lugar...");
-				txtGenero.setText("Género...");
-				txtBuscador.setText("Título...");
+				txtBuscadorLugar.setText("Lugar...");
+				txtBuscadorGenero.setText("Género...");
+				txtBuscadorTitulo.setText("Título...");
 			}
 		});
 		btnGuardarYSalir.setBackground(new Color(128, 255, 128));
@@ -435,7 +435,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		btnBuscarTitulo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				String tituloBuscado = txtBuscador.getText();
+				String tituloBuscado = txtBuscadorTitulo.getText();
 				actualizarTablaPorTitulo(tituloBuscado);
 			}
 		});
@@ -444,6 +444,12 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		contentPane.add(btnBuscarTitulo);
 		
 		btnBuscarPorLugar = new JButton("Buscar por Lugar");
+		btnBuscarPorLugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String lugarBuscado = txtBuscadorLugar.getText();
+				actualizarTablaPorLugar(lugarBuscado);
+			}
+		});
 		btnBuscarPorLugar.setBorder(null);
 		btnBuscarPorLugar.setBounds(523, 181, 117, 29);
 		contentPane.add(btnBuscarPorLugar);
@@ -460,7 +466,6 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	public void actualizarTablaPorTitulo(String titulo) {
 		
 		System.out.println("Tabla actualizada por título");
-		
 		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
 		
 		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
@@ -483,9 +488,14 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		
 		String[] columnas = {"Libros"};
 		
-		
-		
 		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorTitulo, columnas));
+	}
+	
+	public void actualizarTablaPorLugar(String lugarBuscado) {
+		
+		System.out.println("Tabla actualizada por lugar");
+		
+		
 		
 	}
 }
