@@ -52,5 +52,11 @@ public class Modelo {
 
 		miConexion.insertar(usr, nombre, apellido, pwd, rol, codPostal, pregunta, respuesta);
 	}
+	
+	public void busquedaCodPostal(String busqueda) {
+		Conexion miConexion = new Conexion();
+		
+		miConexion.buscarLocalidad();
+	}
 
 }

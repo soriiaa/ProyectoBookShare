@@ -43,6 +43,11 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 
 	private Controlador miControlador;
 	private Modelo miModelo;
+	private JTextField txtBuscador;
+	
+	public JTextField getTxtBuscador() {
+		return txtBuscador;
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -214,7 +219,7 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		lblBuscarPorLocalidad.setBounds(359, 31, 446, 93);
 		getContentPane().add(lblBuscarPorLocalidad);
 
-		JTextField txtBuscador = new JTextField();
+		txtBuscador = new JTextField();
 		txtBuscador.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -263,6 +268,11 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		table.setSelectionForeground(Color.BLACK);
 
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.guardarCodPostal();
+			}
+		});
 		btnBuscar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {

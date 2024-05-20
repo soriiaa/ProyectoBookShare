@@ -9,6 +9,7 @@ import javax.swing.JTextField;
 import modelo.Modelo;
 import vista.Vista;
 import vista._01_Login;
+import vista._02_BuscarPorLocalidad;
 import vista._04_Registro;
 
 public class Controlador {
@@ -88,5 +89,13 @@ public class Controlador {
 		String contraseña = String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword());
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
 		return miModelo.validarUsuario(usuario,contraseña);
+	}
+	
+	public void guardarCodPostal() {
+		String busqueda = ((_02_BuscarPorLocalidad) misVistas[2]).getTxtBuscador().getText();
+		
+		miModelo.busquedaCodPostal(busqueda);
+		
+		
 	}
 }
