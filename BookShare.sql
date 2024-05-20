@@ -73,7 +73,7 @@ foreign key (usr) references users(usr),
 foreign key (id) references libro(id)
 )engine innodb;
 
-insert into coger(usr, id, Fecha) values("TinkyWinky1", 2, '2024-05-07');
+insert into coger(usr, id, Fecha) values("a", 2, '2024-05-07');
 
 create table dejar(
 usr varchar(40),
