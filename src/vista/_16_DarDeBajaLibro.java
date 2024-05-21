@@ -292,6 +292,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				modelo.addRow(new String [] {txtTitulo.getText(), txtAutor.getText(), txtGenero.getText()});
+				miControlador.recogerAltaDatosAltaBajaLibro();
 				limpiarCampos();
 			}
 		});
@@ -304,6 +305,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		btnBaja.setEnabled(false);
 		btnBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				miControlador.recogerBajaDatosAltaBajaLibro();
 				modelo.removeRow(table.getSelectedRow());
 				limpiarCampos();
 			}
@@ -318,11 +320,11 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
 				tituloOriginal = (String) modelo.getValueAt(fila, 0);
+				miControlador.recogerModificarDatosAltaBajaLibros();
 				modelo.setValueAt(txtTitulo.getText(), fila, 0);
 				modelo.setValueAt(txtAutor.getText(), fila, 1);
 				modelo.setValueAt(txtGenero.getText(), fila, 2);
 				limpiarCampos();
-				miControlador.ModificarDatosAltaBajaLibros();
 			}
 		});
 		btnModificar.setBounds(731, 528, 93, 39);

@@ -479,13 +479,53 @@ public class Conexion {
 		}	
 	}
 
-	public void actualizarAltaBajaLibros(String query, String titulo, String autor, String genero, String tituloAntiguo) {
+	public void actualizarAltaBajaLibros(String query, String titulo, String autor, String genero, String id) {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1,titulo);
 			pstmt.setString(2,autor);
 			pstmt.setString(3,genero);
-			pstmt.setString(4, tituloAntiguo);
+			pstmt.setString(4, id);
+			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+	public void insertarAltaBajaLibros(String query, String titulo, String autor, String genero) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1,titulo);
+			pstmt.setString(2,autor);
+			pstmt.setString(3,genero);
+			pstmt.executeUpdate();
+			pstmt.close();
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+	}
+
+	public String sacarIdLibro(String sacarId, String tituloAntiguo) {
+		String idLibro = null;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(sacarId);
+			pstmt.setString(1, tituloAntiguo);
+			ResultSet rs = pstmt.executeQuery();
+			while(rs.next()) {
+				idLibro = rs.getString(1);
+			}
+		}catch(SQLException e){
+			e.printStackTrace();
+		}
+		return idLibro;
+	}
+
+	public void bajaAltaBajaLibros(String query, String id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, id);
 			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {

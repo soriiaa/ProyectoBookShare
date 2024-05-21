@@ -109,7 +109,21 @@ public class Modelo {
 	}
 
 	public void actualizarDatosBajaAltaLibro(String titulo, String autor, String genero, String tituloAntiguo) {
-		String consulta = "update libro set titulo = ?, autor = ?, genero = ? where titulo = ?";
-		miConexion.actualizarAltaBajaLibros(consulta, titulo, autor, genero, tituloAntiguo);
+		String sacarId = "select id from libro where titulo = ?";
+		String id = miConexion.sacarIdLibro(sacarId, tituloAntiguo);
+		String consulta = "update libro set titulo = ?, autor = ?, genero = ? where id = ?";
+		miConexion.actualizarAltaBajaLibros(consulta, titulo, autor, genero, id);
+	}
+
+	public void AltaDatosAltaBajaLibro(String titulo, String autor, String genero) {
+		String consulta = "insert into libro (titulo, autor, genero, disponible, activo) values (?,?,?, true, true)";
+		miConexion.insertarAltaBajaLibros(consulta, titulo, autor, genero);
+	}
+
+	public void BajaDatosAltaBajaLibro(String titulo) {
+		String sacarId = "select id from libro where titulo = ?";
+		String id = miConexion.sacarIdLibro(sacarId, titulo);
+		String consulta = "delete from libro where id = ?";
+		miConexion.bajaAltaBajaLibros(consulta, id);
 	}
 }

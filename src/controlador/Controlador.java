@@ -113,7 +113,7 @@ public class Controlador {
 
 	}
 	
-	public void ModificarDatosAltaBajaLibros() {
+	public void recogerModificarDatosAltaBajaLibros() {
 		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
 		String autor = ((_16_DarDeBajaLibro) misVistas[16]).getTxtAutor().getText();
 		String genero = ((_16_DarDeBajaLibro) misVistas[16]).getTxtGenero().getText();
@@ -124,6 +124,18 @@ public class Controlador {
 	public Object[][] sacarDatosLibro() {
 		Object[][] datos = miModelo.sacarDatosLibro();
 		return datos;		
+	}
+
+	public void recogerAltaDatosAltaBajaLibro() {
+		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
+		String autor = ((_16_DarDeBajaLibro) misVistas[16]).getTxtAutor().getText();
+		String genero = ((_16_DarDeBajaLibro) misVistas[16]).getTxtGenero().getText();
+		miModelo.AltaDatosAltaBajaLibro(titulo, autor, genero);
+	}
+
+	public void recogerBajaDatosAltaBajaLibro() {
+		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
+		miModelo.BajaDatosAltaBajaLibro(titulo);	
 	}
 
 }
