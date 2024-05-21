@@ -256,6 +256,7 @@ public class _01_Login extends JFrame implements Vista {
 						miControlador.cambiarVentana(1, 14);
 					} else {
 						miControlador.cambiarVentana(1, 6);
+						miControlador.setVista3Invisible();
 
 					}
 				}

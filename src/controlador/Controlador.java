@@ -9,6 +9,7 @@ import modelo.Modelo;
 import vista.Vista;
 import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
+import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
@@ -64,6 +65,11 @@ public class Controlador {
 				codAdmin);
 
 		return true;
+	}
+	
+	public void setVista3Invisible() {
+		_03_PaginaPrincipalSinLog pag = (_03_PaginaPrincipalSinLog) misVistas[3];
+		pag.setVisible(false);
 	}
 
 	public void camposRellenados() {
