@@ -26,10 +26,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.Controlador;
@@ -62,6 +65,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JButton btnBuscarPorGénero;
 	private JTextField txtUsuario;
 	private JTextField txtBuscadorTitulo;
+	private String valorSeleccionado;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -433,7 +437,14 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		scrollPane.setBounds(364, 260, 430, 346);
 		getContentPane().add(scrollPane);
 		
-		tablaLibros = new JTable();
+		tablaLibros = new JTable() {
+			@Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+		};
+		tablaLibros.setRowHeight(25);
+		tablaLibros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		System.out.println("Tabla actualizada");
 		
@@ -446,6 +457,23 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		
 		tablaLibros.setModel(new DefaultTableModel(titulos, columnas));
 		scrollPane.setViewportView(tablaLibros);
+		
+		
+		
+		tablaLibros.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+            	
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tablaLibros.getSelectedRow();
+                    int selectedColumn = tablaLibros.getSelectedColumn();
+                    if (selectedRow != -1 && selectedColumn != -1) {
+                        valorSeleccionado = tablaLibros.getValueAt(selectedRow, selectedColumn).toString();
+                        System.out.println("Valor seleccionado: " + valorSeleccionado);
+                    }
+                }
+            }
+        });
 		
 		txtBuscadorGenero = new JTextField();
 		txtBuscadorGenero.addKeyListener(new KeyAdapter() {
@@ -540,6 +568,14 @@ public class _08_CogerLibro extends JFrame implements Vista {
 				btnGuardarYSalir.setBackground(new Color(70, 70, 70));
 				btnGuardarYSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				miModelo.libroNoDisponible(valorSeleccionado);
+				arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
+				actualizarTabla();
+				
+			}
 		});
 		btnGuardarYSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -563,9 +599,9 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				btnBuscarPorTitulo.setText("Buscar por Título");
-				btnBuscarPorLugar.setText("Buscar por Lugar");
-				btnBuscarPorGénero.setText("Buscar por Género");
+				txtBuscadorTitulo.setText("Título");
+				txtBuscadorLugar.setText("Lugar");
+				txtBuscadorGenero.setText("Género");
 				
 				actualizarTabla();
 			}

@@ -1,5 +1,5 @@
 /**
- * @author pablo
+ * @author Apa
  */
 
 package vista;
@@ -8,31 +8,33 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
 
 import controlador.Controlador;
 import modelo.Modelo;
 
-public class _15_EnviarMensaje extends JFrame implements Vista {
+public class _16_DarDeBajaLibro extends JFrame implements Vista {
 	private static final long serialVersionUID = 1L;
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private JPanel contentPane;
-	private JLabel lblTextoTituloUsuario;
-	private JLabel lblTituloEnviarMensaje;
-	private JTextArea txtrMensaje;
-	private JComboBox comboBoxUsuarios;
-	private JButton btnMiperfil;
+	private JTextField txtPorFavorIntroduzca;
+	private JTable table;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
 	private JLabel lblTituloMenu;
@@ -40,8 +42,26 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 	private JButton btnAltaLibro;
 	private JButton btnBajaLugar;
 	private JButton btnBajaLibro;
+	
+	public JTextField getTxtTitulo() {
+		return txtTitulo;
+	}
+
+	public JTextField getTxtAutor() {
+		return txtAutor;
+	}
+
+	public JTextField getTxtGenero() {
+		return txtGenero;
+	}
+
 	private JButton btnEnviarMensaje;
-	private JButton btnEnviar;
+	private JButton btnMiperfil;
+	private DefaultTableModel modelo;
+	private JButton btnAlta, btnBaja, btnModificar;
+	private JTextField txtTitulo;
+	private JTextField txtAutor;
+	private JTextField txtGenero;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -53,7 +73,7 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		this.miControlador = miControlador;
 	}
 
-	public _15_EnviarMensaje() {
+	public _16_DarDeBajaLibro() {
 		setResizable(false);
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -62,6 +82,13 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		contentPane.setBackground(new Color(135, 206, 250));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				table.getSelectionModel().clearSelection();
+				limpiarCampos();
+			}
+		});
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
@@ -95,7 +122,7 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		btnBajaLugar.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnBajaLugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(15, 17);
+				miControlador.cambiarVentana(16, 17);
 			}
 		});
 		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
@@ -123,7 +150,7 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		btnBajaLibro.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnBajaLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(15, 16);
+				miControlador.cambiarVentana(16, 16);
 			}
 		});
 		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
@@ -163,7 +190,7 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		btnEnviarMensaje.setFont(new Font("Tahoma", Font.BOLD, 12));
 		btnEnviarMensaje.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(14, 15);
+				miControlador.cambiarVentana(16, 15);
 			}
 		});
 		// Esta parte del codigo sirve para cambiar el color del boton al pasar por
@@ -202,7 +229,7 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnMiperfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(15, 12);
+				miControlador.cambiarVentana(16, 12);
 			}
 		});
 		btnMiperfil.addMouseListener(new MouseAdapter() {
@@ -220,28 +247,176 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		btnMiperfil.setBounds(0, 621, 195, 42);
 		contentPane.add(btnMiperfil);
 
-		lblTituloEnviarMensaje = new JLabel("Enviar mensaje");
-		lblTituloEnviarMensaje.setFont(new Font("Tahoma", Font.BOLD, 30));
-		lblTituloEnviarMensaje.setBounds(435, 29, 264, 39);
-		contentPane.add(lblTituloEnviarMensaje);
+		JLabel lblNewLabel_1 = new JLabel("Alta y Baja Libros");
+		lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
+		lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 30));
+		lblNewLabel_1.setBounds(463, 36, 307, 39);
+		contentPane.add(lblNewLabel_1);
 
-		lblTextoTituloUsuario = new JLabel("Introduce el nombre de usuario al que enviar un mensaje:");
-		lblTextoTituloUsuario.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTextoTituloUsuario.setBounds(296, 91, 545, 46);
-		contentPane.add(lblTextoTituloUsuario);
+		txtPorFavorIntroduzca = new JTextField();
+		txtPorFavorIntroduzca.setHorizontalAlignment(SwingConstants.CENTER);
+		txtPorFavorIntroduzca.setText(
+				"Por favor, introduzca el titulo del libro que desea anular y eliminar del registro del sistema y la informacion del libro que desee dar de alta");
+		txtPorFavorIntroduzca.setBounds(235, 105, 741, 42);
+		contentPane.add(txtPorFavorIntroduzca);
+		txtPorFavorIntroduzca.setColumns(10);
 
-		txtrMensaje = new JTextArea();
-		txtrMensaje.setToolTipText("");
-		txtrMensaje.setBounds(296, 245, 545, 282);
-		contentPane.add(txtrMensaje);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setBounds(308, 168, 591, 115);
+		contentPane.add(scrollPane_1);
 
-		btnEnviar = new JButton("Enviar");
-		btnEnviar.setBackground(new Color(128, 255, 128));
-		btnEnviar.setBounds(864, 604, 112, 39);
-		contentPane.add(btnEnviar);
-
-		comboBoxUsuarios = new JComboBox();
-		comboBoxUsuarios.setBounds(296, 148, 545, 33);
-		contentPane.add(comboBoxUsuarios);
+		table = new JTable();
+		table.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+				int fila = table.getSelectedRow();
+				txtTitulo.setText((String) modelo.getValueAt(fila, 0));
+				txtAutor.setText((String) modelo.getValueAt(fila, 1));
+				txtGenero.setText((String) modelo.getValueAt(fila, 2));
+				updateBaja();
+				updateModificar();
+			}
+		});
+		modelo = new DefaultTableModel(
+				new Object[][] { 
+						{ "Libro 1", "Autor 1", "Terror"},
+						{ "Libro 2", "Autor 2", "Ficci\u00F3n"},
+						{ "Libro 3", "Autor 3", "Aventura"}, 
+					},
+				new String[] { 
+						"T\u00EDtulo", "Autor", "G\u00E9nero"
+						})
+				;
+		table.setModel(modelo);
+		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		scrollPane_1.setViewportView(table);
+		table.setToolTipText("\r\n");
+		
+		// btnAlta
+		btnAlta = new JButton("Alta");
+		btnAlta.setEnabled(false);
+		btnAlta.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modelo.addRow(new String [] {txtTitulo.getText(), txtAutor.getText(), txtGenero.getText()});
+				limpiarCampos();
+			}
+		});
+		btnAlta.setBounds(419, 526, 103, 42);
+		contentPane.add(btnAlta);
+		
+		//btnBaja
+		btnBaja = new JButton("Baja");
+		btnBaja.setBackground(new Color(0, 255, 0));
+		btnBaja.setEnabled(false);
+		btnBaja.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				modelo.removeRow(table.getSelectedRow());
+				limpiarCampos();
+			}
+		});
+		btnBaja.setBounds(573, 526, 103, 44);
+		contentPane.add(btnBaja);
+		
+		// btnModificar
+		btnModificar = new JButton("Modificar");
+		btnModificar.setEnabled(false);
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int fila = table.getSelectedRow();
+				modelo.setValueAt(txtTitulo.getText(), fila, 0);
+				modelo.setValueAt(txtAutor.getText(), fila, 1);
+				modelo.setValueAt(txtGenero.getText(), fila, 2);
+				limpiarCampos();
+			}
+		});
+		btnModificar.setBounds(731, 528, 93, 39);
+		contentPane.add(btnModificar);
+		
+		JLabel lblTituloLibro = new JLabel("Titulo del Libro:");
+		lblTituloLibro.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblTituloLibro.setBounds(308, 322, 130, 30);
+		contentPane.add(lblTituloLibro);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtTitulo.setColumns(10);
+		txtTitulo.setBounds(448, 324, 436, 30);
+		txtTitulo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAlta();
+				updateModificar();
+			}
+		});
+		contentPane.add(txtTitulo);
+		
+		txtAutor = new JTextField();
+		txtAutor.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtAutor.setColumns(10);
+		txtAutor.setBounds(448, 377, 436, 30);
+		txtAutor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAlta();
+				updateModificar();
+			}
+		});
+		contentPane.add(txtAutor);
+		
+		JLabel lblAutor = new JLabel("Autor del Libro:");
+		lblAutor.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblAutor.setBounds(308, 375, 130, 30);
+		contentPane.add(lblAutor);
+		
+		JLabel lblGenero = new JLabel("Género Literario:");
+		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		lblGenero.setBounds(308, 430, 130, 30);
+		contentPane.add(lblGenero);
+		
+		txtGenero = new JTextField();
+		txtGenero.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		txtGenero.setColumns(10);
+		txtGenero.setBounds(450, 432, 436, 30);
+		txtGenero.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateAlta();
+				updateModificar();
+			}
+		});
+		contentPane.add(txtGenero);
+	}
+	
+	private void updateAlta() {
+		if(txtTitulo.getText().length() == 0 || txtAutor.getText().length() == 0 || txtGenero.getText().length() == 0) {
+			btnAlta.setEnabled(false);
+		}else {
+			btnAlta.setEnabled(true);
+		}	
+	}
+	
+	private void updateBaja() {
+		if(table.getSelectedRow() == -1) {
+			btnBaja.setEnabled(false);
+		}else {
+			btnBaja.setEnabled(true);
+		}
+	}
+	
+	private void updateModificar() {
+		if(txtTitulo.getText().length() == 0 || txtAutor.getText().length() == 0 || txtGenero.getText().length() == 0 || table.getSelectedRow() == -1) {
+			btnModificar.setEnabled(false);
+		}else {
+			btnModificar.setEnabled(true);
+		}		
+	}
+	
+	private void limpiarCampos() {
+		txtTitulo.setText("");
+		txtAutor.setText("");
+		txtGenero.setText("");
+		updateAlta();
+		updateModificar();
+		updateBaja();
 	}
 }
