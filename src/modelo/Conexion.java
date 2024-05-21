@@ -58,6 +58,28 @@ public class Conexion {
 		}
 	}
 
+	public String consultaConFiltro(String query, String filtro) {
+
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		String res = "";
+		try {
+			pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, filtro);
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				res = rs.getString(1);
+			}
+			rs.close();
+			pstmt.close();
+			return res;
+		} catch (SQLException s) {
+			s.printStackTrace();
+			return res;
+		}
+
+	}
+
 	public int consultaStatement(String query, int columna) {
 		int res = 0;
 		try {
@@ -148,7 +170,6 @@ public class Conexion {
 			int codigoPreguntaRecuperacion, String respuestaPreguntaRecuperacion) {
 		int resultado = 0;
 		try {
-			String nick = "Nick";
 			String query = "INSERT INTO users (usr,nombre,apellido,pwd,rol,cp,codigoPreguntaRecuperacion,respuestaPreguntaRecuperacion) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, usr);
@@ -344,44 +365,43 @@ public class Conexion {
 			return info;
 		}
 	}
-	
-	public String[][] cogerLibrosIdTituloLugarGenero (String query) {
-		
+
+	public String[][] cogerLibrosIdTituloLugarGenero(String query) {
+
 		String[][] error2 = new String[1][1];
-		
+
 		try {
 			int i = 0;
 			PreparedStatement preparedStatement = conexion.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
-			while(resultSet.next()) {
+			while (resultSet.next()) {
 				i++;
 			}
-			
+
 			resultSet = preparedStatement.executeQuery();
-			
+
 			String[][] libros = new String[i][4];
-			
+
 			System.out.println("Coger Libro Funciona");
-			
+
 			int j = 0;
-			
-			while(resultSet.next()) {
-			
-				
+
+			while (resultSet.next()) {
+
 				int idLibro = resultSet.getInt("idLibro");
-	            String tituloLibro = resultSet.getString("tituloLibro");
-	            String nombreLugar = resultSet.getString("nombreLugar");
-	            String generoLibro = resultSet.getString("generoLibro");
-	            
-	            libros[j][0] = Integer.toString(idLibro);
-	            libros[j][1] = tituloLibro;
-	            libros[j][2] = nombreLugar;
-	            libros[j][3] = generoLibro;
-	           
-	            j++;
-				
+				String tituloLibro = resultSet.getString("tituloLibro");
+				String nombreLugar = resultSet.getString("nombreLugar");
+				String generoLibro = resultSet.getString("generoLibro");
+
+				libros[j][0] = Integer.toString(idLibro);
+				libros[j][1] = tituloLibro;
+				libros[j][2] = nombreLugar;
+				libros[j][3] = generoLibro;
+
+				j++;
+
 			}
-			
+
 			resultSet.close();
 			preparedStatement.close();
 			return libros;
@@ -427,13 +447,19 @@ public class Conexion {
 		}
 	}
 
-	public Object[][] sacarHistorialLibros(String query, int numeroFilas, int[] filtro) {
-		Object[][] datos = new Object[numeroFilas][8];
+	public Object[][] sacarHistorialLibros(String query, int numeroFilasCoger, int numeroFilasDejar, int[] filtroCoger,
+			int[] filtroDejar) {
+		Object[][] datos = new Object[numeroFilasCoger + numeroFilasDejar][9];
 
-		for (int i = 0; i < numeroFilas; i++) {
+		for (int i = 0; i < numeroFilasCoger + numeroFilasDejar; i++) {
 			try {
 				PreparedStatement pstmt = conexion.prepareStatement(query);
-				pstmt.setInt(1, filtro[i]);
+				if (i < filtroCoger.length) {
+					pstmt.setInt(1, filtroCoger[i]);
+				} else if (i < filtroDejar.length) {
+					pstmt.setInt(1, filtroDejar[i]);
+				}
+
 				ResultSet rs = pstmt.executeQuery();
 
 				// Verificar si hay resultados antes de procesarlos
@@ -446,6 +472,7 @@ public class Conexion {
 					datos[i][5] = rs.getObject(6);
 					datos[i][6] = rs.getObject(7);
 					datos[i][7] = rs.getObject(8);
+					datos[i][8] = rs.getObject(9);
 				}
 				rs.close();
 				pstmt.close();
@@ -531,6 +558,78 @@ public class Conexion {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}
+
+	public Object[][] sacarLugares(String consulta, int numFilas) {
+		Object[][] datos = new Object[numFilas][4];
+
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			ResultSet rs = pstmt.executeQuery();
+			int i = 0;
+			while (rs.next()) {
+				datos[i][0] = rs.getObject(1);
+				datos[i][1] = rs.getObject(2);
+				datos[i][2] = rs.getObject(3);
+				datos[i][3] = rs.getObject(4);
+				i++;
+			}
+			pstmt.close();
+			rs.close();
+			return datos;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return datos;
+		}
+	}
+
+	public void insertarLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+		try {
+			String query = "insert into cod_postal (codigo_postal, comunidad_autonoma, provincia, poblacion) values(?,?,?,?)";
+
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setInt(1, codPostal);
+			pstmt.setString(2, comunidad);
+			pstmt.setString(3, provincia);
+			pstmt.setString(4, poblacion);
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException s) {
+			System.err.println(s.getMessage());
+		}
+	}
+
+	public void deleteLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+		try {
+			String query = "delete from cod_postal where codigo_postal = ? AND comunidad_autonoma like ? AND provincia like ? AND poblacion like ?";
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setInt(1, codPostal);
+			pstmt.setString(2, comunidad);
+			pstmt.setString(3, provincia);
+			pstmt.setString(4, poblacion);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException s) {
+			s.printStackTrace();
+		}
+	}
+
+	public void updateLugar(String consulta, int codPostal, String comunidad, String provincia, int poblacion,
+			int codPostalAntiguo) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setInt(1, codPostal);
+			pstmt.setString(2, comunidad);
+			pstmt.setString(3, provincia);
+			pstmt.setInt(4, poblacion);
+			pstmt.setInt(5, codPostalAntiguo);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException s) {
+			s.printStackTrace();
+		}
 	}
 }

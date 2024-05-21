@@ -521,16 +521,5 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.add(PasswordContraseña);
 		PasswordContraseña.setText("Predeterminado");
 		PasswordContraseña.setEditable(false);
-		
-		JButton btnAdmin = new JButton("ADMIN");
-		btnAdmin.setFont(new Font("Tahoma", Font.BOLD, 15));
-		btnAdmin.setBackground(new Color(255, 255, 128));
-		btnAdmin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(12, 14);
-			}
-		});
-		btnAdmin.setBounds(695, 347, 201, 40);
-		contentPane.add(btnAdmin);
 	}
 }

@@ -52,6 +52,28 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 	private JTextField txtProvincia;
 	private JLabel lblPoblacion;
 	private JTextField txtPoblacion;
+	private JButton btnRefresh;
+	private int codPostalAntiguo;
+
+	public int getCodPostalAntiguo() {
+		return codPostalAntiguo;
+	}
+
+	public JTextField getTxtCodigoPostal() {
+		return txtCodigoPostal;
+	}
+
+	public JTextField getTxtComunidad() {
+		return txtComunidad;
+	}
+
+	public JTextField getTxtProvincia() {
+		return txtProvincia;
+	}
+
+	public JTextField getTxtPoblacion() {
+		return txtPoblacion;
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -260,77 +282,77 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				int fila = table.getSelectedRow();
-				txtCodigoPostal.setText((String) modelo.getValueAt(fila, 0));
+				txtCodigoPostal.setText(String.valueOf(modelo.getValueAt(fila, 0)));
+				txtComunidad.setText((String) modelo.getValueAt(fila, 1));
 				txtComunidad.setText((String) modelo.getValueAt(fila, 1));
 				txtProvincia.setText((String) modelo.getValueAt(fila, 2));
-				txtPoblacion.setText((String) modelo.getValueAt(fila, 3));
+				txtPoblacion.setText(String.valueOf(modelo.getValueAt(fila, 3)));
 				updateBaja();
 				updateModificar();
 			}
 		});
 		modelo = new DefaultTableModel(
-			new Object[][] {
-				{"28250", "Madrid", "Madrid", "2000000"},
-				{"15001", "Galicia", "A coruña", "240000"},
-				{"28001", "Madrid", "Galicia", "14000"},
-			},
-			new String[] {
-				"Codigo Postal", "Comunidad Autonoma", "Provincia", "Poblacion"
-			}
-		);
+				new Object[][] { { "28250", "Madrid", "Madrid", "2000000" },
+						{ "15001", "Galicia", "A coruÃ±a", "240000" }, { "28001", "Madrid", "Galicia", "14000" }, },
+				new String[] { "Codigo Postal", "Comunidad Autonoma", "Provincia", "Poblacion" });
 		table.setModel(modelo);
 		table.getColumnModel().getColumn(0).setPreferredWidth(84);
 		table.getColumnModel().getColumn(1).setPreferredWidth(128);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane_1.setViewportView(table);
 		table.setToolTipText("\r\n");
-		
+
 		// btnAlta
 		btnAlta = new JButton("Alta");
 		btnAlta.setEnabled(false);
 		btnAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				modelo.addRow(new String [] {txtCodigoPostal.getText(), txtComunidad.getText(), txtProvincia.getText(), txtPoblacion.getText()});
+				modelo.addRow(new String[] { txtCodigoPostal.getText(), txtComunidad.getText(), txtProvincia.getText(),
+						txtPoblacion.getText() });
+				miControlador.recogerInfoBajaAltaLugaresParaInsert();
 				limpiarCampos();
 			}
 		});
 		btnAlta.setBounds(396, 527, 103, 42);
 		contentPane.add(btnAlta);
-		
-		//btnBaja
+
+		// btnBaja
 		btnBaja = new JButton("Baja");
 		btnBaja.setBackground(new Color(0, 255, 0));
 		btnBaja.setEnabled(false);
 		btnBaja.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				miControlador.recogerInfoBajaAltaLugaresParaDelete();
 				modelo.removeRow(table.getSelectedRow());
 				limpiarCampos();
 			}
 		});
 		btnBaja.setBounds(556, 526, 103, 44);
 		contentPane.add(btnBaja);
-		
+
 		// btnModificar
 		btnModificar = new JButton("Modificar");
 		btnModificar.setEnabled(false);
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int fila = table.getSelectedRow();
+				codPostalAntiguo = (int) modelo.getValueAt(fila, 0);
 				modelo.setValueAt(txtCodigoPostal.getText(), fila, 0);
 				modelo.setValueAt(txtComunidad.getText(), fila, 1);
 				modelo.setValueAt(txtProvincia.getText(), fila, 2);
 				modelo.setValueAt(txtPoblacion.getText(), fila, 3);
+				miControlador.recogerInfoBajaAltaLugaresParaUpdate();
 				limpiarCampos();
 			}
 		});
 		btnModificar.setBounds(716, 529, 93, 39);
 		contentPane.add(btnModificar);
-		
+
 		JLabel lblTituloLibro = new JLabel("Codigo Postal:");
 		lblTituloLibro.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblTituloLibro.setBounds(283, 307, 155, 30);
 		contentPane.add(lblTituloLibro);
-		
+
 		txtCodigoPostal = new JTextField();
 		txtCodigoPostal.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtCodigoPostal.setColumns(10);
@@ -343,7 +365,7 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtCodigoPostal);
-		
+
 		txtComunidad = new JTextField();
 		txtComunidad.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtComunidad.setColumns(10);
@@ -356,17 +378,17 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtComunidad);
-		
+
 		JLabel lblAutor = new JLabel("Comunidad Autonoma:");
 		lblAutor.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblAutor.setBounds(283, 348, 155, 30);
 		contentPane.add(lblAutor);
-		
+
 		JLabel lblGenero = new JLabel("Provincia:");
 		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblGenero.setBounds(283, 389, 155, 30);
 		contentPane.add(lblGenero);
-		
+
 		txtProvincia = new JTextField();
 		txtProvincia.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtProvincia.setColumns(10);
@@ -379,12 +401,12 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtProvincia);
-		
+
 		lblPoblacion = new JLabel("Poblacion:");
 		lblPoblacion.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblPoblacion.setBounds(283, 430, 155, 30);
 		contentPane.add(lblPoblacion);
-		
+
 		txtPoblacion = new JTextField();
 		txtPoblacion.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		txtPoblacion.setColumns(10);
@@ -397,32 +419,47 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtPoblacion);
+
+		btnRefresh = new JButton("Mostrar");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Object[][] datos = miControlador.sacarLugaresActuales();
+				String[] columnas = { "Codigo Postal", "Comunidad Autonoma", "Provincia", "Poblacion" };
+				modelo = new DefaultTableModel(datos, columnas);
+				table.setModel(modelo);
+			}
+		});
+		btnRefresh.setBounds(209, 216, 89, 23);
+		contentPane.add(btnRefresh);
 	}
-	
+
 	private void updateAlta() {
-		if(txtCodigoPostal.getText().length() == 0 || txtComunidad.getText().length() == 0 || txtProvincia.getText().length() == 0 || txtPoblacion.getText().length() == 0) {
+		if (txtCodigoPostal.getText().length() == 0 || txtComunidad.getText().length() == 0
+				|| txtProvincia.getText().length() == 0 || txtPoblacion.getText().length() == 0) {
 			btnAlta.setEnabled(false);
-		}else {
+		} else {
 			btnAlta.setEnabled(true);
-		}	
+		}
 	}
-	
+
 	private void updateBaja() {
-		if(table.getSelectedRow() == -1) {
+		if (table.getSelectedRow() == -1) {
 			btnBaja.setEnabled(false);
-		}else {
+		} else {
 			btnBaja.setEnabled(true);
 		}
 	}
-	
+
 	private void updateModificar() {
-		if(txtCodigoPostal.getText().length() == 0 || txtComunidad.getText().length() == 0 || txtProvincia.getText().length() == 0 || txtPoblacion.getText().length() == 0 || table.getSelectedRow() == -1) {
+		if (txtCodigoPostal.getText().length() == 0 || txtComunidad.getText().length() == 0
+				|| txtProvincia.getText().length() == 0 || txtPoblacion.getText().length() == 0
+				|| table.getSelectedRow() == -1) {
 			btnModificar.setEnabled(false);
-		}else {
+		} else {
 			btnModificar.setEnabled(true);
-		}		
+		}
 	}
-	
+
 	private void limpiarCampos() {
 		txtCodigoPostal.setText("");
 		txtComunidad.setText("");

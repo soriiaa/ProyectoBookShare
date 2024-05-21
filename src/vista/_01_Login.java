@@ -44,14 +44,14 @@ public class _01_Login extends JFrame implements Vista {
 	private JPasswordField txtContraseña;
 	private int contador = 1;
 	private JLabel lblIntentosRestantes;
-	
+
 	private boolean usuarioLleno;
 	private boolean contraseñaLlena;
-	
+
 	public boolean getUsuarioLleno() {
 		return usuarioLleno;
 	}
-	
+
 	public boolean getContraseñaLlena() {
 		return contraseñaLlena;
 	}
@@ -94,7 +94,7 @@ public class _01_Login extends JFrame implements Vista {
 		panel.setBounds(96, 10, 244, 309);
 		contentPane.add(panel);
 		panel.setLayout(null);
-		
+
 		btnLogin = new JButton("Login");
 		btnLogin.setBounds(77, 217, 89, 23);
 		panel.add(btnLogin);
@@ -167,8 +167,8 @@ public class _01_Login extends JFrame implements Vista {
 		txtContraseña.addFocusListener(new PlaceholderFocusListener(txtContraseña, "Contraseña"));
 		txtContraseña.setForeground(Color.GRAY);
 		txtContraseña.setBorder(null);
-		txtContraseña.setBorder(BorderFactory.createCompoundBorder(txtContraseña.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
-
+		txtContraseña.setBorder(BorderFactory.createCompoundBorder(txtContraseña.getBorder(),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 
 		txtContraseña.getDocument().addDocumentListener(new DocumentListener() {
 		    @Override
@@ -187,11 +187,11 @@ public class _01_Login extends JFrame implements Vista {
 		        }
 		    }
 
-		    @Override
-		    public void changedUpdate(DocumentEvent e) {}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
 		});
-		
-		
+
 		txtUsuario = new JTextField();
 
 		txtUsuario = new JTextField();
@@ -212,30 +212,31 @@ public class _01_Login extends JFrame implements Vista {
 		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtUsuario.setForeground(Color.GRAY);
 		txtUsuario.setBorder(null);
-		txtUsuario.setBorder(BorderFactory.createCompoundBorder(txtUsuario.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		txtUsuario.setBorder(BorderFactory.createCompoundBorder(txtUsuario.getBorder(),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		txtUsuario.setColumns(10);
-		
+
 		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
-		    @Override
-		    public void insertUpdate(DocumentEvent e) {
-		        if ("Usuario".equals(txtUsuario.getText())) {
-		            txtUsuario.setForeground(Color.GRAY);
-		        } else {
-		            txtUsuario.setForeground(Color.BLACK);
-		        }
-		    }
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Usuario".equals(txtUsuario.getText())) {
+					txtUsuario.setForeground(Color.GRAY);
+				} else {
+					txtUsuario.setForeground(Color.BLACK);
+				}
+			}
 
-		    @Override
-		    public void removeUpdate(DocumentEvent e) {
-		        if (txtUsuario.getText().isEmpty()) {
-		            txtUsuario.setForeground(Color.GRAY);
-		        }
-		    }
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtUsuario.getText().isEmpty()) {
+					txtUsuario.setForeground(Color.GRAY);
+				}
+			}
 
-		    @Override
-		    public void changedUpdate(DocumentEvent e) {}
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
 		});
-		
 
 		lblIntentosRestantes = new JLabel("");
 		lblIntentosRestantes.setForeground(new Color(255, 0, 0));
@@ -250,9 +251,14 @@ public class _01_Login extends JFrame implements Vista {
 					miControlador.cambiarVentana(1, 1);
 				} else if (contador == 3) {
 					System.exit(0);
-				}else {
-					miControlador.cambiarVentana(1, 6);
-				}				
+				} else {
+					if (miControlador.comprobarAdmin()) {
+						miControlador.cambiarVentana(1, 14);
+					} else {
+						miControlador.cambiarVentana(1, 6);
+
+					}
+				}
 			}
 		});
 		btnLogin.addMouseListener(new MouseAdapter() {
@@ -308,7 +314,7 @@ public class _01_Login extends JFrame implements Vista {
 		});
 
 		btnLogin.requestFocusInWindow();
-		
+
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowOpened(WindowEvent e) {

@@ -88,16 +88,18 @@ public class Modelo {
 	public Object[][] sentenciaHistorial(){
 	    miConexion = new Conexion();
 	    // ? == usuario atributo
-	    String cons = "select id from coger where usr like ?";
-	    int numeroFilas = miConexion.contarRegistros(cons, usuario);
-	    System.out.println(numeroFilas);
-	    int[] filtro = miConexion.sacarIdCoger(cons, usuario, numeroFilas);
-	    
+	    String queryCoger = "select id from coger where usr like ?";
+	    int numeroFilasCoger = miConexion.contarRegistros(queryCoger, usuario);
+	    String queryDejar = "select id from dejar where usr like ?";
+	    int numeroFilasDejar = miConexion.contarRegistros(queryDejar, usuario);
+	    int[] filtroCoger = miConexion.sacarIdCoger(queryCoger, usuario, numeroFilasCoger);
+	    int[] filtroDejar = miConexion.sacarIdCoger(queryDejar, usuario, numeroFilasDejar);
+
 	    // ? == filtro
-	    String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal INNER JOIN dejar ON libro.id = dejar.id where libro.id = ?";
-	    Object[][] datos = new Object[numeroFilas][8];
-	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilas, filtro);
-	    
+	    String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where libro.id = ?";
+	    Object[][] datos = new Object[numeroFilasCoger+numeroFilasDejar][9];
+	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilasCoger, numeroFilasDejar, filtroCoger, filtroDejar);
+
 	    return datos;
 	}
 
@@ -125,5 +127,47 @@ public class Modelo {
 		String id = miConexion.sacarIdLibro(sacarId, titulo);
 		String consulta = "delete from libro where id = ?";
 		miConexion.bajaAltaBajaLibros(consulta, id);
+	}
+
+	public boolean validarAdmin(String usuarioInput) {
+		boolean admin = false;
+		
+		String sentencia = "select rol from users where usr like ?";
+		
+		String rol = miConexion.consultaConFiltro(sentencia, usuarioInput);
+		
+		if(rol.equals("Administrador")) {
+			admin = true;
+		}
+		
+		return admin;
+	}
+	
+	public Object[][] sacarLugaresBase(){
+		
+		String consulta = "select * from cod_postal";
+		
+		int numFilas = miConexion.contarRegistros(consulta);
+		
+		Object[][] datos = miConexion.sacarLugares(consulta, numFilas);
+		
+		return datos;
+	}
+
+	public void conectorInsertLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+		
+		miConexion.insertarLugar(codPostal, comunidad, provincia, poblacion);
+	}
+
+	public void conectorDeleteLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+		miConexion.deleteLugar(codPostal, comunidad, provincia, poblacion);
+	}
+
+	public void conectorUpdateLugar(int codPostal, String comunidad, String provincia, int poblacion,
+			int codPostalAntiguo) {
+
+		String consulta = "update cod_postal set codigo_postal = ?, comunidad_autonoma = ?, provincia = ?, poblacion = ? where codigo_postal = ?";
+		
+		miConexion.updateLugar(consulta, codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
 	}
 }
