@@ -291,13 +291,6 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 				updateModificar();
 			}
 		});
-		modelo = new DefaultTableModel(
-				new Object[][] { { "28250", "Madrid", "Madrid", "2000000" },
-						{ "15001", "Galicia", "A coruÃ±a", "240000" }, { "28001", "Madrid", "Galicia", "14000" }, },
-				new String[] { "Codigo Postal", "Comunidad Autonoma", "Provincia", "Poblacion" });
-		table.setModel(modelo);
-		table.getColumnModel().getColumn(0).setPreferredWidth(84);
-		table.getColumnModel().getColumn(1).setPreferredWidth(128);
 		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
 		scrollPane_1.setViewportView(table);
 		table.setToolTipText("\r\n");
