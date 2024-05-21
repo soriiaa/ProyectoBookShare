@@ -7,3 +7,5 @@
 Entrega nueva: 
 
 @Autor Alejandro Soria = Recogida de datos de la BBDD para la ventana Coger Libro, se puede buscar por localidad, por título y por género. Nuevo aspecto de Coger libro y añadidos updates para cambiar el estado de los libros cogidos.
+
+@Autor Pablo = Punto 2 de la tarea, gestion de las tablas y tabla de la pagina 16 funcional para insertar, dar de baja y actualizar datos + cambio en el disño de las vista 16, 17,18,19 para que sean solo 16 y 17 mezclandolas en alta y baja de libros y alta y baja de lugares
