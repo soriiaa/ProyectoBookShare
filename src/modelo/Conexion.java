@@ -10,7 +10,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.List;
 
 public class Conexion {
 
@@ -515,6 +514,21 @@ public class Conexion {
 			pstmt.setString(4, id);
 			pstmt.executeUpdate();
 			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarDisponibilidadANoDisponible(String consulta1, String consulta2, String titulo) {
+		
+		try {
+			
+			Statement statement = conexion.createStatement();
+			statement.executeUpdate(consulta1);
+			
+			PreparedStatement preparedStatement2 = conexion.prepareStatement(consulta2);
+			preparedStatement2.setString(1, titulo);
+			preparedStatement2.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

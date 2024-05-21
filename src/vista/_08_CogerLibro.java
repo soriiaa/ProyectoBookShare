@@ -5,22 +5,34 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.Controlador;
@@ -30,9 +42,8 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private JPanel contentPane;
-	private JButton btnNewButton;
-	private JLabel lblCogerUnLibro;
-	private JTextField txtBuscadorTitulo;
+	private JButton btnReiniciarBusqueda;
+	private JLabel lblTitulo;
 	private JScrollPane scrollPane;
 	private JTextField txtBuscadorGenero;
 	private JTextField txtBuscadorLugar;
@@ -49,9 +60,12 @@ public class _08_CogerLibro extends JFrame implements Vista {
 	private JButton btnMiperfil;
 	private JButton btnBandejaDeEntrada;
 	private String[][] arrayLibrosIdTituloGeneroLugar;
-	private JButton btnBuscarTitulo;
+	private JButton btnBuscarPorTitulo;
 	private JButton btnBuscarPorLugar;
 	private JButton btnBuscarPorGénero;
+	private JTextField txtUsuario;
+	private JTextField txtBuscadorTitulo;
+	private String valorSeleccionado;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -75,7 +89,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -114,20 +128,32 @@ public class _08_CogerLibro extends JFrame implements Vista {
 				miControlador.cambiarVentana(8, 8);
 			}
 		});
+		
 		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima
 		btnCogerLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnCogerLibro.setBackground(new Color (220, 220, 220));
+				btnCogerLibro.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
+		
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnCogerLibro.setBackground(new Color(230, 230, 230));
-				btnGuardarYSalir.setBackground(new Color(255, 255, 255));
+				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				btnGuardarYSalir.setBackground(new Color(0, 0, 0));
+				btnReiniciarBusqueda.setBackground(new Color(0, 0, 0));
+				btnBuscarPorTitulo.setBackground(new Color(170, 208, 255));
+				btnBuscarPorLugar.setBackground(new Color(170, 208, 255));
+				btnBuscarPorGénero.setBackground(new Color(170, 208, 255));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTitulo.requestFocus();
 			}
 		});
+		
 		btnCogerLibro.setBounds(0, 39, 183, 40);
 		panelMenuNavegacion.add(btnCogerLibro);
 		
@@ -147,6 +173,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				btnDejarUnLibro.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		btnCogerLibro.addMouseListener(new MouseAdapter() {
@@ -186,6 +213,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnDejarUnLibro.setBackground(new Color(230, 230, 250));
+				btnDarDeAlta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		btnDejarUnLibro.addMouseListener(new MouseAdapter() {
@@ -225,6 +253,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnDarDeAlta.setBackground(new Color(230, 230, 250));
+				btnFaq.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		btnDarDeAlta.addMouseListener(new MouseAdapter() {
@@ -264,6 +293,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnFaq.setBackground(new Color(230, 230, 250));
+				btnHistorialLibros.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		btnFaq.addMouseListener(new MouseAdapter() {
@@ -303,6 +333,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnHistorialLibros.setBackground(new Color(230, 230, 250));
+				btnBandejaDeEntrada.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		btnHistorialLibros.addMouseListener(new MouseAdapter() {
@@ -340,6 +371,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnMiperfil.setBackground(new Color (220, 220, 220));
+				btnMiperfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		getContentPane().addMouseListener(new MouseAdapter() {
@@ -351,34 +383,69 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		btnMiperfil.setBounds(0, 621, 183, 42);
 		contentPane.add(btnMiperfil);
 
-		lblCogerUnLibro = new JLabel("Coger un libro");
-		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		lblCogerUnLibro.setBounds(449, 26, 310, 86);
-		getContentPane().add(lblCogerUnLibro);
+		lblTitulo = new JLabel("Coger un libro");
+		lblTitulo.setFont(new Font("Tahoma", Font.PLAIN, 70));
+		lblTitulo.setBounds(357, 10, 441, 119);
+		getContentPane().add(lblTitulo);
 
 		txtBuscadorTitulo = new JTextField();
-		txtBuscadorTitulo.addMouseListener(new MouseAdapter() {
+		txtBuscadorTitulo.addKeyListener(new KeyAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtBuscadorTitulo.setText("");
+			public void keyReleased(KeyEvent e) {
+				miControlador.comprobarCamposLogin();
 			}
 		});
-		txtBuscadorTitulo.setText("Título...");
-		txtBuscadorTitulo.setToolTipText("");
-		txtBuscadorTitulo.setBounds(366, 141, 117, 30);
-		txtBuscadorTitulo.setBorder(null);
-		getContentPane().add(txtBuscadorTitulo);
-		txtBuscadorTitulo.setColumns(10);
 
+		txtBuscadorTitulo.setBounds(364, 182, 117, 29);
+		contentPane.add(txtBuscadorTitulo);
+		txtBuscadorTitulo.setBackground(new Color(192, 192, 192));
+		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtBuscadorTitulo, "Título");
+		txtBuscadorTitulo.addFocusListener(focusListener);
+		txtBuscadorTitulo.setText("Título");
+		txtBuscadorTitulo.addFocusListener(new PlaceholderFocusListener(txtBuscadorTitulo, "Título"));
+		txtBuscadorTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtBuscadorTitulo.setForeground(Color.GRAY);
+		txtBuscadorTitulo.setBorder(null);
+		txtBuscadorTitulo.setBorder(BorderFactory.createCompoundBorder(txtBuscadorTitulo.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		txtBuscadorTitulo.setColumns(10);
+		
+		txtBuscadorTitulo.getDocument().addDocumentListener(new DocumentListener() {
+		    @Override
+		    public void insertUpdate(DocumentEvent e) {
+		        if ("Título".equals(txtBuscadorTitulo.getText())) {
+		        	txtBuscadorTitulo.setForeground(Color.GRAY);
+		        } else {
+		        	txtBuscadorTitulo.setForeground(Color.BLACK);
+		        }
+		    }
+
+		    @Override
+		    public void removeUpdate(DocumentEvent e) {
+		        if (txtBuscadorTitulo.getText().isEmpty()) {
+		        	txtBuscadorTitulo.setForeground(Color.GRAY);
+		        }
+		    }
+
+		    @Override
+		    public void changedUpdate(DocumentEvent e) {}
+		});
+		
+		contentPane.add(txtBuscadorTitulo);
+		
 		scrollPane = new JScrollPane();
-		scrollPane.setBounds(364, 232, 430, 346);
+		scrollPane.setBounds(364, 260, 430, 346);
 		getContentPane().add(scrollPane);
 		
-		tablaLibros = new JTable();
+		tablaLibros = new JTable() {
+			@Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+		};
+		tablaLibros.setRowHeight(25);
+		tablaLibros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		System.out.println("Tabla actualizada");
-		
-		
 		
 		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
 		String[] columnas = {"Libros"};
@@ -390,74 +457,187 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		tablaLibros.setModel(new DefaultTableModel(titulos, columnas));
 		scrollPane.setViewportView(tablaLibros);
 		
-
+		
+		
+		tablaLibros.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent event) {
+            	
+                if (!event.getValueIsAdjusting()) {
+                    int selectedRow = tablaLibros.getSelectedRow();
+                    int selectedColumn = tablaLibros.getSelectedColumn();
+                    if (selectedRow != -1 && selectedColumn != -1) {
+                        valorSeleccionado = tablaLibros.getValueAt(selectedRow, selectedColumn).toString();
+                        System.out.println("Valor seleccionado: " + valorSeleccionado);
+                    }
+                }
+            }
+        });
+		
 		txtBuscadorGenero = new JTextField();
-		txtBuscadorGenero.addMouseListener(new MouseAdapter() {
+		txtBuscadorGenero.addKeyListener(new KeyAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtBuscadorGenero.setText("");
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
 			}
 		});
-		txtBuscadorGenero.setText("Género...");
-		txtBuscadorGenero.setToolTipText("");
+		txtBuscadorGenero.setText("Género");
+		txtBuscadorGenero.setForeground(Color.GRAY);
+		txtBuscadorGenero.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtBuscadorGenero.setColumns(10);
-		txtBuscadorGenero.setBounds(677, 141, 117, 30);
 		txtBuscadorGenero.setBorder(null);
+		txtBuscadorGenero.setBackground(Color.LIGHT_GRAY);
+		txtBuscadorGenero.setBounds(677, 182, 117, 29);
+		focusListener = new PlaceholderFocusListener(txtBuscadorGenero, "Género");
+		txtBuscadorGenero.addFocusListener(focusListener);
+		txtBuscadorGenero.addFocusListener(new PlaceholderFocusListener(txtBuscadorGenero, "Género"));
+		txtBuscadorGenero.setBorder(BorderFactory.createCompoundBorder(txtBuscadorGenero.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtBuscadorGenero);
+
+		txtBuscadorGenero.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Género".equals(txtBuscadorGenero.getText())) {
+					txtBuscadorGenero.setForeground(Color.GRAY);
+				} else {
+					txtBuscadorGenero.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtBuscadorGenero.getText().isEmpty()) {
+					txtBuscadorGenero.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
 		getContentPane().add(txtBuscadorGenero);
 
 		txtBuscadorLugar = new JTextField();
-		txtBuscadorLugar.addMouseListener(new MouseAdapter() {
+		txtBuscadorLugar.addKeyListener(new KeyAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtBuscadorLugar.setText("");
+			public void keyReleased(KeyEvent e) {
+				miControlador.camposRellenados();
 			}
 		});
-		txtBuscadorLugar.setText("Lugar...");
-		txtBuscadorLugar.setToolTipText("");
+		txtBuscadorLugar.setText("Lugar");
+		txtBuscadorLugar.setForeground(Color.GRAY);
+		txtBuscadorLugar.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtBuscadorLugar.setColumns(10);
-		txtBuscadorLugar.setBounds(523, 141, 117, 30);
 		txtBuscadorLugar.setBorder(null);
-		getContentPane().add(txtBuscadorLugar);
+		txtBuscadorLugar.setBackground(Color.LIGHT_GRAY);
+		txtBuscadorLugar.setBounds(520, 182, 117, 29);
+		focusListener = new PlaceholderFocusListener(txtBuscadorLugar, "Lugar");
+		txtBuscadorLugar.addFocusListener(focusListener);
+		txtBuscadorLugar.addFocusListener(new PlaceholderFocusListener(txtBuscadorLugar, "Lugar"));
+		txtBuscadorLugar.setBorder(BorderFactory.createCompoundBorder(txtBuscadorLugar.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtBuscadorLugar);
+
+		txtBuscadorLugar.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Lugar".equals(txtBuscadorLugar.getText())) {
+					txtBuscadorLugar.setForeground(Color.GRAY);
+				} else {
+					txtBuscadorLugar.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtBuscadorLugar.getText().isEmpty()) {
+					txtBuscadorLugar.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
 
 		btnGuardarYSalir = new JButton("Guardar y salir");
+		btnGuardarYSalir.setForeground(new Color(255, 255, 255));
 		btnGuardarYSalir.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnGuardarYSalir.setBackground(new Color(220, 220, 220));
+				btnGuardarYSalir.setBackground(new Color(70, 70, 70));
+				btnGuardarYSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				miModelo.libroNoDisponible(valorSeleccionado);
+				arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
+				actualizarTabla();
+				
 			}
 		});
 		btnGuardarYSalir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtBuscadorLugar.setText("Lugar...");
-				txtBuscadorGenero.setText("Género...");
-				txtBuscadorTitulo.setText("Título...");
+				txtBuscadorLugar.setText("Lugar");
+				txtBuscadorGenero.setText("Género");
+				txtBuscadorTitulo.setText("Título");
 			}
 		});
-		btnGuardarYSalir.setBackground(new Color(255, 255, 255));
-		btnGuardarYSalir.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnGuardarYSalir.setBounds(843, 610, 133, 42);
+		btnGuardarYSalir.setBackground(new Color(0, 0, 0));
+		btnGuardarYSalir.setFont(new Font("Tahoma", Font.PLAIN, 17));
+		btnGuardarYSalir.setBounds(843, 611, 133, 42);
 		btnGuardarYSalir.setBorder(null);
 		getContentPane().add(btnGuardarYSalir);
 
-		btnNewButton = new JButton("");
-		btnNewButton.setBounds(804, 150, 21, 21);
-		getContentPane().add(btnNewButton);
+		btnReiniciarBusqueda = new JButton("Reiniciar Búsqueda");
+		btnReiniciarBusqueda.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnReiniciarBusqueda.setBackground(new Color(70, 70, 70));
+				btnReiniciarBusqueda.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtBuscadorTitulo.setText("Título");
+				txtBuscadorLugar.setText("Lugar");
+				txtBuscadorGenero.setText("Género");
+				
+				actualizarTabla();
+			}
+		});
+		btnReiniciarBusqueda.setForeground(new Color(255, 255, 255));
+		btnReiniciarBusqueda.setBounds(804, 182, 117, 29);
+		btnReiniciarBusqueda.setBorder(null);
+		btnReiniciarBusqueda.setBackground(new Color(0, 0, 0));
+		getContentPane().add(btnReiniciarBusqueda);
 		
-		btnBuscarTitulo = new JButton("Buscar por Título");
-		btnBuscarTitulo.setBackground(new Color(255, 255, 255));
-		btnBuscarTitulo.addMouseListener(new MouseAdapter() {
+		btnBuscarPorTitulo = new JButton("Buscar por Título");
+		btnBuscarPorTitulo.setBackground(new Color(170, 208, 255));
+		btnBuscarPorTitulo.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				String tituloBuscado = txtBuscadorTitulo.getText();
 				actualizarTablaPorTitulo(tituloBuscado);
 			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBuscarPorTitulo.setBackground(new Color(98, 169, 255));
+				btnBuscarPorTitulo.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
 		});
-		btnBuscarTitulo.setBounds(366, 181, 117, 29);
-		btnBuscarTitulo.setBorder(null);
-		contentPane.add(btnBuscarTitulo);
+		btnBuscarPorTitulo.setBounds(364, 221, 117, 29);
+		btnBuscarPorTitulo.setBorder(null);
+		contentPane.add(btnBuscarPorTitulo);
 		
 		btnBuscarPorLugar = new JButton("Buscar por Lugar");
-		btnBuscarPorLugar.setBackground(new Color(255, 255, 255));
+		btnBuscarPorLugar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBuscarPorLugar.setBackground(new Color(98, 169, 255));
+				btnBuscarPorLugar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
+		btnBuscarPorLugar.setBackground(new Color(170, 208, 255));
 		btnBuscarPorLugar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String lugarBuscado = txtBuscadorLugar.getText();
@@ -465,11 +645,18 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			}
 		});
 		btnBuscarPorLugar.setBorder(null);
-		btnBuscarPorLugar.setBounds(523, 181, 117, 29);
+		btnBuscarPorLugar.setBounds(520, 221, 117, 29);
 		contentPane.add(btnBuscarPorLugar);
 		
 		btnBuscarPorGénero = new JButton("Buscar por Género");
-		btnBuscarPorGénero.setBackground(new Color(255, 255, 255));
+		btnBuscarPorGénero.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnBuscarPorGénero.setBackground(new Color(98, 169, 255));
+				btnBuscarPorGénero.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
+		btnBuscarPorGénero.setBackground(new Color(170, 208, 255));
 		btnBuscarPorGénero.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String generoBuscado = txtBuscadorGenero.getText();
@@ -477,11 +664,25 @@ public class _08_CogerLibro extends JFrame implements Vista {
 			}
 		});
 		btnBuscarPorGénero.setBorder(null);
-		btnBuscarPorGénero.setBounds(677, 181, 117, 29);
+		btnBuscarPorGénero.setBounds(677, 221, 117, 29);
 		contentPane.add(btnBuscarPorGénero);
 		
 		
 
+	}
+	
+	public void actualizarTabla() {
+		
+		System.out.println("Tabla actualizada");
+		
+		String[][] titulos = new String [arrayLibrosIdTituloGeneroLugar.length][1];
+		String[] columnas = {"Libros"};
+		
+		for (int i = 0; i < arrayLibrosIdTituloGeneroLugar.length; i++) {
+			titulos[i][0] = arrayLibrosIdTituloGeneroLugar[i][1];
+		}
+		
+		tablaLibros.setModel(new DefaultTableModel(titulos, columnas));
 	}
 	
 	public void actualizarTablaPorTitulo(String titulo) {
@@ -558,5 +759,35 @@ public class _08_CogerLibro extends JFrame implements Vista {
 		
 		tablaLibros.setModel(new DefaultTableModel(titulosBuscadosPorGenero, columnas));
 		
+	}
+	
+	private static class PlaceholderFocusListener implements FocusListener {
+		private final JTextField field;
+		private final String placeholder;
+
+		public PlaceholderFocusListener(JTextField field, String placeholder) {
+			this.field = field;
+			this.placeholder = placeholder;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			if (field.getText().equals(placeholder)) {
+				field.setText("");
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar('*'); // Para ocultar los caracteres al escribir
+				}
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (field.getText().isEmpty()) {
+				field.setText(placeholder);
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar((char) 0); // Para que el texto sea visible
+				}
+			}
+		}
 	}
 }
