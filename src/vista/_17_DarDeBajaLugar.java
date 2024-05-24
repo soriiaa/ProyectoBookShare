@@ -291,7 +291,7 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 				updateModificar();
 			}
 		});
-		table.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(table);
 		table.setToolTipText("\r\n");
 
