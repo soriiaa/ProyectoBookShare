@@ -134,6 +134,10 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 				btnConfiguracion.setBackground(new Color(200, 200, 255));
 				btnConfiguracion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				miControlador.cambiarVentana(3, 18);
+			}
 		});
 		btnConfiguracion.setBounds(140, 579, 33, 33);
 		panelMenuNavegacion.add(btnConfiguracion);
