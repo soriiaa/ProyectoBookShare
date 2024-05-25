@@ -1,5 +1,7 @@
 package modelo;
 
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -10,6 +12,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Properties;
 
 public class Conexion {
 
@@ -17,9 +20,18 @@ public class Conexion {
 	private String pwd;
 	private String url;
 	private Connection conexion;
+	private final String FILE = "configuracion.ini";
 
 	public Conexion() {
 		try {
+			Properties misPropiedades = new Properties();
+			FileInputStream input = new FileInputStream(FILE);
+			misPropiedades.load(input);
+			
+			login = misPropiedades.getProperty("login");
+			pwd = misPropiedades.getProperty("pwd");
+			url = misPropiedades.getProperty("url");
+			
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Proyecto conectado con la BBDD.");
@@ -29,7 +41,10 @@ public class Conexion {
 		} catch (SQLException e) {
 			System.out.println("Error al conectarse a la BBDD");
 			e.printStackTrace();
-		} catch (Exception e) {
+		}catch (IOException e){
+			System.out.println("Error al leer el fichero de configuracion");
+			e.printStackTrace();
+		}catch (Exception e) {
 			System.out.println("Error general de Conexión");
 			e.printStackTrace();
 		}
