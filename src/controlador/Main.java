@@ -24,6 +24,7 @@ import vista._14_PantallaPrincipalAdmin;
 import vista._15_EnviarMensaje;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
+import vista._18_ConfiguracionConexion;
 
 public class Main {
 	public static void main(String[] args) {
@@ -44,7 +45,7 @@ public class Main {
 		// La encargada del modelo
 		Modelo miModelo = new Modelo();
 		// Un Array de Vistas con todas las vistas que tendrá la app
-		Vista[] misVistas = new Vista[18];
+		Vista[] misVistas = new Vista[19];
 		// La encargada del controlador
 		Controlador miControlador = new Controlador();
 		
@@ -69,6 +70,7 @@ public class Main {
 		misVistas[15] = new _15_EnviarMensaje();
 		misVistas[16] = new _16_DarDeBajaLibro();
 		misVistas[17] = new _17_DarDeBajaLugar();
+		misVistas[18] = new _18_ConfiguracionConexion();
 
 		// Con estos metodos permito que se conozcan el modelo el controlador y las
 		// vistas
