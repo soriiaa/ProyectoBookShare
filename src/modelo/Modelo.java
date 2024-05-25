@@ -171,6 +171,15 @@ public class Modelo {
 		
 		miConexion.updateLugar(consulta, codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
 	}
+	
+	public String[] recogerInfoConexion() {
+		String[] datos = new String[3];
+		datos[0] = miConexion.getLogin();
+		datos[1] = miConexion.getPwd();
+		datos[2] = miConexion.getUrl();
+		
+		return datos;
+	}
 
 	public void activarConexion() {
 		miConexion = new Conexion();

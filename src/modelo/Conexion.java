@@ -21,6 +21,18 @@ public class Conexion {
 	private String url;
 	private Connection conexion;
 	private final String FILE = "configuracion.ini";
+	
+	public String getLogin() {
+		return login;
+	}
+	
+	public String getPwd() {
+		return pwd;
+	}
+	
+	public String getUrl() {
+		return url;
+	}
 
 	public Conexion() {
 		try {

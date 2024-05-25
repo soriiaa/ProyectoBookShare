@@ -195,5 +195,11 @@ public class Controlador {
 		
 		miModelo.conectorUpdateLugar(codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
 	}
+	
+	public String[] recogerDatosConexion() {
+		String[] datos = new String[3];
+		datos = miModelo.recogerInfoConexion();
+		return datos;
+	}
 
 }
