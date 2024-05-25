@@ -13,10 +13,9 @@ import java.util.ArrayList;
 
 public class Conexion {
 
-	private String db = "BookShare";
-	private String login = "root";
-	private String pwd = "";
-	private String url = "jdbc:mysql://localhost/" + db;
+	private String login;
+	private String pwd;
+	private String url;
 	private Connection conexion;
 
 	public Conexion() {
