@@ -256,6 +256,7 @@ public class _01_Login extends JFrame implements Vista {
 				} else if (contador == 3) {
 					System.exit(0);
 				} else {
+					miModelo.activarConexion();
 					if (miControlador.comprobarAdmin()) {
 						miControlador.cambiarVentana(1, 14);
 					} else {

@@ -173,6 +173,6 @@ public class Modelo {
 	}
 
 	public void activarConexion() {
-		
+		miConexion = new Conexion();
 	}
 }
