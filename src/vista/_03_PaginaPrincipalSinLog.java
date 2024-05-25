@@ -40,6 +40,7 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 	private JLabel lblTituloMenu;
 	private JButton btnBuscarPorLocalidad2;
 	private JLabel lblImagenPrincipio;
+	private JButton btnConfiguracion;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -70,6 +71,14 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 		contentPane.setLayout(null);
 
 		panelMenuNavegacion = new JPanel();
+		panelMenuNavegacion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnConfiguracion.setBackground(new Color(230, 230, 255));
+				btnBuscarPorLocalidad2.setBackground(new Color(230, 230, 255));
+				btnIniciarSesion.setBackground(new Color(230, 230, 255));
+			}
+		});
 		panelMenuNavegacion.setBackground(new Color(230, 230, 250));
 		panelMenuNavegacion.setBounds(0, 0, 183, 622);
 		contentPane.add(panelMenuNavegacion);
@@ -117,6 +126,20 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 		});
 		btnBuscarPorLocalidad2.setBounds(0, 39, 205, 40);
 		panelMenuNavegacion.add(btnBuscarPorLocalidad2);
+		
+		btnConfiguracion = new JButton("");
+		btnConfiguracion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnConfiguracion.setBackground(new Color(200, 200, 255));
+				btnConfiguracion.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
+		btnConfiguracion.setBounds(140, 579, 33, 33);
+		panelMenuNavegacion.add(btnConfiguracion);
+		btnConfiguracion.setIcon(new ImageIcon(_01_Login.class.getResource("/Assets/config.png")));
+		btnConfiguracion.setBorder(null);
+		btnConfiguracion.setBackground(new Color(230, 230, 255));
 		
 		btnIniciarSesion = new JButton("Iniciar Sesión");
 		btnIniciarSesion.setBorderPainted(false);

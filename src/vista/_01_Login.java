@@ -31,6 +31,7 @@ import javax.swing.event.DocumentListener;
 import controlador.Controlador;
 import modelo.Conexion;
 import modelo.Modelo;
+import javax.swing.ImageIcon;
 
 public class _01_Login extends JFrame implements Vista {
 
@@ -244,6 +245,8 @@ public class _01_Login extends JFrame implements Vista {
 		lblIntentosRestantes.setForeground(new Color(255, 0, 0));
 		lblIntentosRestantes.setBounds(58, 202, 135, 14);
 		panel.add(lblIntentosRestantes);
+		
+		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!miControlador.recogerLogIn() && contador < 3) {
@@ -253,7 +256,6 @@ public class _01_Login extends JFrame implements Vista {
 				} else if (contador == 3) {
 					System.exit(0);
 				} else {
-					miModelo.activarConexion();
 					if (miControlador.comprobarAdmin()) {
 						miControlador.cambiarVentana(1, 14);
 					} else {
