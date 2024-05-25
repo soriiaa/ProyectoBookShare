@@ -59,6 +59,8 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 	private void initialize() {
 		setResizable(false);
 		
+		
+		
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
@@ -128,6 +130,11 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 		panelMenuNavegacion.add(btnBuscarPorLocalidad2);
 		
 		btnConfiguracion = new JButton("");
+		btnConfiguracion.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miModelo.activarConexion();
+			}
+		});
 		btnConfiguracion.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {

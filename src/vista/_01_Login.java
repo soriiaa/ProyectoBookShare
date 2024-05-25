@@ -249,6 +249,7 @@ public class _01_Login extends JFrame implements Vista {
 		
 		btnLogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				if (!miControlador.recogerLogIn() && contador < 3) {
 					contador++;
 					lblIntentosRestantes.setText("Te quedan " + (4 - contador) + " intentos");
@@ -256,7 +257,7 @@ public class _01_Login extends JFrame implements Vista {
 				} else if (contador == 3) {
 					System.exit(0);
 				} else {
-					miModelo.activarConexion();
+					
 					if (miControlador.comprobarAdmin()) {
 						miControlador.cambiarVentana(1, 14);
 					} else {

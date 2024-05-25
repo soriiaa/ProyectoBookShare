@@ -160,6 +160,9 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 				btnGuardarYSalir.setBackground(new Color(70, 70, 70));
 				btnGuardarYSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
 		});
 		btnGuardarYSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
 		btnGuardarYSalir.setForeground(new Color(255, 255, 255));
@@ -177,6 +180,11 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 			public void windowOpened(WindowEvent e) {
 				lblContrasena.requestFocus();
 				comprobarCamposRellenos();
+				String[] datos = miControlador.recogerDatosConexion();
+				
+				txtUsuario.setText(datos[0]);
+				txtContrasena.setText(datos[1]);
+				txtUrl.setText(datos[2]);
 			}
 		});
 		
@@ -184,7 +192,7 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 	
 	public void comprobarCamposRellenos() {
 		
-		if ((txtUsuario.getText().isEmpty()) || (txtContrasena.getText().isEmpty()) || (txtUrl.getText().isEmpty()) ) {
+		if ((txtUsuario.getText().isEmpty()) || (txtUrl.getText().isEmpty()) ) {
 			habilitado = false;
 		} else {
 			habilitado = true;
