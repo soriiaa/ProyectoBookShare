@@ -111,7 +111,7 @@ public class Controlador {
 		return lista;
 
 	}
-	
+
 	public Object[][] sacarHistorial() {
 
 		Object[][] info = miModelo.sentenciaHistorial();
@@ -144,7 +144,7 @@ public class Controlador {
 		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
 		miModelo.BajaDatosAltaBajaLibro(titulo);	
 	}
-		
+
 	public boolean comprobarAdmin() {
 		boolean admin = false;
 		
@@ -152,7 +152,7 @@ public class Controlador {
 
 		return miModelo.validarAdmin(usuario);
 	}
-	
+
 	public Object[][] sacarLugaresActuales(){
 		
 		Object[][] datos = miModelo.sacarLugaresBase();
@@ -182,7 +182,7 @@ public class Controlador {
 		
 		miModelo.conectorDeleteLugar(codPostal, comunidad, provincia, poblacion);
 	}
-	
+
 	public void recogerInfoBajaAltaLugaresParaUpdate() {
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
 		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
@@ -194,6 +194,12 @@ public class Controlador {
 		int codPostalAntiguo = ((_17_DarDeBajaLugar) misVistas[17]).getCodPostalAntiguo();
 		
 		miModelo.conectorUpdateLugar(codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
+	}
+
+	public String[] recogerDatosConexion() {
+		String[] datos = new String[3];
+		datos = miModelo.recogerInfoConexion();
+		return datos;
 	}
 
 }

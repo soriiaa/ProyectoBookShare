@@ -1,15 +1,6 @@
-@Autor Pablo Aparicio = Registro, recogida de informacion introducida, metodos de conexion retocados e inserts en la bbdd
-@Autor Pablo Alferez = Fichero script y bloqueo de boton de registro y login con campos vacios
-@Autor Andres Galindo = Login funcional con comprobacion de credenciales con la bbdd
+@Autor Pablo Aparicio: Remake del metodo conexion, para que coja datos del fichero ini en vez de los atributos, getters de conexion para devolver los parámetros 
+de acceso, Metodo en controlador para meter el return de los getters en un Array de Strings para que se lo pase al método del modelo, para volver a la nueva vista
+y darle el valor a los campos del contenido del fichero configuracion.ini
 
-
-***
-Entrega nueva: 
-
-@Autor Alejandro Soria = Recogida de datos de la BBDD para la ventana Coger Libro, se puede buscar por localidad, por título y por género. Nuevo aspecto de Coger libro y añadidos updates para cambiar el estado de los libros cogidos.
-
-@Autor Pablo = Punto 2 de la tarea, gestion de las tablas y tabla de la pagina 16 funcional para insertar, dar de baja y actualizar datos + cambio en el disño de las vista 16, 17,18,19 para que sean solo 16 y 17 mezclandolas en alta y baja de libros y alta y baja de lugares
-
-@Autor Pablo Aparicio = Recogida de datos de la BBDD para atualización de la tabla de la vista "Buscar por lugar", con selects en diferentes tablas, creación de algunos métodos genéricos en la clase conexión para uso grupal. Recopilación de datos según usuario iniciado para sacar el historial de libros cogidos y dejados, también conectando varias tablas. Pequeño arreglo en la vista de AltaBajaLugar. 
-
-@Autor: Andres Galindo --> Realizado tabla Actualizar/Modificar/Borrar de luagre en la vista 17, (antes era en vista 19, ya no existe, al haberla fusionado con la vista 18 "AltaLugar"). Creación de selects para poder visualizar ubicaciones disponibles, inserts para poder añadir localizaciones nuevas, update y delete para modifcar ubicaciones ya existntes en la base de datos y dar de baja ubicaciones. Aparicio me ayudo a mejorar el diseño.
+@Autor Alejandro Soria: Creo la pantalla nueva, donde se ponen las características de la conexión y junto con Apa linkeo la vista al fichero. Uso los métodos que ha
+creado Apa para traer los datos.

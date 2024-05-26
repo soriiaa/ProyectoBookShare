@@ -11,7 +11,7 @@ public class Modelo {
 
 	private Vista[] misVistas;
 	private Controlador miControlador;
-	private Conexion miConexion = new Conexion();
+	private Conexion miConexion;
 	private String consultaLibros;
 	private String usuario;
 
@@ -54,8 +54,6 @@ public class Modelo {
 	}
 
 	public Object[][] busquedaCodPostal(int busqueda) {
-
-		
 
 		String consulta = "SELECT cod_postal.codigo_postal, libro.titulo AS tituloLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where cod_postal.codigo_postal = ?";
 
@@ -172,5 +170,18 @@ public class Modelo {
 		String consulta = "update cod_postal set codigo_postal = ?, comunidad_autonoma = ?, provincia = ?, poblacion = ? where codigo_postal = ?";
 		
 		miConexion.updateLugar(consulta, codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
+	}
+	
+	public String[] recogerInfoConexion() {
+		String[] datos = new String[3];
+		datos[0] = miConexion.getLogin();
+		datos[1] = miConexion.getPwd();
+		datos[2] = miConexion.getUrl();
+		
+		return datos;
+	}
+
+	public void activarConexion() {
+		miConexion = new Conexion();
 	}
 }
