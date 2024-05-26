@@ -1,7 +1,10 @@
 package modelo;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -20,6 +23,10 @@ public class Conexion {
 	private String pwd;
 	private String url;
 	private Connection conexion;
+	private Properties misPropiedades;
+	private FileInputStream input;
+	private OutputStream output;
+	private File miFichero;
 	private final String FILE = "configuracion.ini";
 	
 	public String getLogin() {
@@ -36,8 +43,9 @@ public class Conexion {
 
 	public Conexion() {
 		try {
-			Properties misPropiedades = new Properties();
-			FileInputStream input = new FileInputStream(FILE);
+			miFichero = new File(FILE);
+			misPropiedades = new Properties();
+			input = new FileInputStream(miFichero);
 			misPropiedades.load(input);
 			
 			login = misPropiedades.getProperty("login");
@@ -671,5 +679,17 @@ public class Conexion {
 		}catch(SQLException s) {
 			s.printStackTrace();
 		}
+	}
+
+	public void modificarDatosConfiguracion(String url, String usuario, String contrasena) {
+		try {
+			misPropiedades.setProperty("login", usuario);
+			misPropiedades.setProperty("pwd", contrasena);
+			misPropiedades.setProperty("url", url);
+			output = new FileOutputStream(miFichero);
+			misPropiedades.store(output, "Datos de login cambiados");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
 	}
 }

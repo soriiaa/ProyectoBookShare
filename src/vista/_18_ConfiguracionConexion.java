@@ -22,6 +22,8 @@ import controlador.Controlador;
 import modelo.Modelo;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class _18_ConfiguracionConexion extends JFrame implements Vista {
 
@@ -46,6 +48,18 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 	@Override
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
+	}
+
+	public String getTxtUrl() {
+		return txtUrl.getText();
+	}
+
+	public String getTxtUsuario() {
+		return txtUsuario.getText();
+	}
+
+	public String getTxtContrasena() {
+		return txtContrasena.getText();
 	}
 
 	public _18_ConfiguracionConexion() {
@@ -160,8 +174,10 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 				btnGuardarYSalir.setBackground(new Color(70, 70, 70));
 				btnGuardarYSalir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
-			@Override
-			public void mouseClicked(MouseEvent e) {
+		});		
+		btnGuardarYSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.cambiarVentana(18, 3);
 			}
 		});
 		btnGuardarYSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
@@ -170,6 +186,35 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 		btnGuardarYSalir.setBounds(318, 221, 114, 31);
 		btnGuardarYSalir.setBorder(null);
 		contentPane.add(btnGuardarYSalir);
+		
+		JButton btnModificar = new JButton("Modificar");
+		btnModificar.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				btnModificar.setBackground(new Color(70, 70, 70));
+				btnModificar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnModificar.setBackground(new Color(0, 0, 0));
+			}
+		});
+		btnModificar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				miControlador.modificarDatosConfiguracion();
+				String[] datos = miControlador.recogerDatosConexion();			
+				txtUsuario.setText(datos[0]);
+				txtContrasena.setText(datos[1]);
+				txtUrl.setText(datos[2]);
+			}
+		});
+		btnModificar.setForeground(new Color(255, 255, 255));
+		btnModificar.setBackground(new Color(0, 0, 0));
+		btnGuardarYSalir.setFont(new Font("Tahoma", Font.BOLD, 13));
+		btnGuardarYSalir.setBorder(null);
+		btnModificar.setBounds(180, 226, 89, 23);
+		contentPane.add(btnModificar);
 		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -202,8 +247,13 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 			btnGuardarYSalir.setBackground(new Color(0, 0, 0));
 		} else {
 			btnGuardarYSalir.setBackground(new Color(120, 120, 120));
-		}
-		
-		
+		}	
+	}
+	
+	public void actualizar () {
+		String[] datos = miControlador.recogerDatosConexion();	
+		txtUsuario.setText(datos[0]);
+		txtContrasena.setText(datos[1]);
+		txtUrl.setText(datos[2]);
 	}
 }

@@ -1,11 +1,15 @@
 package modelo;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 /**
  * @author Andrés
  */
 
 import controlador.Controlador;
 import vista.Vista;
+import vista._18_ConfiguracionConexion;
 
 public class Modelo {
 
@@ -183,5 +187,10 @@ public class Modelo {
 
 	public void activarConexion() {
 		miConexion = new Conexion();
+	}
+
+	public void modificarDatosConfiguracion(String url, String usuario, String contrasena) {
+		miConexion.modificarDatosConfiguracion(url, usuario, contrasena);
+		((_18_ConfiguracionConexion) misVistas[18]).actualizar();
 	}
 }
