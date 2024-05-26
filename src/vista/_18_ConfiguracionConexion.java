@@ -203,10 +203,6 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 		btnModificar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.modificarDatosConfiguracion();
-				String[] datos = miControlador.recogerDatosConexion();			
-				txtUsuario.setText(datos[0]);
-				txtContrasena.setText(datos[1]);
-				txtUrl.setText(datos[2]);
 			}
 		});
 		btnModificar.setForeground(new Color(255, 255, 255));

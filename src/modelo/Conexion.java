@@ -687,6 +687,9 @@ public class Conexion {
 			misPropiedades.setProperty("pwd", contrasena);
 			misPropiedades.setProperty("url", url);
 			output = new FileOutputStream(miFichero);
+			login = misPropiedades.getProperty("login");
+			pwd = misPropiedades.getProperty("pwd");
+			this.url = misPropiedades.getProperty("url");
 			misPropiedades.store(output, "Datos de login cambiados");
 		} catch (IOException e) {
 			e.printStackTrace();
