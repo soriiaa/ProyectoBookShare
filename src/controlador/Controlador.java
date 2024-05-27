@@ -13,6 +13,7 @@ import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
+import vista._18_ConfiguracionConexion;
 
 public class Controlador {
 
@@ -200,6 +201,13 @@ public class Controlador {
 		String[] datos = new String[3];
 		datos = miModelo.recogerInfoConexion();
 		return datos;
+	}
+
+	public void modificarDatosConfiguracion() {
+		String url = ((_18_ConfiguracionConexion) misVistas[18]).getTxtUrl();
+		String usuario = ((_18_ConfiguracionConexion) misVistas[18]).getTxtUsuario();
+		String contrasena = ((_18_ConfiguracionConexion) misVistas[18]).getTxtContrasena();
+		miModelo.modificarDatosConfiguracion(url, usuario, contrasena);
 	}
 
 }
