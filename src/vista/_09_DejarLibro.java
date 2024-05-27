@@ -18,7 +18,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,9 +33,6 @@ import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
-import javax.swing.JSeparator;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class _09_DejarLibro extends JFrame implements Vista {
 	private Controlador miControlador;
@@ -386,8 +385,8 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		contentPane.add(btnMiperfil);
 
 		JLabel lblCogerUnLibro = new JLabel("Dejar un libro");
-		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		lblCogerUnLibro.setBounds(435, 39, 284, 66);
+		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 70));
+		lblCogerUnLibro.setBounds(360, 34, 426, 85);
 		getContentPane().add(lblCogerUnLibro);
 
 		btnDejar = new JButton("Dejar");
@@ -529,19 +528,6 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			}
 		});
 		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		txtCodigoPostal = new JTextField();
 		txtCodigoPostal.addMouseListener(new MouseAdapter() {
 			@Override
@@ -597,9 +583,6 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			public void changedUpdate(DocumentEvent e) {
 			}
 		});
-		
-		
-		
 		
 		txtComentario = new JTextField();
 		txtComentario.addMouseListener(new MouseAdapter() {

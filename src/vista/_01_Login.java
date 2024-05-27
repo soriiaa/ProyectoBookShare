@@ -5,6 +5,7 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,9 +30,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
-import modelo.Conexion;
 import modelo.Modelo;
-import javax.swing.ImageIcon;
 
 public class _01_Login extends JFrame implements Vista {
 
@@ -121,6 +120,7 @@ public class _01_Login extends JFrame implements Vista {
 				System.out.println("Entrado en el area del registro");
 				lblNoTieneCuenta.setForeground(Color.BLACK);
 				lblNoTieneCuenta.setText("<html><u>¿No tiene cuenta? Registrese</u></html>");
+				lblNoTieneCuenta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		lblNoTieneCuenta.setForeground(Color.BLUE);
@@ -146,6 +146,7 @@ public class _01_Login extends JFrame implements Vista {
 				System.out.println("Entrado en el area del olvido de contraseña");
 				lblOlvidoContraseña.setForeground(Color.BLACK);
 				lblOlvidoContraseña.setText("<html><u>Olvidé la contraseña</u></html>");
+				lblOlvidoContraseña.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		lblOlvidoContraseña.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -272,6 +273,7 @@ public class _01_Login extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnLogin.setBackground(new Color(70, 70, 70));
+				btnLogin.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 
