@@ -129,10 +129,11 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 		btnBuscarPorLocalidad2.setBounds(0, 39, 205, 40);
 		panelMenuNavegacion.add(btnBuscarPorLocalidad2);
 		
+		
+		
 		btnConfiguracion = new JButton("");
 		btnConfiguracion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				miModelo.activarConexion();
 			}
 		});
 		btnConfiguracion.addMouseListener(new MouseAdapter() {
