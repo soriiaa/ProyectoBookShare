@@ -12,6 +12,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -412,18 +414,16 @@ public class _17_DarDeBajaLugar extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtPoblacion);
-
-		btnRefresh = new JButton("Mostrar");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
 				Object[][] datos = miControlador.sacarLugaresActuales();
 				String[] columnas = { "Codigo Postal", "Comunidad Autonoma", "Provincia", "Poblacion" };
 				modelo = new DefaultTableModel(datos, columnas);
 				table.setModel(modelo);
 			}
 		});
-		btnRefresh.setBounds(209, 216, 89, 23);
-		contentPane.add(btnRefresh);
 	}
 
 	private void updateAlta() {
