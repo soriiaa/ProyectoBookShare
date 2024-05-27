@@ -763,4 +763,58 @@ public class Conexion {
 			return contador;
 		}
 	}
+
+	public void eliminarRegistroTablaCoger(String queryDelete, int id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(queryDelete);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarHistorial(String query, String usuario, String titulo, String accion) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usuario);
+			pstmt.setString(2, titulo);
+			pstmt.setString(3, accion);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void introducirCogerLibro(String consulta, String usuario, int id, java.sql.Date sqlDate) {
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setString(1, usuario);
+			pstmt.setInt(2, id);
+			pstmt.setDate(3, sqlDate);
+
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	public void eliminarRegistroTablaDejar(String consulta, int id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

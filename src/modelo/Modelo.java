@@ -250,9 +250,10 @@ public class Modelo {
 
 		String idStr = miConexion.sacarIdLibro(query, titulo);
 		int id = Integer.parseInt(idStr);
+		System.out.println(id);
 
 		int cuenta = miConexion.contarRegistrosComproDejar(
-				"select * from libro inner join coger as libro.id = coger.id where libro.titulo like ? and libro.disponible = 0 and coger.id = ? and coger.usr = ?",
+				"select * from libro inner join coger on libro.id = coger.id where libro.titulo like ? and libro.disponible = 0 and coger.id = ? and coger.usr = ?",
 				titulo, id, usuario);
 //titulo,id,usuario
 
@@ -265,7 +266,50 @@ public class Modelo {
 
 	public void cambiarEstadoDejarLibro(String titulo) {
 
-		String query = "UPDATE libro set disponible = 1 where titulo like ? and ";
+		String query = "UPDATE libro set disponible = 1 where titulo like ?";
 		miConexion.actualizarDisponibilidadADisponible(query, titulo);
 	}
+
+	public void eliminarLibroTablaCoger(String titulo) {
+		String query = "Select id from libro where titulo = ?";
+
+		String idStr = miConexion.sacarIdLibro(query, titulo);
+		int id = Integer.parseInt(idStr);
+
+		String queryDelete = "delete from coger where id = ?";
+
+		miConexion.eliminarRegistroTablaCoger(queryDelete, id);
+	}
+
+	public void actualizarHistorial(String titulo) {
+		String query = "insert into historial (usr,titulo,accion) values(?,?,?)";
+		String accion = "dejar";
+
+		miConexion.actualizarHistorial(query, usuario, titulo, accion);
+	}
+	public void actualizarHistorialCoger(String titulo) {
+		String query = "insert into historial (usr,titulo,accion) values(?,?,?)";
+		String accion = "coger";
+
+		miConexion.actualizarHistorial(query, usuario, titulo, accion);
+	}
+
+	public void eliminarDatosDejarLibro(String titulo) {
+		String idStr = miConexion.consultaConFiltro("select id from libro where titulo like ? limit 1", titulo);
+		int id = Integer.parseInt(idStr);
+		String consulta = "DELETE from dejar where id = ?";
+
+		Date fechaActual = new Date();
+		java.sql.Date sqlDate = null;
+
+		// Parsear el String a java.util.Date
+		java.util.Date fechaAct = new java.sql.Date(fechaActual.getTime());
+
+		// Convertir java.util.Date a java.sql.Date
+		sqlDate = new java.sql.Date(fechaAct.getTime());
+		
+		miConexion.eliminarRegistroTablaDejar(consulta, id);
+
+	}
+
 }

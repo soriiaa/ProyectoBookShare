@@ -591,6 +591,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 						miControlador.sacarDatosCogerLibro(valorSeleccionado);
 						arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
 						actualizarTabla();
+						miControlador.recogerDatosCogerLibro(valorSeleccionado);
 
 					}
 				});

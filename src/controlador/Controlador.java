@@ -230,12 +230,24 @@ public class Controlador {
 		
 		miModelo.insertarDatosDejarLibro(titulo, fechaRecogida, codigoPostal, comentario, valoracion);
 		miModelo.cambiarEstadoDejarLibro(titulo);
+		miModelo.eliminarLibroTablaCoger(titulo);
 	}
 
 	public boolean recogerdatosComproExistencia() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
 		
 		return miModelo.comprobarLibroBBDD(titulo);
+	}
+
+	public void cogerDatosHistorialDejar() {
+		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
+		
+		miModelo.actualizarHistorial(titulo);
+	}
+
+	public void recogerDatosCogerLibro(String valorSeleccionado) {
+		miModelo.eliminarDatosDejarLibro(valorSeleccionado);
+		miModelo.actualizarHistorialCoger(valorSeleccionado);
 	}
 
 }
