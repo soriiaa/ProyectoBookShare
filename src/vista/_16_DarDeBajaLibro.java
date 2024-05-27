@@ -12,6 +12,8 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -282,6 +284,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 				updateModificar();
 			}
 		});
+
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollPane_1.setViewportView(table);
 		table.setToolTipText("\r\n");
@@ -383,18 +386,15 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 			}
 		});
 		contentPane.add(txtGenero);
-		
-		JButton btnRefresh = new JButton("Cargar");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
 				Object[][] datos = miControlador.sacarDatosLibro();
 				String[] titulo = {"T\u00EDtulo", "Autor", "G\u00E9nero"};
 				modelo = new DefaultTableModel(datos, titulo);
 				table.setModel(modelo);
 			}
 		});
-		btnRefresh.setBounds(205, 191, 89, 23);
-		contentPane.add(btnRefresh);
 	}
 	
 	private void updateAlta() {
