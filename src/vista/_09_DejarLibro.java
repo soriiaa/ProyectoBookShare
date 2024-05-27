@@ -662,6 +662,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		if ((txtTitulo.getText().isEmpty() || txtTitulo.getText().equals("Título")) || (txtFechaCogidaLibro.getText().isEmpty() || txtFechaCogidaLibro.getText().equals("Fecha adquisición libro")) || (txtCodigoPostal.getText().isEmpty() || txtCodigoPostal.getText().equals("Código Postal")) || (txtComentario.getText().isEmpty() || txtComentario.getText().equals("Comentario"))) {
 			botonHabilitado = false;
 		} else {
+			botonHabilitado = true;
 			btnDejar.setBackground(new Color(0, 0, 0));
 			btnDejar.setEnabled(true);
 		}
