@@ -11,6 +11,7 @@ import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
+import vista._09_DejarLibro;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
 import vista._18_ConfiguracionConexion;
@@ -217,6 +218,24 @@ public class Controlador {
 
 	public boolean comproConexion() {
 		return miModelo.devolverConexion();
+	}
+
+	public void recogerDatosDejarLibro() {
+		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
+		String fechaRecogida = ((_09_DejarLibro) misVistas[9]).getTxtFechaCogidaLibro().getText();
+		String codigoPostal = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
+		String comentario = ((_09_DejarLibro) misVistas[9]).getTxtComentario().getText();
+		String valoracion = ((_09_DejarLibro) misVistas[9]).getComboValoracion().getToolTipText();
+		
+		
+		miModelo.insertarDatosDejarLibro(titulo, fechaRecogida, codigoPostal, comentario, valoracion);
+		miModelo.cambiarEstadoDejarLibro(titulo);
+	}
+
+	public boolean recogerdatosComproExistencia() {
+		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
+		
+		return miModelo.comprobarLibroBBDD(titulo);
 	}
 
 }
