@@ -54,7 +54,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 	private JTextField txtCodigoPostal;
 	private JTextField txtComentario;
 	private boolean botonHabilitado;
-	private JComboBox comboValoracion;
+	private JComboBox<String> comboValoracion;
 	private JLabel lblMensajeBueno;
 	private JLabel lblMensajeMalo;
 	
@@ -74,7 +74,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		return txtComentario;
 	}
 	
-	public JComboBox<Integer> getComboValoracion() {
+	public JComboBox<String> getComboValoracion() {
 		return comboValoracion;
 	}
 
@@ -396,6 +396,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			public void actionPerformed(ActionEvent e) {
 				if(miControlador.recogerdatosComproExistencia()) {
 					miControlador.recogerDatosDejarLibro();
+					miControlador.cogerDatosHistorialDejar();
 					lblMensajeMalo.setVisible(false);
 					lblMensajeBueno.setVisible(true);
 					
