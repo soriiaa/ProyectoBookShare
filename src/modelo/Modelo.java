@@ -216,4 +216,45 @@ public class Modelo {
 			return true;
 		}
 	}
+	
+	public int darLibroAlta(String titulo, String autor, String codigoPostal) {
+		
+		// Consulta para comprobar si existe el código postal.
+		
+		String[] hayCodigoPostal;
+		
+		String consultaCodigoPostal = "SELECT cp, provincia, poblacio FROM codipostal WHERE cp = ? LIMIT 1";
+		hayCodigoPostal = miConexionPostal.verificarExistenciCodigoPostal(consultaCodigoPostal, codigoPostal);
+		
+		if (!hayCodigoPostal.equals("0")) {
+			
+			// Inserto en nuestra base de datos la información del lugar.
+			String consulta = "INSERT INTO";
+			
+			return 1;
+			
+		} else {
+			return 0;
+		}
+		
+		
+		
+	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

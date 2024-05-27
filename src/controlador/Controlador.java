@@ -11,6 +11,7 @@ import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
+import vista._07_AltaLibro;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
 import vista._18_ConfiguracionConexion;
@@ -217,6 +218,19 @@ public class Controlador {
 
 	public boolean comproConexion() {
 		return miModelo.devolverConexion();
+	}
+	
+	public void cogerDatosAltaLibro() {
+		
+		String[] datosAltaLibro = new String[3];
+		datosAltaLibro[0] = ((_07_AltaLibro) misVistas[7]).getTitulo();
+		datosAltaLibro[1] = ((_07_AltaLibro) misVistas[7]).getAutor();
+		datosAltaLibro[2] = ((_07_AltaLibro) misVistas[7]).getCodigoPostal();
+		
+		int respuesta; // 1 es que hay resultados y se ha insertado bien. 0 es que no hay ningún código postal.
+		
+		respuesta = miModelo.darLibroAlta(datosAltaLibro[0], datosAltaLibro[1], datosAltaLibro[2]);
+		
 	}
 
 }

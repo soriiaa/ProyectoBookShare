@@ -62,6 +62,18 @@ public class _07_AltaLibro extends JFrame implements Vista {
 	public void setControlador(Controlador miControlador) {
 		this.miControlador = miControlador;
 	}
+	
+	public String getTitulo() {
+		return txtTitulo.getText();
+	}
+	
+	public String getAutor() {
+		return txtAutor.getText();
+	}
+	
+	public String getCodigoPostal() {
+		return txtCodigoPostal.getText();
+	}
 
 	public _07_AltaLibro() {
 		botonHabilitado = false;
