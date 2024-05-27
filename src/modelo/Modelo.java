@@ -1,5 +1,7 @@
 package modelo;
 
+import java.util.Date;
+
 /**
  * @author Andrés
  */
@@ -27,7 +29,7 @@ public class Modelo {
 	public boolean validarUsuario(String usuario, String pwd) {
 		this.usuario = usuario;
 		boolean comprobacion = false;
-		
+
 		if (miConexion.comproLogin("select * from BookShare.users where usr = ? and pwd = ?", usuario, pwd)) {
 			comprobacion = true;
 		}
@@ -35,7 +37,7 @@ public class Modelo {
 	}
 
 	public int sacarPregunta(String pregunta) {
-		
+
 		return (miConexion.devueltaPregunta("select * from BookShare.pregunta_recuperacion where pregunta = ?",
 				pregunta, 1) + 1);
 	}
@@ -73,42 +75,55 @@ public class Modelo {
 
 		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id WHERE libro.disponible = 1";
 
-		String[][] arrayLibros = miConexion.cogerLibrosIdTituloLugarGenero(consultaLibros);
-
+		int numFilas = miConexion.contarRegistros(consultaLibros);
+		String[][] arrayLibros = miConexion.cogerLibrosIdTituloLugarGenero(consultaLibros, numFilas);
+		
 		return arrayLibros;
 	}
 	
-	public Object[][] sentenciaHistorial() {
-	  
-	    // ? == usuario atributo
-	    String queryCoger = "select id from coger where usr like ?";
-	    int numeroFilasCoger = miConexion.contarRegistros(queryCoger, usuario);
-	    String queryDejar = "select id from dejar where usr like ?";
-	    int numeroFilasDejar = miConexion.contarRegistros(queryDejar, usuario);
-	    int[] filtroCoger = miConexion.sacarIdCoger(queryCoger, usuario, numeroFilasCoger);
-	    int[] filtroDejar = miConexion.sacarIdCoger(queryDejar, usuario, numeroFilasDejar);
-
-	    // ? == filtro
-	    String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where libro.id = ?";
-	    Object[][] datos = new Object[numeroFilasCoger+numeroFilasDejar][9];
-	    datos = miConexion.sacarHistorialLibros(consulta, numeroFilasCoger, numeroFilasDejar, filtroCoger, filtroDejar);
-
-	    return datos;
-	}
-	
-	public void libroNoDisponible(String titulo) {
+	public void cambiarEstadoCogerLibro(String valor) {
+		String consultaIdLibro = "select id from libro where titulo = ?";
+		String idLibro = miConexion.consultaConFiltro(consultaIdLibro, valor);
+		String consultaUsuarioLibro = "insert into coger(usr, id, Fecha) values(?,?,?)";
+//		java.util.Date fechaAct = new java.util.Date();
+		Date fechaAct = new Date();
+		java.sql.Date sqlDate = new java.sql.Date(fechaAct.getTime());
+		miConexion.insertarCogerLibroUsuario(consultaUsuarioLibro, usuario, idLibro, sqlDate);
 		
+		miConexion.imprimir("select * from coger", 1);
+	}
+
+	public Object[][] sentenciaHistorial() {
+
+		// ? == usuario atributo
+		String queryCoger = "select id from coger where usr like ?";
+		int numeroFilasCoger = miConexion.contarRegistros(queryCoger, usuario);
+		String queryDejar = "select id from dejar where usr like ?";
+		int numeroFilasDejar = miConexion.contarRegistros(queryDejar, usuario);
+		int[] filtroCoger = miConexion.sacarIdCoger(queryCoger, usuario, numeroFilasCoger);
+		int[] filtroDejar = miConexion.sacarIdCoger(queryDejar, usuario, numeroFilasDejar);
+
+		// ? == filtro
+		String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where libro.id = ?";
+		Object[][] datos = new Object[numeroFilasCoger + numeroFilasDejar][9];
+		datos = miConexion.sacarHistorialLibros(consulta, numeroFilasCoger, numeroFilasDejar, filtroCoger, filtroDejar);
+
+		return datos;
+	}
+
+	public void libroNoDisponible(String titulo) {
+
 		String consulta1 = "SET SQL_SAFE_UPDATES = 0";
 		String consulta2 = "UPDATE libro SET disponible = 0 WHERE titulo = ?";
-		
+
 		miConexion.actualizarDisponibilidadANoDisponible(consulta1, consulta2, titulo);
-		
+
 	}
 
 	public Object[][] sacarDatosLibro() {
 		String consulta = "select titulo, autor, genero from libro";
 		int filas = miConexion.contarRegistros(consulta);
-		Object[][] datos = miConexion.sacarDatosAltaBajaLibros(consulta, filas);	
+		Object[][] datos = miConexion.sacarDatosAltaBajaLibros(consulta, filas);
 		return datos;
 	}
 
@@ -133,31 +148,31 @@ public class Modelo {
 
 	public boolean validarAdmin(String usuarioInput) {
 		boolean admin = false;
-		
+
 		String sentencia = "select rol from users where usr like ?";
-		
+
 		String rol = miConexion.consultaConFiltro(sentencia, usuarioInput);
-		
-		if(rol.equals("Administrador")) {
+
+		if (rol.equals("Administrador")) {
 			admin = true;
 		}
-		
+
 		return admin;
 	}
-	
-	public Object[][] sacarLugaresBase(){
-		
+
+	public Object[][] sacarLugaresBase() {
+
 		String consulta = "select * from cod_postal";
-		
+
 		int numFilas = miConexion.contarRegistros(consulta);
-		
+
 		Object[][] datos = miConexion.sacarLugares(consulta, numFilas);
-		
+
 		return datos;
 	}
 
 	public void conectorInsertLugar(int codPostal, String comunidad, String provincia, String poblacion) {
-		
+
 		miConexion.insertarLugar(codPostal, comunidad, provincia, poblacion);
 	}
 
@@ -169,16 +184,16 @@ public class Modelo {
 			int codPostalAntiguo) {
 
 		String consulta = "update cod_postal set codigo_postal = ?, comunidad_autonoma = ?, provincia = ?, poblacion = ? where codigo_postal = ?";
-		
+
 		miConexion.updateLugar(consulta, codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
 	}
-	
+
 	public String[] recogerInfoConexion() {
 		String[] datos = new String[3];
 		datos[0] = miConexion.getLogin();
 		datos[1] = miConexion.getPwd();
 		datos[2] = miConexion.getUrl();
-		
+
 		return datos;
 	}
 
