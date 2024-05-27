@@ -55,6 +55,27 @@ public class _09_DejarLibro extends JFrame implements Vista {
 	private JTextField txtCodigoPostal;
 	private JTextField txtComentario;
 	private boolean botonHabilitado;
+	private JComboBox comboValoracion;
+	
+	public JTextField getTxtTitulo() {
+		return txtTitulo;
+	}
+	
+	public JTextField getTxtFechaCogidaLibro() {
+		return txtFechaCogidaLibro;
+	}
+	
+	public JTextField getTxtCodigoPostal() {
+		return txtCodigoPostal;
+	}
+	
+	public JTextField getTxtComentario() {
+		return txtComentario;
+	}
+	
+	public JComboBox getComboValoracion() {
+		return comboValoracion;
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -614,11 +635,11 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		txtComentario.setBorder(BorderFactory.createCompoundBorder(txtComentario.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		contentPane.add(txtComentario);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
-		comboBox.setBorder(null);
-		comboBox.setBounds(508, 496, 59, 21);
-		contentPane.add(comboBox);
+		comboValoracion = new JComboBox();
+		comboValoracion.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		comboValoracion.setBorder(null);
+		comboValoracion.setBounds(508, 496, 59, 21);
+		contentPane.add(comboValoracion);
 		
 		JLabel lblNewLabel = new JLabel("Puntuación (1-5):");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
