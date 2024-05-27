@@ -15,6 +15,7 @@ public class Modelo {
 	private Vista[] misVistas;
 	private Controlador miControlador;
 	private Conexion miConexion;
+	private ConexionPostalCat miConexionPostal;
 	private String consultaLibros;
 	private String usuario;
 
@@ -200,10 +201,19 @@ public class Modelo {
 
 	public void activarConexion() {
 		miConexion = new Conexion();
+		miConexionPostal = new ConexionPostalCat();
 	}
 
 	public void modificarDatosConfiguracion(String url, String usuario, String contrasena) {
 		miConexion.modificarDatosConfiguracion(url, usuario, contrasena);
 		((_18_ConfiguracionConexion) misVistas[18]).actualizar();
+	}
+
+	public boolean devolverConexion() {
+		if(miConexion == null) {
+			return false;
+		}else {
+			return true;
+		}
 	}
 }

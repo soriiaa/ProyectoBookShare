@@ -215,4 +215,8 @@ public class Controlador {
 		
 	}
 
+	public boolean comproConexion() {
+		return miModelo.devolverConexion();
+	}
+
 }
