@@ -4,35 +4,41 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
+import javax.swing.JSeparator;
+import javax.swing.JComboBox;
+import javax.swing.DefaultComboBoxModel;
 
 public class _09_DejarLibro extends JFrame implements Vista {
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private JPanel contentPane;
-	private JTextField txtBuscador;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JLabel lblTexto1;
-	private JLabel lblFechaEnLa;
-	private JLabel lblCdigoPostalEn;
-	private JLabel lblEscribeUnaValoracin;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
 	private JLabel lblTituloMenu;
@@ -44,6 +50,11 @@ public class _09_DejarLibro extends JFrame implements Vista {
 	private JButton btnMiperfil;
 	private JButton btnDejar;
 	private JButton btnBandejaDeEntrada;
+	private JTextField txtTitulo;
+	private JTextField txtFechaCogidaLibro;
+	private JTextField txtCodigoPostal;
+	private JTextField txtComentario;
+	private boolean botonHabilitado;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -60,12 +71,13 @@ public class _09_DejarLibro extends JFrame implements Vista {
 	}
 
 	private void initialize() {
+		botonHabilitado = true;
 		setResizable(false);
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -73,6 +85,12 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		contentPane.setLayout(null);
 
 		panelMenuNavegacion = new JPanel();
+		panelMenuNavegacion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				comprobarCampos();
+			}
+		});
 		panelMenuNavegacion.setBackground(new Color(230, 230, 250));
 		panelMenuNavegacion.setBounds(0, 0, 183, 622);
 		contentPane.add(panelMenuNavegacion);
@@ -115,6 +133,12 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				btnDejar.setBackground(new Color(0, 0, 0));
+				comprobarCampos();
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTituloMenu.requestFocus();
 			}
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
@@ -342,83 +366,340 @@ public class _09_DejarLibro extends JFrame implements Vista {
 
 		JLabel lblCogerUnLibro = new JLabel("Dejar un libro");
 		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		lblCogerUnLibro.setBounds(436, 26, 284, 66);
+		lblCogerUnLibro.setBounds(435, 39, 284, 66);
 		getContentPane().add(lblCogerUnLibro);
-
-		txtBuscador = new JTextField();
-		txtBuscador.setToolTipText("");
-		txtBuscador.setBounds(643, 153, 228, 30);
-		getContentPane().add(txtBuscador);
-		txtBuscador.setColumns(10);
-
-		textField = new JTextField();
-		textField.setToolTipText("");
-		textField.setColumns(10);
-		textField.setBounds(702, 264, 169, 30);
-		getContentPane().add(textField);
-
-		textField_1 = new JTextField();
-		textField_1.setToolTipText("");
-		textField_1.setColumns(10);
-		textField_1.setBounds(548, 209, 323, 30);
-		getContentPane().add(textField_1);
 
 		btnDejar = new JButton("Dejar");
 		btnDejar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("clic2");
 			}
 		});
-		btnDejar.setBackground(new Color(128, 255, 128));
-		btnDejar.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		btnDejar.setBounds(845, 622, 117, 42);
+		btnDejar.setEnabled(false);
+		btnDejar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnDejar.setBackground(new Color(70, 70, 70));
+				btnDejar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				comprobarCampos();
+			}
+		});
+		btnDejar.setForeground(new Color(255, 255, 255));
+		btnDejar.setBorder(null);
+		btnDejar.setBackground(new Color(144, 144, 144));
+		btnDejar.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		btnDejar.setBounds(859, 611, 117, 42);
 		getContentPane().add(btnDejar);
-
-		lblTexto1 = new JLabel("Introduce el nombre del libro a dejar:");
-		lblTexto1.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblTexto1.setBounds(332, 143, 315, 42);
-		getContentPane().add(lblTexto1);
-
-		lblFechaEnLa = new JLabel("Fecha en la que se cogió:");
-		lblFechaEnLa.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblFechaEnLa.setBounds(332, 208, 216, 24);
-		getContentPane().add(lblFechaEnLa);
-
-		lblCdigoPostalEn = new JLabel("Código Postal en el que se va a dejar el libro:");
-		lblCdigoPostalEn.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblCdigoPostalEn.setBounds(332, 263, 371, 24);
-		getContentPane().add(lblCdigoPostalEn);
-
-		lblEscribeUnaValoracin = new JLabel("Escribe una valoración sobre el libro:");
-		lblEscribeUnaValoracin.setFont(new Font("Tahoma", Font.PLAIN, 18));
-		lblEscribeUnaValoracin.setBounds(332, 322, 295, 24);
-		getContentPane().add(lblEscribeUnaValoracin);
-
-		JTextField txtPuntuacion = new JTextField();
-		txtPuntuacion.addMouseListener(new MouseAdapter() {
+		
+		txtTitulo = new JTextField();
+		txtTitulo.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtPuntuacion.setText("");
+			public void mouseEntered(MouseEvent e) {
+				comprobarCampos();
 			}
 		});
-		txtPuntuacion.setForeground(new Color(145, 145, 145));
-		txtPuntuacion.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		txtPuntuacion.setText("X/5");
-		txtPuntuacion.setToolTipText("");
-		txtPuntuacion.setColumns(10);
-		txtPuntuacion.setBounds(637, 321, 42, 30);
-		getContentPane().add(txtPuntuacion);
-
-		JTextArea textComentario = new JTextArea();
-		textComentario.addMouseListener(new MouseAdapter() {
+		txtTitulo.addKeyListener(new KeyAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent e) {
-				textComentario.setText("");
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
 			}
 		});
-		textComentario.setForeground(new Color(145, 145, 145));
-		textComentario.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		textComentario.setText("Comentario...");
-		textComentario.setBounds(332, 376, 540, 152);
-		getContentPane().add(textComentario);
+
+		txtTitulo.setBounds(381, 162, 387, 29);
+		contentPane.add(txtTitulo);
+		txtTitulo.setBackground(new Color(192, 192, 192));
+		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtTitulo, "Título");
+		txtTitulo.addFocusListener(focusListener);
+		txtTitulo.setText("Título");
+		txtTitulo.addFocusListener(new PlaceholderFocusListener(txtTitulo, "Título"));
+		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtTitulo.setForeground(Color.GRAY);
+		txtTitulo.setBorder(null);
+		txtTitulo.setBorder(BorderFactory.createCompoundBorder(txtTitulo.getBorder(),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		txtTitulo.setColumns(10);
+
+		txtTitulo.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Título".equals(txtTitulo.getText())) {
+					txtTitulo.setForeground(Color.GRAY);
+				} else {
+					txtTitulo.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtTitulo.getText().isEmpty()) {
+					txtTitulo.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+
+		contentPane.add(txtTitulo);
+		
+		txtFechaCogidaLibro = new JTextField();
+		txtFechaCogidaLibro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtFechaCogidaLibro.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtFechaCogidaLibro.setText("Fecha adquisición libro");
+		txtFechaCogidaLibro.setForeground(Color.GRAY);
+		txtFechaCogidaLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtFechaCogidaLibro.setColumns(10);
+		txtFechaCogidaLibro.setBorder(null);
+		txtFechaCogidaLibro.setBackground(Color.LIGHT_GRAY);
+		txtFechaCogidaLibro.setBounds(381, 218, 387, 29);
+		focusListener = new PlaceholderFocusListener(txtFechaCogidaLibro, "Fecha adquisición libro");
+		txtFechaCogidaLibro.addFocusListener(focusListener);
+		txtFechaCogidaLibro.addFocusListener(new PlaceholderFocusListener(txtFechaCogidaLibro, "Fecha adquisición libro"));
+		txtFechaCogidaLibro.setBorder(BorderFactory.createCompoundBorder(txtFechaCogidaLibro.getBorder(),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtFechaCogidaLibro);
+
+		txtFechaCogidaLibro.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Fecha adquisición libro".equals(txtFechaCogidaLibro.getText())) {
+					txtFechaCogidaLibro.setForeground(Color.GRAY);
+				} else {
+					txtFechaCogidaLibro.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtFechaCogidaLibro.getText().isEmpty()) {
+					txtFechaCogidaLibro.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		txtCodigoPostal = new JTextField();
+		txtCodigoPostal.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtCodigoPostal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtCodigoPostal.setText("Código Postal");
+		txtCodigoPostal.setForeground(Color.GRAY);
+		txtCodigoPostal.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtCodigoPostal.setColumns(10);
+		txtCodigoPostal.setBorder(null);
+		txtCodigoPostal.setBackground(Color.LIGHT_GRAY);
+		txtCodigoPostal.setBounds(381, 274, 387, 29);
+		focusListener = new PlaceholderFocusListener(txtCodigoPostal, "Código Postal");
+		txtCodigoPostal.addFocusListener(focusListener);
+		txtCodigoPostal.addFocusListener(new PlaceholderFocusListener(txtCodigoPostal, "Código Postal"));
+		txtCodigoPostal.setBorder(BorderFactory.createCompoundBorder(txtCodigoPostal.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtCodigoPostal);
+
+		txtCodigoPostal.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Código Postal".equals(txtCodigoPostal.getText())) {
+					txtCodigoPostal.setForeground(Color.GRAY);
+				} else {
+					txtCodigoPostal.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtCodigoPostal.getText().isEmpty()) {
+					txtCodigoPostal.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		
+		
+		
+		
+		txtComentario = new JTextField();
+		txtComentario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtComentario.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyPressed(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtComentario.setText("Comentario");
+		txtComentario.setForeground(Color.GRAY);
+		txtComentario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtComentario.setColumns(10);
+		txtComentario.setBorder(null);
+		txtComentario.setBackground(Color.LIGHT_GRAY);
+		txtComentario.setBounds(381, 330, 387, 137);
+		focusListener = new PlaceholderFocusListener(txtComentario, "Comentario");
+		txtComentario.addFocusListener(focusListener);
+		txtComentario.addFocusListener(new PlaceholderFocusListener(txtComentario, "Comentario"));
+		txtComentario.setBorder(BorderFactory.createCompoundBorder(txtComentario.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtComentario);
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		comboBox.setBorder(null);
+		comboBox.setBounds(508, 496, 59, 21);
+		contentPane.add(comboBox);
+		
+		JLabel lblNewLabel = new JLabel("Puntuación (1-5):");
+		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblNewLabel.setBounds(381, 494, 117, 21);
+		contentPane.add(lblNewLabel);
+
+		txtComentario.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Comentario".equals(txtComentario.getText())) {
+					txtComentario.setForeground(Color.GRAY);
+				} else {
+					txtComentario.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtComentario.getText().isEmpty()) {
+					txtComentario.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				lblCogerUnLibro.requestFocus();
+				comprobarCampos();
+			}
+		});
+		
+	}
+	
+	public void comprobarCampos() {
+		
+		if ((txtTitulo.getText().isEmpty() || txtTitulo.getText().equals("Título")) || (txtFechaCogidaLibro.getText().isEmpty() || txtFechaCogidaLibro.getText().equals("Fecha adquisición libro")) || (txtCodigoPostal.getText().isEmpty() || txtCodigoPostal.getText().equals("Código Postal")) || (txtComentario.getText().isEmpty() || txtComentario.getText().equals("Comentario"))) {
+			botonHabilitado = false;
+		} else {
+			btnDejar.setBackground(new Color(0, 0, 0));
+			btnDejar.setEnabled(true);
+		}
+		
+		if (botonHabilitado == false) {
+			btnDejar.setBackground(new Color(144, 144, 144));
+			btnDejar.setEnabled(false);
+		} 
+		
+	}
+	
+	private static class PlaceholderFocusListener implements FocusListener {
+		private final JTextField field;
+		private final String placeholder;
+
+		public PlaceholderFocusListener(JTextField field, String placeholder) {
+			this.field = field;
+			this.placeholder = placeholder;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			if (field.getText().equals(placeholder)) {
+				field.setText("");
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar('*'); // Para ocultar los caracteres al escribir
+				}
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (field.getText().isEmpty()) {
+				field.setText(placeholder);
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar((char) 0); // Para que el texto sea visible
+				}
+			}
+		}
 	}
 }

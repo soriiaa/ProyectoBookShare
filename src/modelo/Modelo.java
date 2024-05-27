@@ -70,6 +70,8 @@ public class Modelo {
 	}
 
 	public String[][] cogerLibroBaseDatos() {
+		
+		// De momento da error porque los nuevos libros no están asociados a un lugar.
 
 		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id WHERE libro.disponible = 1";
 

@@ -403,14 +403,16 @@ public class Conexion {
 
 		String[][] error2 = new String[1][1];
 
+		int i = 0;
+		
 		try {
-			int i = 0;
+			
 			PreparedStatement preparedStatement = conexion.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				i++;
 			}
-
+			
 			resultSet = preparedStatement.executeQuery();
 
 			String[][] libros = new String[i][4];
