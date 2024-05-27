@@ -1,5 +1,7 @@
 package modelo;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -73,16 +75,16 @@ public class Modelo {
 	}
 
 	public String[][] cogerLibroBaseDatos() {
-		
+
 		// De momento da error porque los nuevos libros no están asociados a un lugar.
 
 		String consultaLibros = "SELECT libro.id AS idLibro, libro.titulo AS tituloLibro, lugar.nombre AS nombreLugar, libro.genero AS generoLibro FROM libro INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON libro_lugar.id_Lugar = lugar.id WHERE libro.disponible = 1";
 
 		String[][] arrayLibros = miConexion.cogerLibrosIdTituloLugarGenero(consultaLibros);
-		
+
 		return arrayLibros;
 	}
-	
+
 	public void cambiarEstadoCogerLibro(String valor) {
 		String consultaIdLibro = "select id from libro where titulo = ?";
 		String idLibro = miConexion.consultaConFiltro(consultaIdLibro, valor);
@@ -91,7 +93,7 @@ public class Modelo {
 		Date fechaAct = new Date();
 		java.sql.Date sqlDate = new java.sql.Date(fechaAct.getTime());
 		miConexion.insertarCogerLibroUsuario(consultaUsuarioLibro, usuario, idLibro, sqlDate);
-		
+
 		miConexion.imprimir("select * from coger", 1);
 	}
 
@@ -210,10 +212,60 @@ public class Modelo {
 	}
 
 	public boolean devolverConexion() {
-		if(miConexion == null) {
+		if (miConexion == null) {
 			return false;
-		}else {
+		} else {
 			return true;
 		}
+	}
+
+	public void insertarDatosDejarLibro(String titulo, String fechaRecogida, String codigoPostal, String comentario,
+			String valoracion) {
+
+		String idStr = miConexion.consultaConFiltro("select id from libro where titulo like ? limit 1", titulo);
+		int id = Integer.parseInt(idStr);
+		String consulta = "INSERT into dejar (usr, id, fecha, comentario, valoracion) values(?,?,?,?,?)";
+
+		SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd");
+		java.sql.Date sqlDate = null;
+		try {
+
+			// Parsear el String a java.util.Date
+			java.util.Date fechaAct = formato.parse(fechaRecogida);
+
+			// Convertir java.util.Date a java.sql.Date
+			sqlDate = new java.sql.Date(fechaAct.getTime());
+
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		valoracion = valoracion + "/5";
+		miConexion.introducirDejarLibro(consulta, usuario, id, sqlDate, comentario, valoracion);
+	}
+
+	public boolean comprobarLibroBBDD(String titulo) {
+
+		String query = "Select id from libro where titulo = ?";
+
+		String idStr = miConexion.sacarIdLibro(query, titulo);
+		int id = Integer.parseInt(idStr);
+
+		int cuenta = miConexion.contarRegistrosComproDejar(
+				"select * from libro inner join coger as libro.id = coger.id where libro.titulo like ? and libro.disponible = 0 and coger.id = ? and coger.usr = ?",
+				titulo, id, usuario);
+//titulo,id,usuario
+
+		if (cuenta > 0) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void cambiarEstadoDejarLibro(String titulo) {
+
+		String query = "UPDATE libro set disponible = 1 where titulo like ? and ";
+		miConexion.actualizarDisponibilidadADisponible(query, titulo);
 	}
 }
