@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -61,7 +63,7 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -343,8 +345,8 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		contentPane.add(btnMiperfil);
 
 		lblTituloHistorialLibros = new JLabel("Historial de Libros");
-		lblTituloHistorialLibros.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblTituloHistorialLibros.setBounds(435, 11, 264, 39);
+		lblTituloHistorialLibros.setFont(new Font("Tahoma", Font.PLAIN, 70));
+		lblTituloHistorialLibros.setBounds(307, 28, 629, 79);
 		contentPane.add(lblTituloHistorialLibros);
 
 		scrollPaneTabla = new JScrollPane();
@@ -357,6 +359,17 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		tableDatos.setEnabled(false);
 		tableDatos.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		tableDatos.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				Object[][] datos = miControlador.sacarHistorial();
+				String[] columnas = { "Titulo", "Autor", "Genero", "Disponible", "Activo", "Valoracion",
+						"Codigo Postal", "Fecha dejado", "Fecha cogido" };
+				modelo = new DefaultTableModel(datos,columnas);
+				tableDatos.setModel(modelo);
+			}
+		});
 
 		JButton btnRefresh = new JButton("Refrescar");
 		btnRefresh.addActionListener(new ActionListener() {

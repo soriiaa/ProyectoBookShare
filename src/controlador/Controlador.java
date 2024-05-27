@@ -210,4 +210,9 @@ public class Controlador {
 		miModelo.modificarDatosConfiguracion(url, usuario, contrasena);
 	}
 
+	public void sacarDatosCogerLibro(String valorSeleccionado) {
+		miModelo.cambiarEstadoCogerLibro(valorSeleccionado);
+		
+	}
+
 }
