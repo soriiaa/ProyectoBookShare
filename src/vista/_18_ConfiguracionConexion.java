@@ -72,7 +72,6 @@ public class _18_ConfiguracionConexion extends JFrame implements Vista {
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				
 				btnGuardarYSalir.setBackground(new Color(0, 0, 0));
 				comprobarCamposRellenos();
 			}

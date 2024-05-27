@@ -15,6 +15,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Properties;
 
 public class Conexion {
@@ -403,17 +404,20 @@ public class Conexion {
 
 		String[][] error2 = new String[1][1];
 
+		int i = 0;
+		
 		try {
-			int i = 0;
+			
 			PreparedStatement preparedStatement = conexion.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				i++;
 			}
-
+			
 			resultSet = preparedStatement.executeQuery();
 
 			String[][] libros = new String[i][4];
+
 
 			System.out.println("Coger Libro Funciona");
 
@@ -694,5 +698,19 @@ public class Conexion {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}	
+	}
+
+	public void insertarCogerLibroUsuario(String query, String usuario, String idLibro, java.sql.Date fechaAct) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usuario);
+			pstmt.setString(2, idLibro);
+			pstmt.setDate(3, fechaAct);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 }

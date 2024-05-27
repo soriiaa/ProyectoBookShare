@@ -588,6 +588,7 @@ public class _08_CogerLibro extends JFrame implements Vista {
 					public void mouseClicked(MouseEvent e) {
 
 						miModelo.libroNoDisponible(valorSeleccionado);
+						miControlador.sacarDatosCogerLibro(valorSeleccionado);
 						arrayLibrosIdTituloGeneroLugar = miModelo.cogerLibroBaseDatos();
 						actualizarTabla();
 
