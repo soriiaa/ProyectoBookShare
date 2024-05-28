@@ -54,7 +54,9 @@ public class _09_DejarLibro extends JFrame implements Vista {
 	private JTextField txtCodigoPostal;
 	private JTextField txtComentario;
 	private boolean botonHabilitado;
-	private JComboBox comboValoracion;
+	private JComboBox<String> comboValoracion;
+	private JLabel lblMensajeBueno;
+	private JLabel lblMensajeMalo;
 	
 	public JTextField getTxtTitulo() {
 		return txtTitulo;
@@ -72,7 +74,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		return txtComentario;
 	}
 	
-	public JComboBox getComboValoracion() {
+	public JComboBox<String> getComboValoracion() {
 		return comboValoracion;
 	}
 
@@ -392,7 +394,16 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		btnDejar = new JButton("Dejar");
 		btnDejar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("clic2");
+				if(miControlador.recogerdatosComproExistencia()) {
+					miControlador.recogerDatosDejarLibro();
+					miControlador.cogerDatosHistorialDejar();
+					lblMensajeMalo.setVisible(false);
+					lblMensajeBueno.setVisible(true);
+					
+				}else {
+					lblMensajeBueno.setVisible(false);
+					lblMensajeMalo.setVisible(true);
+				}
 			}
 		});
 		btnDejar.setEnabled(false);
@@ -492,7 +503,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 				comprobarCampos();
 			}
 		});
-		txtFechaCogidaLibro.setText("Fecha adquisición libro");
+		txtFechaCogidaLibro.setText("YYYY-MM-DD   --   Fecha adquisición libro");
 		txtFechaCogidaLibro.setForeground(Color.GRAY);
 		txtFechaCogidaLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtFechaCogidaLibro.setColumns(10);
@@ -628,6 +639,18 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setBounds(381, 494, 117, 21);
 		contentPane.add(lblNewLabel);
+		
+		lblMensajeBueno = new JLabel("Libro devuelto a la base de datos");
+		lblMensajeBueno.setVisible(false);
+		lblMensajeBueno.setForeground(new Color(112, 168, 36));
+		lblMensajeBueno.setBounds(381, 526, 193, 14);
+		contentPane.add(lblMensajeBueno);
+		
+		lblMensajeMalo = new JLabel("Compruebe que los datos son correctos");
+		lblMensajeMalo.setForeground(new Color(170, 53, 19));
+		lblMensajeMalo.setVisible(false);
+		lblMensajeMalo.setBounds(381, 526, 248, 14);
+		contentPane.add(lblMensajeMalo);
 
 		txtComentario.getDocument().addDocumentListener(new DocumentListener() {
 			@Override

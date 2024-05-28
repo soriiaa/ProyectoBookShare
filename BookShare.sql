@@ -126,6 +126,15 @@ foreign key(id_Libro) references libro(id),
 foreign key(id_lugar) references lugar(id)
 )engine=innodb;
 
+create table historial(
+id_movimiento int auto_increment,
+usr varchar(40) not null,
+titulo varchar(80) not null,
+accion varchar(10) not null,
+primary key(id_movimiento),
+foreign key(usr) references users(usr) 
+)engine=innodb;
+
 insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(1, 1, '2024-05-16');
 insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
 

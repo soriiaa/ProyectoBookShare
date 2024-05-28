@@ -705,7 +705,110 @@ public class Conexion {
 			pstmt.setString(2, idLibro);
 			pstmt.setDate(3, fechaAct);
 			pstmt.executeUpdate();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
+	public void introducirDejarLibro(String consulta, String usuario, int id, java.sql.Date sqlDate, String comentario,
+			String valoracion) {
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setString(1, usuario);
+			pstmt.setInt(2, id);
+			pstmt.setDate(3, sqlDate);
+			pstmt.setString(4, comentario);
+			pstmt.setString(5, valoracion);
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarDisponibilidadADisponible(String query, String titulo) {
+		try {
+
+			PreparedStatement preparedStatement2 = conexion.prepareStatement(query);
+			preparedStatement2.setString(1, titulo);
+			preparedStatement2.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public int contarRegistrosComproDejar(String query, String titulo, int id, String usuario) {
+		int contador = 0;
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, titulo);
+			pstmt.setInt(2, id);
+			pstmt.setString(3, usuario);
+			ResultSet resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				contador++;
+			}
+			resultSet.close();
+			pstmt.close();
+			return contador;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return contador;
+		}
+	}
+
+	public void eliminarRegistroTablaCoger(String queryDelete, int id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(queryDelete);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarHistorial(String query, String usuario, String titulo, String accion) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usuario);
+			pstmt.setString(2, titulo);
+			pstmt.setString(3, accion);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void introducirCogerLibro(String consulta, String usuario, int id, java.sql.Date sqlDate) {
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setString(1, usuario);
+			pstmt.setInt(2, id);
+			pstmt.setDate(3, sqlDate);
+
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	public void eliminarRegistroTablaDejar(String consulta, int id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
