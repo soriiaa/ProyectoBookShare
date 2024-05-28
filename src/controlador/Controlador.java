@@ -220,16 +220,34 @@ public class Controlador {
 		return miModelo.devolverConexion();
 	}
 	
-	public void cogerDatosAltaLibro() {
+	public String cogerDatosAltaLibro() {
 		
 		String[] datosAltaLibro = new String[3];
 		datosAltaLibro[0] = ((_07_AltaLibro) misVistas[7]).getTitulo();
 		datosAltaLibro[1] = ((_07_AltaLibro) misVistas[7]).getAutor();
 		datosAltaLibro[2] = ((_07_AltaLibro) misVistas[7]).getCodigoPostal();
 		
-		int respuesta; // 1 es que hay resultados y se ha insertado bien. 0 es que no hay ningún código postal.
+		boolean camposCorrectos = true;
 		
-		respuesta = miModelo.darLibroAlta(datosAltaLibro[0], datosAltaLibro[1], datosAltaLibro[2]);
+		try {
+	        Integer.parseInt(datosAltaLibro[2]);
+	    } catch (NumberFormatException e) {
+	        camposCorrectos = false;
+	    }
+		
+		int respuesta = 0; // 1 es que hay resultados y se ha insertado bien. 0 es que no hay ningún código postal.
+		
+		if (camposCorrectos) {
+			respuesta = miModelo.darLibroAlta(datosAltaLibro[0], datosAltaLibro[1], datosAltaLibro[2]);
+		}
+		
+		if (respuesta == 0) {
+			return "Error";
+		} else if (respuesta == 1) {
+			return "Libro dado de alta con éxito";
+		} else {
+			return "Error";
+		}
 		
 	}
 

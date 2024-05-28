@@ -219,42 +219,78 @@ public class Modelo {
 	
 	public int darLibroAlta(String titulo, String autor, String codigoPostal) {
 		
-		// Consulta para comprobar si existe el código postal.
+		// Retorno 0: El codigo postal no existe en la base de datos externa
 		
-		String[] hayCodigoPostal;
+		
+		// Consulta para comprobar si existe el código postal.		
+		String[] listaDatosCodigoPostal;
+		boolean existeCodigoPostalEnBaseDeDatos;
 		
 		String consultaCodigoPostal = "SELECT cp, provincia, poblacio FROM codipostal WHERE cp = ? LIMIT 1";
-		hayCodigoPostal = miConexionPostal.verificarExistenciCodigoPostal(consultaCodigoPostal, codigoPostal);
+		listaDatosCodigoPostal = miConexionPostal.verificarExistenciCodigoPostal(consultaCodigoPostal, codigoPostal);
 		
-		if (!hayCodigoPostal.equals("0")) {
+		// Si el código postal existe en la base de datos externa al proyecto
+		if (!listaDatosCodigoPostal[0].equals("ERROR")) {
 			
-			// Inserto en nuestra base de datos la información del lugar.
-			String consulta = "INSERT INTO";
+			// Compruebo que no esté añadido ya en la base de datos propia
+			String consultaComprobarExistenciaCodigoPostal = "SELECT codigo_postal FROM cod_postal WHERE codigo_postal = ?";
+			existeCodigoPostalEnBaseDeDatos = miConexion.comprobarExistenciaCodigoPostal(consultaComprobarExistenciaCodigoPostal, listaDatosCodigoPostal[0]);
 			
-			return 1;
+			String cp = listaDatosCodigoPostal[0];
+			String provincia = listaDatosCodigoPostal[1];
+			String poblacion = listaDatosCodigoPostal[2];
+			
+			// Si no esta, lo inserto con toda su información
+			if (!existeCodigoPostalEnBaseDeDatos) {
+				
+				// Inserto en nuestra base de datos la información del lugar.
+				String consulta = "INSERT INTO cod_postal (codigo_postal, comunidad_autonoma, provincia, poblacion) VALUES (?, 'Desconocida', ?, '0')";
+				
+				miConexion.insertarCodigoPostalProvinciaPoblacion(consulta, cp, provincia);
+				
+			}  // Después creo el lugar, que será desconocido.
+				
+			String consultaInsertarLugar = "INSERT INTO lugar (nombre, codigo_postal) VALUES ('Desconocido', ?)";
+			miConexion.insertarLugarDesconocido(consultaInsertarLugar, cp);
+			
+			// Ahora tengo que comprobar si el libro existe en nuestra base de datos, para ello, voy a buscar que no haya ninguno registro en el cual coincidan
+			// titulo y autor
+			
+			String consultaExisteLibro = "SELECT titulo, autor FROM libro WHERE titulo = ? AND autor = ?";
+			int existe = miConexion.buscarLibroPorTituloYAutor(consultaExisteLibro, titulo, autor);
+			
+			if (existe == 0) { // El libro no existe
+				
+				// Si el libro no existe lo inserto.
+				
+				String consultaIntroducirLibro = "INSERT INTO libro (titulo, autor, disponible, genero, activo) VALUES (?, ?, 1, 'Desconocido', 1)";
+				miConexion.insertarLibroTituloAutor(consultaIntroducirLibro, titulo, autor);
+				
+			}
+			
+			// Ahora debo enlazar el lugar con el libro.
+			
+			// Busco el id del libro
+			String consultaId_Libro = "SELECT id FROM libro WHERE titulo = ? AND autor = ?";
+			String id_Libro = miConexion.devolverIdLibroBuscado(consultaId_Libro, titulo, autor);
+			
+			// Busco el id del lugar
+			String consultaId_Lugar = "SELECT id FROM lugar WHERE codigo_postal = ?";
+			String id_Lugar = miConexion.devolverIdLugarBuscado(consultaId_Lugar, codigoPostal);
+			
+			String consultaEnlaceLibroLugar = "INSERT INTO libro_lugar (id_Libro, id_Lugar, Fecha) VALUES (?, ?, ?)";
+			Date fechaAct = new Date();
+			java.sql.Date sqlDate = new java.sql.Date(fechaAct.getTime());
+			
+			miConexion.insertarLibroLugar(consultaEnlaceLibroLugar, id_Libro, id_Lugar, sqlDate);
+			
 			
 		} else {
 			return 0;
 		}
 		
-		
-		
+		return 1;
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

@@ -73,43 +73,34 @@ public class ConexionPostalCat {
 	 */
 
 	public String[] verificarExistenciCodigoPostal(String consulta, String codigoPostal) {
+	    ResultSet resultSet;
+	    
+	    String[] error = new String[1];
+	    error[0] = "ERROR";
 
-		int contadorRegistros = 0;
-		ResultSet resultSet;
-		
-		String[] error = new String[1];
-		error[0] = "ERROR";
+	    try {
+	        PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+	        preparedStatement.setString(1, codigoPostal);
 
-		try {
-			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
-			preparedStatement.setString(1, codigoPostal);
+	        resultSet = preparedStatement.executeQuery();
 
-			resultSet = preparedStatement.executeQuery();
+	        if (resultSet.next()) { // Mover cursor a la primera fila
+	            String[] listaDatosCodPostal = new String[3];
+	            
+	            listaDatosCodPostal[0] = resultSet.getString("cp");
+	            listaDatosCodPostal[1] = resultSet.getString("provincia");
+	            listaDatosCodPostal[2] = resultSet.getString("poblacio");
+	            
+	            return listaDatosCodPostal;
+	        } else {
+	            return error;
+	        }
 
-			while (resultSet.next()) {
-				contadorRegistros++;
-			}
-			
-			if (contadorRegistros > 0) {
-				
-				String[] listaDatosCodPostal = new String[3];
-				
-				listaDatosCodPostal[0] = resultSet.getString("cp");
-				listaDatosCodPostal[1] = resultSet.getString("provincia");
-				listaDatosCodPostal[2] = resultSet.getString("poblacio");
-				
-				
-				return listaDatosCodPostal;
-			} else {
-				return error;
-			}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+	    }
 
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-		return error;
-
+	    return error;
 	}
 
 }

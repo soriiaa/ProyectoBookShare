@@ -52,6 +52,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 	private JTextField txtAutor;
 	private JTextField txtCodigoPostal;
 	private boolean botonHabilitado;
+	private JLabel lblMensaje;
 	
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -392,6 +393,21 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		btnAltaLibro.setBorder(null);
 		btnAltaLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				String respuesta;
+				respuesta = miControlador.cogerDatosAltaLibro();
+				txtTitulo.setText("Título");
+				txtAutor.setText("Autor");
+				txtCodigoPostal.setText("Código Postal");
+				
+				if (respuesta.equals("Error")) {
+					lblMensaje.setText("Libro dado de alta con éxito");
+					lblMensaje.setForeground(new Color(0, 255, 0));
+					lblMensaje.setVisible(true);
+				} else {
+					lblMensaje.setText("Error al dar de alta el libro");
+					lblMensaje.setForeground(new Color(255, 0, 0));
+					lblMensaje.setVisible(true);
+				}
 			}
 		});
 		btnAltaLibro.setBounds(771, 601, 189, 39);
@@ -513,6 +529,13 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		txtCodigoPostal.addFocusListener(new PlaceholderFocusListener(txtCodigoPostal, "Código Postal"));
 		txtCodigoPostal.setBorder(BorderFactory.createCompoundBorder(txtCodigoPostal.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		contentPane.add(txtCodigoPostal);
+		
+		lblMensaje = new JLabel("Libro dado de alta con éxito");
+		lblMensaje.setFont(new Font("Tahoma", Font.PLAIN, 20));
+		lblMensaje.setForeground(new Color(0, 255, 0));
+		lblMensaje.setBounds(455, 498, 249, 29);
+		lblMensaje.setVisible(false);
+		contentPane.add(lblMensaje);
 
 		txtCodigoPostal.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
@@ -586,5 +609,4 @@ public class _07_AltaLibro extends JFrame implements Vista {
 			}
 		}
 	}
-	
 }
