@@ -29,15 +29,15 @@ public class Conexion {
 	private OutputStream output;
 	private File miFichero;
 	private final String FILE = "configuracion.ini";
-	
+
 	public String getLogin() {
 		return login;
 	}
-	
+
 	public String getPwd() {
 		return pwd;
 	}
-	
+
 	public String getUrl() {
 		return url;
 	}
@@ -48,11 +48,11 @@ public class Conexion {
 			misPropiedades = new Properties();
 			input = new FileInputStream(miFichero);
 			misPropiedades.load(input);
-			
+
 			login = misPropiedades.getProperty("login");
 			pwd = misPropiedades.getProperty("pwd");
 			url = misPropiedades.getProperty("url");
-			
+
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Proyecto conectado con la BBDD.");
@@ -62,10 +62,10 @@ public class Conexion {
 		} catch (SQLException e) {
 			System.out.println("Error al conectarse a la BBDD");
 			e.printStackTrace();
-		}catch (IOException e){
+		} catch (IOException e) {
 			System.out.println("Error al leer el fichero de configuracion");
 			e.printStackTrace();
-		}catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Error general de Conexión");
 			e.printStackTrace();
 		}
@@ -284,7 +284,7 @@ public class Conexion {
 			System.err.println(e.getMessage());
 		}
 	}
-	
+
 	public int contarRegistros(String query) {
 		int contador = 0;
 		try {
@@ -405,19 +405,18 @@ public class Conexion {
 		String[][] error2 = new String[1][1];
 
 		int i = 0;
-		
+
 		try {
-			
+
 			PreparedStatement preparedStatement = conexion.prepareStatement(query);
 			ResultSet resultSet = preparedStatement.executeQuery();
 			while (resultSet.next()) {
 				i++;
 			}
-			
+
 			resultSet = preparedStatement.executeQuery();
 
 			String[][] libros = new String[i][4];
-
 
 			System.out.println("Coger Libro Funciona");
 
@@ -521,18 +520,18 @@ public class Conexion {
 		return datos;
 
 	}
-	
-	public Object[][] sacarDatosAltaBajaLibros(String query, int filas){
-		Object[][] datos = new Object[filas][3]; 
+
+	public Object[][] sacarDatosAltaBajaLibros(String query, int filas) {
+		Object[][] datos = new Object[filas][3];
 		try {
 			PreparedStatement pmtst = conexion.prepareStatement(query);
 			ResultSet rset = pmtst.executeQuery();
 			int i = 0;
-			while(rset.next()) {
+			while (rset.next()) {
 				datos[i][0] = rset.getObject(1);
-                datos[i][1] = rset.getObject(2);
-                datos[i][2] = rset.getObject(3);
-                i++;
+				datos[i][1] = rset.getObject(2);
+				datos[i][2] = rset.getObject(3);
+				i++;
 			}
 			rset.close();
 			pmtst.close();
@@ -540,15 +539,15 @@ public class Conexion {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return datos;
-		}	
+		}
 	}
 
 	public void actualizarAltaBajaLibros(String query, String titulo, String autor, String genero, String id) {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1,titulo);
-			pstmt.setString(2,autor);
-			pstmt.setString(3,genero);
+			pstmt.setString(1, titulo);
+			pstmt.setString(2, autor);
+			pstmt.setString(3, genero);
 			pstmt.setString(4, id);
 			pstmt.executeUpdate();
 			pstmt.close();
@@ -558,30 +557,30 @@ public class Conexion {
 	}
 
 	public void actualizarDisponibilidadANoDisponible(String consulta1, String consulta2, String titulo) {
-		
+
 		try {
-			
+
 			Statement statement = conexion.createStatement();
 			statement.executeUpdate(consulta1);
-			
+
 			PreparedStatement preparedStatement2 = conexion.prepareStatement(consulta2);
 			preparedStatement2.setString(1, titulo);
 			preparedStatement2.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 	public void insertarAltaBajaLibros(String query, String titulo, String autor, String genero) {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setString(1,titulo);
-			pstmt.setString(2,autor);
-			pstmt.setString(3,genero);
+			pstmt.setString(1, titulo);
+			pstmt.setString(2, autor);
+			pstmt.setString(3, genero);
 			pstmt.executeUpdate();
 			pstmt.close();
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -592,10 +591,10 @@ public class Conexion {
 			PreparedStatement pstmt = conexion.prepareStatement(sacarId);
 			pstmt.setString(1, tituloAntiguo);
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
+			while (rs.next()) {
 				idLibro = rs.getString(1);
 			}
-		}catch(SQLException e){
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return idLibro;
@@ -661,9 +660,9 @@ public class Conexion {
 			pstmt.setString(3, provincia);
 			pstmt.setString(4, poblacion);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException s) {
+		} catch (SQLException s) {
 			s.printStackTrace();
 		}
 	}
@@ -678,9 +677,9 @@ public class Conexion {
 			pstmt.setInt(4, poblacion);
 			pstmt.setInt(5, codPostalAntiguo);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException s) {
+		} catch (SQLException s) {
 			s.printStackTrace();
 		}
 	}
@@ -697,7 +696,7 @@ public class Conexion {
 			misPropiedades.store(output, "Datos de login cambiados");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}	
+		}
 	}
 
 	public void insertarCogerLibroUsuario(String query, String usuario, String idLibro, java.sql.Date fechaAct) {
@@ -706,6 +705,111 @@ public class Conexion {
 			pstmt.setString(1, usuario);
 			pstmt.setString(2, idLibro);
 			pstmt.setDate(3, fechaAct);
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void introducirDejarLibro(String consulta, String usuario, int id, java.sql.Date sqlDate, String comentario,
+			String valoracion) {
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setString(1, usuario);
+			pstmt.setInt(2, id);
+			pstmt.setDate(3, sqlDate);
+			pstmt.setString(4, comentario);
+			pstmt.setString(5, valoracion);
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarDisponibilidadADisponible(String query, String titulo) {
+		try {
+
+			PreparedStatement preparedStatement2 = conexion.prepareStatement(query);
+			preparedStatement2.setString(1, titulo);
+			preparedStatement2.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public int contarRegistrosComproDejar(String query, String titulo, int id, String usuario) {
+		int contador = 0;
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, titulo);
+			pstmt.setInt(2, id);
+			pstmt.setString(3, usuario);
+			ResultSet resultSet = pstmt.executeQuery();
+			while (resultSet.next()) {
+				contador++;
+			}
+			resultSet.close();
+			pstmt.close();
+			return contador;
+		} catch (SQLException error) {
+			error.printStackTrace();
+			return contador;
+		}
+	}
+
+	public void eliminarRegistroTablaCoger(String queryDelete, int id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(queryDelete);
+			pstmt.setInt(1, id);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void actualizarHistorial(String query, String usuario, String titulo, String accion) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usuario);
+			pstmt.setString(2, titulo);
+			pstmt.setString(3, accion);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void introducirCogerLibro(String consulta, String usuario, int id, java.sql.Date sqlDate) {
+		try {
+
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setString(1, usuario);
+			pstmt.setInt(2, id);
+			pstmt.setDate(3, sqlDate);
+
+			pstmt.executeUpdate();
+
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}		
+	}
+
+	public void eliminarRegistroTablaDejar(String consulta, int id) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
 			
 			pstmt.close();

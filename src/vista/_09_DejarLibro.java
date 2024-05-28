@@ -18,7 +18,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,9 +33,6 @@ import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
-import javax.swing.JSeparator;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
 
 public class _09_DejarLibro extends JFrame implements Vista {
 	private Controlador miControlador;
@@ -55,6 +54,29 @@ public class _09_DejarLibro extends JFrame implements Vista {
 	private JTextField txtCodigoPostal;
 	private JTextField txtComentario;
 	private boolean botonHabilitado;
+	private JComboBox<String> comboValoracion;
+	private JLabel lblMensajeBueno;
+	private JLabel lblMensajeMalo;
+	
+	public JTextField getTxtTitulo() {
+		return txtTitulo;
+	}
+	
+	public JTextField getTxtFechaCogidaLibro() {
+		return txtFechaCogidaLibro;
+	}
+	
+	public JTextField getTxtCodigoPostal() {
+		return txtCodigoPostal;
+	}
+	
+	public JTextField getTxtComentario() {
+		return txtComentario;
+	}
+	
+	public JComboBox<String> getComboValoracion() {
+		return comboValoracion;
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -365,14 +387,23 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		contentPane.add(btnMiperfil);
 
 		JLabel lblCogerUnLibro = new JLabel("Dejar un libro");
-		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 45));
-		lblCogerUnLibro.setBounds(435, 39, 284, 66);
+		lblCogerUnLibro.setFont(new Font("Tahoma", Font.PLAIN, 70));
+		lblCogerUnLibro.setBounds(360, 34, 426, 85);
 		getContentPane().add(lblCogerUnLibro);
 
 		btnDejar = new JButton("Dejar");
 		btnDejar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				System.out.println("clic2");
+				if(miControlador.recogerdatosComproExistencia()) {
+					miControlador.recogerDatosDejarLibro();
+					miControlador.cogerDatosHistorialDejar();
+					lblMensajeMalo.setVisible(false);
+					lblMensajeBueno.setVisible(true);
+					
+				}else {
+					lblMensajeBueno.setVisible(false);
+					lblMensajeMalo.setVisible(true);
+				}
 			}
 		});
 		btnDejar.setEnabled(false);
@@ -471,7 +502,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 				comprobarCampos();
 			}
 		});
-		txtFechaCogidaLibro.setText("Fecha adquisición libro");
+		txtFechaCogidaLibro.setText("YYYY-MM-DD   --   Fecha adquisición libro");
 		txtFechaCogidaLibro.setForeground(Color.GRAY);
 		txtFechaCogidaLibro.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtFechaCogidaLibro.setColumns(10);
@@ -506,19 +537,6 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			public void changedUpdate(DocumentEvent e) {
 			}
 		});
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
 		
 		txtCodigoPostal = new JTextField();
 		txtCodigoPostal.addMouseListener(new MouseAdapter() {
@@ -576,9 +594,6 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			}
 		});
 		
-		
-		
-		
 		txtComentario = new JTextField();
 		txtComentario.addMouseListener(new MouseAdapter() {
 			@Override
@@ -613,16 +628,28 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		txtComentario.setBorder(BorderFactory.createCompoundBorder(txtComentario.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		contentPane.add(txtComentario);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
-		comboBox.setBorder(null);
-		comboBox.setBounds(508, 496, 59, 21);
-		contentPane.add(comboBox);
+		comboValoracion = new JComboBox();
+		comboValoracion.setModel(new DefaultComboBoxModel(new String[] {"1", "2", "3", "4", "5"}));
+		comboValoracion.setBorder(null);
+		comboValoracion.setBounds(508, 496, 59, 21);
+		contentPane.add(comboValoracion);
 		
 		JLabel lblNewLabel = new JLabel("Puntuación (1-5):");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setBounds(381, 494, 117, 21);
 		contentPane.add(lblNewLabel);
+		
+		lblMensajeBueno = new JLabel("Libro devuelto a la base de datos");
+		lblMensajeBueno.setVisible(false);
+		lblMensajeBueno.setForeground(new Color(112, 168, 36));
+		lblMensajeBueno.setBounds(381, 526, 193, 14);
+		contentPane.add(lblMensajeBueno);
+		
+		lblMensajeMalo = new JLabel("Compruebe que los datos son correctos");
+		lblMensajeMalo.setForeground(new Color(170, 53, 19));
+		lblMensajeMalo.setVisible(false);
+		lblMensajeMalo.setBounds(381, 526, 248, 14);
+		contentPane.add(lblMensajeMalo);
 
 		txtComentario.getDocument().addDocumentListener(new DocumentListener() {
 			@Override

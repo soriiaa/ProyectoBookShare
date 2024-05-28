@@ -64,7 +64,6 @@ public class Main {
 		// Con estos metodos permito que se conozcan el modelo el controlador y las
 		// vistas
 		miModelo.setVista(misVistas);
-		miModelo.activarConexion();
 		miControlador.setVista(misVistas);
 		miControlador.setModelo(miModelo);
 
