@@ -5,19 +5,28 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
@@ -27,15 +36,8 @@ public class _07_AltaLibro extends JFrame implements Vista {
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private JPanel contentPane;
-	private JLabel lblGeneroLibro;
-	private JLabel lblAutorLibro;
-	private JLabel lblTituloIntroducirLibro;
 	private JLabel lblTituloLibro;
-	private JButton btnDejar;
 	private JButton btnAltaLibro;
-	private JTextField txtNombreLibro;
-	private JTextField txtAutor;
-	private JTextField txtGenero;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
 	private JLabel lblTituloMenu;
@@ -46,6 +48,10 @@ public class _07_AltaLibro extends JFrame implements Vista {
 	private JButton btnHistorialLibros;
 	private JButton btnMiperfil;
 	private JButton btnBandejaDeEntrada;
+	private JTextField txtTitulo;
+	private JTextField txtAutor;
+	private JTextField txtCodigoPostal;
+	private boolean botonHabilitado;
 	
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -58,12 +64,13 @@ public class _07_AltaLibro extends JFrame implements Vista {
 	}
 
 	public _07_AltaLibro() {
+		botonHabilitado = false;
 		setResizable(false);
 		setTitle("Bookshare 2.0");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -112,7 +119,19 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
+				
+				comprobarCampos();
+				
+				if (btnAltaLibro.isEnabled()) {
+					btnAltaLibro.setBackground(new Color(0, 0, 0));
+				}
+				
 				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				btnCogerLibro.requestFocus();
 			}
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
@@ -339,57 +358,221 @@ public class _07_AltaLibro extends JFrame implements Vista {
 		contentPane.add(btnMiperfil);
 
 		lblTituloLibro = new JLabel("Alta de libro");
-		lblTituloLibro.setFont(new Font("Tahoma", Font.PLAIN, 30));
-		lblTituloLibro.setBounds(493, 11, 178, 39);
+		lblTituloLibro.setFont(new Font("Tahoma", Font.PLAIN, 70));
+		lblTituloLibro.setBounds(381, 46, 386, 85);
 		contentPane.add(lblTituloLibro);
 
-		lblTituloIntroducirLibro = new JLabel("Introduce el nombre del libro a dejar:");
-		lblTituloIntroducirLibro.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblTituloIntroducirLibro.setBounds(332, 198, 340, 39);
-		contentPane.add(lblTituloIntroducirLibro);
-
-		txtNombreLibro = new JTextField();
-		txtNombreLibro.setBounds(695, 205, 199, 32);
-		contentPane.add(txtNombreLibro);
-		txtNombreLibro.setColumns(10);
-
-		lblAutorLibro = new JLabel("Introduce el autor del libro a dejar:");
-		lblAutorLibro.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblAutorLibro.setBounds(332, 280, 332, 39);
-		contentPane.add(lblAutorLibro);
-
-		lblGeneroLibro = new JLabel("Introduce el genero del libro a dejar:");
-		lblGeneroLibro.setFont(new Font("Tahoma", Font.PLAIN, 20));
-		lblGeneroLibro.setBounds(332, 367, 340, 39);
-		contentPane.add(lblGeneroLibro);
-
-		txtAutor = new JTextField();
-		txtAutor.setColumns(10);
-		txtAutor.setBounds(695, 288, 199, 30);
-		contentPane.add(txtAutor);
-
-		txtGenero = new JTextField();
-		txtGenero.setColumns(10);
-		txtGenero.setBounds(695, 374, 199, 32);
-		contentPane.add(txtGenero);
-
-		btnAltaLibro = new JButton("Dar de alta");
-		btnAltaLibro.setBackground(new Color(128, 255, 128));
+		btnAltaLibro = new JButton("Dar de alta y Dejar");
+		btnAltaLibro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				
+				if (btnAltaLibro.isEnabled()) {
+					btnAltaLibro.setBackground(new Color(70, 70, 70));
+					btnAltaLibro.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+				
+			}
+		});
+		btnAltaLibro.setFont(new Font("Tahoma", Font.PLAIN, 18));
+		btnAltaLibro.setForeground(new Color(255, 255, 255));
+		btnAltaLibro.setBackground(new Color(0, 0, 0));
+		btnAltaLibro.setBorder(null);
 		btnAltaLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			}
 		});
-		btnAltaLibro.setBounds(708, 604, 112, 39);
+		btnAltaLibro.setBounds(771, 601, 189, 39);
 		contentPane.add(btnAltaLibro);
-
-		btnDejar = new JButton("Dejar");
-		btnDejar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				miControlador.cambiarVentana(7, 9);
+		
+		txtTitulo = new JTextField();
+		txtTitulo.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
 			}
 		});
-		btnDejar.setBackground(new Color(128, 255, 128));
-		btnDejar.setBounds(843, 602, 112, 39);
-		contentPane.add(btnDejar);
+		txtTitulo.setBounds(381, 241, 387, 29);
+		contentPane.add(txtTitulo);
+		txtTitulo.setBackground(new Color(192, 192, 192));
+		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtTitulo, "Título");
+		txtTitulo.addFocusListener(focusListener);
+		txtTitulo.setText("Título");
+		txtTitulo.addFocusListener(new PlaceholderFocusListener(txtTitulo, "Título"));
+		txtTitulo.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtTitulo.setForeground(Color.GRAY);
+		txtTitulo.setBorder(null);
+		txtTitulo.setBorder(BorderFactory.createCompoundBorder(txtTitulo.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		txtTitulo.setColumns(10);
+		txtTitulo.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Título".equals(txtTitulo.getText())) {
+					txtTitulo.setForeground(Color.GRAY);
+				} else {
+					txtTitulo.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtTitulo.getText().isEmpty()) {
+					txtTitulo.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+
+		contentPane.add(txtTitulo);
+		
+		txtAutor = new JTextField();
+		txtAutor.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtAutor.setText("Autor");
+		txtAutor.setForeground(Color.GRAY);
+		txtAutor.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtAutor.setColumns(10);
+		txtAutor.setBorder(null);
+		txtAutor.setBackground(Color.LIGHT_GRAY);
+		txtAutor.setBounds(381, 338, 387, 29);
+		focusListener = new PlaceholderFocusListener(txtAutor, "Autor");
+		txtAutor.addFocusListener(focusListener);
+		txtAutor.addFocusListener(new PlaceholderFocusListener(txtAutor, "Autor"));
+		txtAutor.setBorder(BorderFactory.createCompoundBorder(txtAutor.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtAutor);
+
+		txtAutor.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Autor".equals(txtAutor.getText())) {
+					txtAutor.setForeground(Color.GRAY);
+				} else {
+					txtAutor.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtAutor.getText().isEmpty()) {
+					txtAutor.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		
+		txtCodigoPostal = new JTextField();
+		txtCodigoPostal.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				comprobarCampos();
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				comprobarCampos();
+			}
+		});
+		txtCodigoPostal.setText("Código Postal");
+		txtCodigoPostal.setForeground(Color.GRAY);
+		txtCodigoPostal.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtCodigoPostal.setColumns(10);
+		txtCodigoPostal.setBorder(null);
+		txtCodigoPostal.setBackground(Color.LIGHT_GRAY);
+		txtCodigoPostal.setBounds(381, 434, 387, 29);
+		focusListener = new PlaceholderFocusListener(txtCodigoPostal, "Código Postal");
+		txtCodigoPostal.addFocusListener(focusListener);
+		txtCodigoPostal.addFocusListener(new PlaceholderFocusListener(txtCodigoPostal, "Código Postal"));
+		txtCodigoPostal.setBorder(BorderFactory.createCompoundBorder(txtCodigoPostal.getBorder(), BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		contentPane.add(txtCodigoPostal);
+
+		txtCodigoPostal.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Código Postal".equals(txtCodigoPostal.getText())) {
+					txtCodigoPostal.setForeground(Color.GRAY);
+				} else {
+					txtCodigoPostal.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtCodigoPostal.getText().isEmpty()) {
+					txtCodigoPostal.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		
+		comprobarCampos();
+		
 	}
+	
+	public void comprobarCampos() {
+		
+		if ((txtTitulo.getText().isEmpty() || txtTitulo.getText().equals("Título")) || (txtAutor.getText().isEmpty() || txtAutor.getText().equals("Autor")) || (txtCodigoPostal.getText().isEmpty() || txtCodigoPostal.getText().equals("Código Postal"))) {
+			botonHabilitado = false;
+		} else {
+			botonHabilitado = true;
+			btnAltaLibro.setBackground(new Color(0, 0, 0));
+			btnAltaLibro.setEnabled(true);
+		}
+		
+		if (botonHabilitado == false) {
+			btnAltaLibro.setBackground(new Color(144, 144, 144));
+			btnAltaLibro.setEnabled(false);
+		} 
+		
+	}
+	
+	private static class PlaceholderFocusListener implements FocusListener {
+		private final JTextField field;
+		private final String placeholder;
+
+		public PlaceholderFocusListener(JTextField field, String placeholder) {
+			this.field = field;
+			this.placeholder = placeholder;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			if (field.getText().equals(placeholder)) {
+				field.setText("");
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar('*'); // Para ocultar los caracteres al escribir
+				}
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (field.getText().isEmpty()) {
+				field.setText(placeholder);
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar((char) 0); // Para que el texto sea visible
+				}
+			}
+		}
+	}
+	
 }

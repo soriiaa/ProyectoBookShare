@@ -109,7 +109,11 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 		btnBuscarPorLocalidad2.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBuscarPorLocalidad2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!miControlador.comproConexion()) {
+					miModelo.activarConexion();
+				}
 				miControlador.cambiarVentana(2, 2);
+				
 			}
 		});
 		// Esta parte del codigo sirve para cambiar el color del boton al pasar por encima
@@ -144,6 +148,9 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				if(!miControlador.comproConexion()) {
+					miModelo.activarConexion();
+				}
 				miControlador.cambiarVentana(3, 18);
 			}
 		});
@@ -160,6 +167,9 @@ public class _03_PaginaPrincipalSinLog extends JFrame implements Vista {
 		btnIniciarSesion.setHorizontalAlignment(SwingConstants.RIGHT);
 		btnIniciarSesion.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				if(!miControlador.comproConexion()) {
+					miModelo.activarConexion();
+				}
 				miControlador.cambiarVentana(2, 1);
 			}
 		});

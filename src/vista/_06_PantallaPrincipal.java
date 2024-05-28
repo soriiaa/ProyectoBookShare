@@ -5,6 +5,7 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -89,6 +90,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnCogerLibro.setForeground(new Color(0, 0, 128));
 		btnCogerLibro.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnCogerLibro.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCogerLibro.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnCogerLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 8);
@@ -116,6 +118,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnDejarUnLibro.setBackground(new Color(230, 230, 250));
 		btnDejarUnLibro.setForeground(new Color(0, 0, 128));	
 		btnDejarUnLibro.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnDejarUnLibro.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDejarUnLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 9);
@@ -155,6 +158,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnDarDeAlta.setBackground(new Color(230, 230, 250));
 		btnDarDeAlta.setForeground(new Color(0, 0, 128));
 		btnDarDeAlta.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnDarDeAlta.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnDarDeAlta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 7);
@@ -194,6 +198,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnFaq.setBackground(new Color(230, 230, 250));
 		btnFaq.setForeground(new Color(0, 0, 128));
 		btnFaq.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnFaq.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnFaq.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 11);
@@ -233,6 +238,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnHistorialLibros.setBackground(new Color(230, 230, 250));
 		btnHistorialLibros.setForeground(new Color(0, 0, 128));
 		btnHistorialLibros.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnHistorialLibros.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnHistorialLibros.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 10);
@@ -271,7 +277,8 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnBandejaDeEntrada.setForeground(new Color(0, 0, 128));
 		btnBandejaDeEntrada.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnBandejaDeEntrada.setBorderPainted(false);
-		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));		
+		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
+		btnBandejaDeEntrada.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnBandejaDeEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 13);
@@ -310,6 +317,7 @@ public class _06_PantallaPrincipal extends JFrame implements Vista {
 		btnMiperfil.setBackground(new Color(230, 230, 250));
 		btnMiperfil.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnMiperfil.setHorizontalAlignment(SwingConstants.RIGHT);
+		btnMiperfil.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		btnMiperfil.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(6, 12);
