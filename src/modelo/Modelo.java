@@ -166,7 +166,7 @@ public class Modelo {
 
 	public Object[][] sacarLugaresBase() {
 
-		String consulta = "select * from cod_postal";
+		String consulta = "select nombre, codigo_postal from lugar";
 
 		int numFilas = miConexion.contarRegistros(consulta);
 
@@ -175,21 +175,22 @@ public class Modelo {
 		return datos;
 	}
 
-	public void conectorInsertLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+	public void conectorInsertLugar(String nombre, int codPostal) {
 
-		miConexion.insertarLugar(codPostal, comunidad, provincia, poblacion);
+		miConexion.insertarLugar(nombre, codPostal);
 	}
 
-	public void conectorDeleteLugar(int codPostal, String comunidad, String provincia, String poblacion) {
-		miConexion.deleteLugar(codPostal, comunidad, provincia, poblacion);
+	public void conectorDeleteLugar(String nombre, int codPostal) {
+		miConexion.deleteLugar(nombre, codPostal);
 	}
 
-	public void conectorUpdateLugar(int codPostal, String comunidad, String provincia, int poblacion,
-			int codPostalAntiguo) {
+	public void conectorUpdateLugar(String nombre, int codPostal) {
+		 String consultaID = "select id from lugar where nombre = ? and codigo_postal = ?";
+		 int id = miConexion.sacarIDLugar(consultaID, nombre, codPostal);
 
-		String consulta = "update cod_postal set codigo_postal = ?, comunidad_autonoma = ?, provincia = ?, poblacion = ? where codigo_postal = ?";
+		String consulta = "update lugar set nombre = ? where id = ?";
 
-		miConexion.updateLugar(consulta, codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
+		miConexion.updateLugar(consulta, nombre, id);
 	}
 
 	public String[] recogerInfoConexion() {

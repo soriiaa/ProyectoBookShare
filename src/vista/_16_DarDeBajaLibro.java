@@ -381,13 +381,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		btnModificar.setBounds(791, 547, 103, 44);
 		contentPane.add(btnModificar);
 		
-		JLabel lblTituloLibro = new JLabel("Titulo del Libro:");
-		lblTituloLibro.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblTituloLibro.setBounds(308, 140, 130, 30);
-		contentPane.add(lblTituloLibro);
-		
 		txtTitulo = new JTextField();
-		txtTitulo.setBounds(381, 162, 387, 29);
 		txtTitulo.setBackground(new Color(192, 192, 192));
 		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtTitulo, "Titulo");
 		txtTitulo.addFocusListener(focusListener);
@@ -421,7 +415,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 			public void changedUpdate(DocumentEvent e) {
 			}
 		});
-		txtTitulo.setBounds(448, 142, 436, 30);
+		txtTitulo.setBounds(404, 140, 436, 30);
 		txtTitulo.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -440,7 +434,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 			}
 		});
 		txtAutor.setBackground(new Color(192, 192, 192));
-		txtAutor.setBounds(448, 184, 436, 30);
+		txtAutor.setBounds(404, 184, 436, 30);
 		focusListener = new PlaceholderFocusListener(txtAutor, "Autor");
 		txtAutor.addFocusListener(focusListener);
 		txtAutor.setText("Autor");
@@ -475,21 +469,11 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		});
 		contentPane.add(txtAutor);
 		
-		JLabel lblAutor = new JLabel("Autor del Libro:");
-		lblAutor.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblAutor.setBounds(308, 183, 130, 30);
-		contentPane.add(lblAutor);
-		
-		JLabel lblGenero = new JLabel("Género Literario:");
-		lblGenero.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblGenero.setBounds(308, 224, 130, 30);
-		contentPane.add(lblGenero);
-		
 		txtGenero = new JTextField();
 		txtGenero.setBackground(new Color(192, 192, 192));
-		focusListener = new PlaceholderFocusListener(txtGenero, "Genero");
+		focusListener = new PlaceholderFocusListener(txtGenero, "Genero Literario");
 		txtGenero.addFocusListener(focusListener);
-		txtGenero.setText("Genero");
+		txtGenero.setText("Genero Literario");
 //		txtTitulo.addFocusListener(new PlaceholderFocusListener(txtTitulo, "Título"));
 		txtGenero.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		txtGenero.setForeground(Color.GRAY);
@@ -501,7 +485,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		txtGenero.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				if ("Genero".equals(txtGenero.getText())) {
+				if ("Genero Literario".equals(txtGenero.getText())) {
 					txtGenero.setForeground(Color.GRAY);
 				} else {
 					txtGenero.setForeground(Color.BLACK);
@@ -519,7 +503,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 			public void changedUpdate(DocumentEvent e) {
 			}
 		});
-		txtGenero.setBounds(448, 224, 436, 30);
+		txtGenero.setBounds(404, 225, 436, 30);
 		txtGenero.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -541,7 +525,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 	}
 	
 	private void updateAlta() {
-		if((txtTitulo.getText().length() == 0 || txtTitulo.getText().equals("Titulo")) || (txtAutor.getText().length() == 0 || txtAutor.getText().equals("Autor")) || (txtGenero.getText().length() == 0 || txtGenero.getText().equals("Genero"))) {
+		if((txtTitulo.getText().length() == 0 || txtTitulo.getText().equals("Titulo")) || (txtAutor.getText().length() == 0 || txtAutor.getText().equals("Autor")) || (txtGenero.getText().length() == 0 || txtGenero.getText().equals("Genero Literario"))) {
 			btnAlta.setEnabled(false);
 		}else {
 			btnAlta.setEnabled(true);
@@ -557,7 +541,7 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 	}
 	
 	private void updateModificar() {
-		if((txtTitulo.getText().length() == 0 || txtTitulo.getText().equals("Titulo")) || (txtAutor.getText().length() == 0 || txtAutor.getText().equals("Autor")) || (txtGenero.getText().length() == 0 || txtGenero.getText().equals("Genero")) || table.getSelectedRow() == -1) {
+		if(txtTitulo.getText().length() == 0 || txtAutor.getText().length() == 0 || txtGenero.getText().length() == 0 || table.getSelectedRow() == -1) {
 			btnModificar.setEnabled(false);
 		}else {
 			btnModificar.setEnabled(true);
