@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -1020,6 +1021,50 @@ public class Conexion {
 			e.printStackTrace();
 		}
 		
+	}
+
+	public void subirImagen(String consulta, File foto, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			FileInputStream fis = new FileInputStream(foto);
+			pstmt.setBinaryStream(1, fis, foto.length());
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			pstmt.close();
+
+		} catch (SQLException | FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public byte[] sacarImagen(String consulta, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consulta);
+			pstmt.setString(1, usuario);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				return rs.getBytes("img");
+			}
+			pstmt.close();
+			rs.close();
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public void updateNickName(String query,String nick, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, nick);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -1,8 +1,23 @@
 package modelo;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import javax.swing.BorderFactory;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 /**
  * @author Andrés
@@ -404,6 +419,40 @@ public class Modelo {
 		miConexion.eliminarRegistroTablaDejar(consulta, id);
 
 	}
+
+	public void guardarImagen(File foto) throws SQLException, IOException {
+		String consulta = "update users set img = ? where usr = ?";
+		miConexion.subirImagen(consulta, foto, usuario);
+	}
+
+	public byte[] getImage() {
+		String consulta = "select img from users where usr = ?";
+		return miConexion.sacarImagen(consulta, usuario);
+	}
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public String getNombre() {
+		String query = "select nombre from users where usr = ?";
+		
+		return miConexion.consultaConFiltro(query, usuario);
+	}
+
+	public String getApellido() {
+		String query = "select apellido from users where usr = ?";
+		
+		return miConexion.consultaConFiltro(query, usuario);
+	}
+
+	public void updateNickName(String nick) {
+		String query = "update users set usr = ? where usr = ?";
+		
+		miConexion.updateNickName(query, nick, usuario);
+	}
+	
+	
 
 }
 
