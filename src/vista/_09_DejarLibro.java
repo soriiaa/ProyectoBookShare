@@ -509,9 +509,9 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		txtFechaCogidaLibro.setBorder(null);
 		txtFechaCogidaLibro.setBackground(Color.LIGHT_GRAY);
 		txtFechaCogidaLibro.setBounds(381, 218, 387, 29);
-		focusListener = new PlaceholderFocusListener(txtFechaCogidaLibro, "Fecha adquisición libro");
+		focusListener = new PlaceholderFocusListener(txtFechaCogidaLibro, "YYYY-MM-DD   --   Fecha adquisición libro");
 		txtFechaCogidaLibro.addFocusListener(focusListener);
-		txtFechaCogidaLibro.addFocusListener(new PlaceholderFocusListener(txtFechaCogidaLibro, "Fecha adquisición libro"));
+		txtFechaCogidaLibro.addFocusListener(new PlaceholderFocusListener(txtFechaCogidaLibro, "YYYY-MM-DD   --   Fecha adquisición libro"));
 		txtFechaCogidaLibro.setBorder(BorderFactory.createCompoundBorder(txtFechaCogidaLibro.getBorder(),
 				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		contentPane.add(txtFechaCogidaLibro);
@@ -519,7 +519,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		txtFechaCogidaLibro.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
-				if ("Fecha adquisición libro".equals(txtFechaCogidaLibro.getText())) {
+				if ("YYYY-MM-DD   --   Fecha adquisición libro".equals(txtFechaCogidaLibro.getText())) {
 					txtFechaCogidaLibro.setForeground(Color.GRAY);
 				} else {
 					txtFechaCogidaLibro.setForeground(Color.BLACK);

@@ -15,7 +15,6 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Properties;
 
 public class Conexion {
@@ -483,38 +482,32 @@ public class Conexion {
 		}
 	}
 
-	public Object[][] sacarHistorialLibros(String query, int numeroFilasCoger, int numeroFilasDejar, int[] filtroCoger,
-			int[] filtroDejar) {
-		Object[][] datos = new Object[numeroFilasCoger + numeroFilasDejar][9];
+	public Object[][] sacarHistorialLibros(String query, String usuario, int numeroFilas) {
+		Object[][] datos = new Object[numeroFilas][8];
 
-		for (int i = 0; i < numeroFilasCoger + numeroFilasDejar; i++) {
-			try {
-				PreparedStatement pstmt = conexion.prepareStatement(query);
-				if (i < filtroCoger.length) {
-					pstmt.setInt(1, filtroCoger[i]);
-				} else if (i < filtroDejar.length) {
-					pstmt.setInt(1, filtroDejar[i]);
-				}
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usuario);
 
-				ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
-				// Verificar si hay resultados antes de procesarlos
-				if (rs.next()) {
-					datos[i][0] = rs.getObject(1);
-					datos[i][1] = rs.getObject(2);
-					datos[i][2] = rs.getObject(3);
-					datos[i][3] = rs.getObject(4);
-					datos[i][4] = rs.getObject(5);
-					datos[i][5] = rs.getObject(6);
-					datos[i][6] = rs.getObject(7);
-					datos[i][7] = rs.getObject(8);
-					datos[i][8] = rs.getObject(9);
-				}
-				rs.close();
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			// Verificar si hay resultados antes de procesarlos
+			int i = 0;
+			while (rs.next()) {
+				datos[i][0] = rs.getObject(1);
+				datos[i][1] = rs.getObject(2);
+				datos[i][2] = rs.getObject(3);
+				datos[i][3] = rs.getObject(4);
+				datos[i][4] = rs.getObject(5);
+				datos[i][5] = rs.getObject(6);
+				datos[i][6] = rs.getObject(7);
+				datos[i][7] = rs.getObject(8);
+				i++;
 			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return datos;
@@ -696,7 +689,6 @@ public class Conexion {
 			pstmt.setString(2, idLibro);
 			pstmt.setDate(3, fechaAct);
 			pstmt.executeUpdate();
-
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -759,23 +751,26 @@ public class Conexion {
 			PreparedStatement pstmt = conexion.prepareStatement(queryDelete);
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void actualizarHistorial(String query, String usuario, String titulo, String accion) {
+	public void actualizarHistorial(String query, String usuario, String titulo, String accion, java.sql.Date fecha,
+			int codPostal) {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, usuario);
 			pstmt.setString(2, titulo);
 			pstmt.setString(3, accion);
+			pstmt.setDate(4, fecha);
+			pstmt.setInt(5, codPostal);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -793,7 +788,7 @@ public class Conexion {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	public void eliminarRegistroTablaDejar(String consulta, int id) {
@@ -801,9 +796,9 @@ public class Conexion {
 			PreparedStatement pstmt = conexion.prepareStatement(consulta);
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -822,6 +817,214 @@ public class Conexion {
 			e.printStackTrace();
 		}
 		return idLugar;
+		
+	}
+
+	public java.sql.Date sacarFechaCogerDejar(String consultaFecha, String usuario) {
+		java.sql.Date fecha = null;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consultaFecha);
+			pstmt.setString(1, usuario);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				fecha = rs.getDate(1); // Obtenemos la fecha de la primera columna del resultado
+			}
+			pstmt.close();
+			rs.close();
+			return fecha;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return fecha;
+		}
+	}
+
+	public int sacarCodPostal(String consultaCodPostal, int id) {
+		int codigo = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consultaCodPostal);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				codigo = rs.getInt(1);
+
+			}
+			rs.close();
+			pstmt.close();
+			return codigo;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return codigo;
+		}}
+	
+	public boolean comprobarExistenciaCodigoPostal(String consulta, String codigoAComprobar) {
+
+		ResultSet resultSet;
+		int contadorRegistros = 0;
+
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, codigoAComprobar);
+			resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+				contadorRegistros++;
+			}
+			
+			if (contadorRegistros > 0) {
+				return true;
+			} else {
+				return false;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+
+	}
+
+	public void insertarCodigoPostalProvinciaPoblacion(String consulta, String codigoPostal, String provincia) {
+
+		ResultSet resultSet;
+
+		try {
+			PreparedStatement preparedStatemente = conexion.prepareStatement(consulta);
+			preparedStatemente.setString(1, codigoPostal);
+			preparedStatemente.setString(2, provincia);
+
+			preparedStatemente.executeUpdate();
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void insertarLugarDesconocido(String consulta, String codigoPostal) {
+		
+		ResultSet resultSet;
+		
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, codigoPostal);
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public int buscarLibroPorTituloYAutor(String consulta, String titulo, String autor) {
+		
+		ResultSet resultSet;
+		int contador = 0;
+		
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, titulo);
+			preparedStatement.setString(2, autor);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			while (resultSet.next()) {
+				contador++;
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		if (contador > 0) {
+			return 1;
+		} else {
+			return 0;
+		}
+		
+		
+	}
+	
+	public void insertarLibroTituloAutor(String consulta, String titulo, String autor) {
+		
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, titulo);
+			preparedStatement.setString(2, autor);
+			
+			preparedStatement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public String devolverIdLibroBuscado(String consulta, String titulo, String autor) {
+		
+		ResultSet resultSet;
+		
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, titulo);
+			preparedStatement.setString(2, autor);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.next()) {  // Mueve el cursor al primer registro válido
+	            return resultSet.getString("id");  // Devuelve el valor de la columna "id"
+	        } else {
+	            return "";  // Retorna una cadena vacía si no se encontraron registros
+	        }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "";
+		}
+		
+		
+	}
+	
+	public String devolverIdLugarBuscado(String consulta, String codigo_postal) {
+		
+		ResultSet resultSet;
+		
+		try {
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, codigo_postal);
+			
+			resultSet = preparedStatement.executeQuery();
+			
+			if (resultSet.next()) {  // Mueve el cursor al primer registro válido
+	            return resultSet.getString("id");  // Devuelve el valor de la columna "id"
+	        } else {
+	            return "";  // Retorna una cadena vacía si no se encontraron registros
+	        }
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return "";
+		}
+		
+	}
+	
+	public void insertarLibroLugar(String consulta, String idLibro, String idLugar, java.sql.Date fechaAct) {
+		
+		try {
+			
+			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			preparedStatement.setString(1, idLibro);
+			preparedStatement.setString(2, idLugar);
+			preparedStatement.setDate(3, fechaAct);
+			
+			preparedStatement.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
 	}
 }

@@ -11,6 +11,7 @@ import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
+import vista._07_AltaLibro;
 import vista._09_DejarLibro;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
@@ -211,6 +212,37 @@ public class Controlador {
 	public boolean comproConexion() {
 		return miModelo.devolverConexion();
 	}
+	
+	public String cogerDatosAltaLibro() {
+		
+		String[] datosAltaLibro = new String[3];
+		datosAltaLibro[0] = ((_07_AltaLibro) misVistas[7]).getTitulo();
+		datosAltaLibro[1] = ((_07_AltaLibro) misVistas[7]).getAutor();
+		datosAltaLibro[2] = ((_07_AltaLibro) misVistas[7]).getCodigoPostal();
+		
+		boolean camposCorrectos = true;
+		
+		try {
+	        Integer.parseInt(datosAltaLibro[2]);
+	    } catch (NumberFormatException e) {
+	        camposCorrectos = false;
+	    }
+		
+		int respuesta = 0; // 1 es que hay resultados y se ha insertado bien. 0 es que no hay ningún código postal.
+		
+		if (camposCorrectos) {
+			respuesta = miModelo.darLibroAlta(datosAltaLibro[0], datosAltaLibro[1], datosAltaLibro[2]);
+		}
+		
+		if (respuesta == 0) {
+			return "Error";
+		} else if (respuesta == 1) {
+			return "Libro dado de alta con éxito";
+		} else {
+			return "Error";
+		}
+		
+	}
 
 	public void recogerDatosDejarLibro() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
@@ -233,8 +265,11 @@ public class Controlador {
 
 	public void cogerDatosHistorialDejar() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
+		String codigoPostalStr = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
 		
-		miModelo.actualizarHistorial(titulo);
+		int codPostal = Integer.parseInt(codigoPostalStr);
+		
+		miModelo.actualizarHistorial(titulo, codPostal);
 	}
 
 	public void recogerDatosCogerLibro(String valorSeleccionado) {
@@ -243,3 +278,4 @@ public class Controlador {
 	}
 
 }
+

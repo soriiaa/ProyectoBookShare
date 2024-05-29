@@ -364,8 +364,8 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 			@Override
 			public void windowOpened(WindowEvent e) {
 				Object[][] datos = miControlador.sacarHistorial();
-				String[] columnas = { "Titulo", "Autor", "Genero", "Disponible", "Activo", "Valoracion",
-						"Codigo Postal", "Fecha dejado", "Fecha cogido" };
+				String[] columnas = { "Titulo", "Autor", "Genero", "Disponible", "Valoracion",
+						"Fecha", "Accion", "Cod_postal" };
 				modelo = new DefaultTableModel(datos,columnas);
 				tableDatos.setModel(modelo);
 			}
@@ -374,7 +374,11 @@ public class _10_HistorialLibros extends JFrame implements Vista {
 		JButton btnRefresh = new JButton("Refrescar");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-			
+				Object[][] datos = miControlador.sacarHistorial();
+				String[] columnas = { "Titulo", "Autor", "Genero", "Disponible", "Valoracion",
+						"Fecha", "Accion", "Cod_postal" };
+				modelo = new DefaultTableModel(datos,columnas);
+				tableDatos.setModel(modelo);
 			}
 		});
 		btnRefresh.setBounds(783, 118, 89, 23);
