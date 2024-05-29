@@ -3,14 +3,25 @@
  */
 package controlador;
 
+import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import modelo.Modelo;
 import vista.Vista;
@@ -283,4 +294,21 @@ public class Controlador {
 		
 	}
 
+	public String sacarUsuario() {
+		return miModelo.getUsuario();
+	}
+
+	public String sacarNombre() {
+		return miModelo.getNombre();
+	}
+
+	public String sacarApellido() {
+		return miModelo.getApellido();
+	}
+	
+	public void cambiarNickName() {
+		String nick = ((_12_MiPerfil) misVistas[12]).getTxtNicknameUsuario().getText();
+		miModelo.updateNickName(nick);
+	}
+	
 }

@@ -884,4 +884,17 @@ public class Conexion {
 		}
 	}
 
+	public void updateNickName(String query,String nick, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, nick);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }
