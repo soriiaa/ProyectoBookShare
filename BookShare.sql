@@ -126,20 +126,31 @@ foreign key(id_Libro) references libro(id),
 foreign key(id_lugar) references lugar(id)
 )engine=innodb;
 
+insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(1, 1, '2024-05-16');
+insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
+
 create table historial(
 id_movimiento int auto_increment,
 usr varchar(40) not null,
 titulo varchar(80) not null,
 accion varchar(10) not null,
+fecha date not null,
 primary key(id_movimiento),
 foreign key(usr) references users(usr) 
 )engine=innodb;
 
-insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(1, 1, '2024-05-16');
-insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(2, 2, '2024-05-17');
-
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
-select * from libro;
+select * from lugar;
+insert into administracion (clave, valor) values (1, 33);
 
 SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
+
+select libro.titulo, libro.autor, libro.genero, libro.disponible, dejar.valoracion, historial.fecha, historial.accion, cod_postal.codigo_postal from historial 
+inner join users on historial.usr = users.usr
+inner join dejar on users.usr = dejar.usr 
+inner join coger on users.usr = coger.usr 
+inner join libro on coger.id = libro.id
+inner join libro_lugar on libro.id = libro_lugar.id_libro
+inner join lugar on libro_lugar.id_lugar = lugar.id 
+inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where historial.usr = 'a';

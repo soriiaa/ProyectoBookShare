@@ -445,7 +445,6 @@ public class _09_DejarLibro extends JFrame implements Vista {
 		});
 
 		txtTitulo.setBounds(381, 162, 387, 29);
-		contentPane.add(txtTitulo);
 		txtTitulo.setBackground(new Color(192, 192, 192));
 		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtTitulo, "Título");
 		txtTitulo.addFocusListener(focusListener);

@@ -182,40 +182,33 @@ public class Controlador {
 		return datos;
 
 	}
-
+	
 	public void recogerInfoBajaAltaLugaresParaInsert() {
+		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
-		String provincia = ((_17_DarDeBajaLugar) misVistas[17]).getTxtProvincia().getText();
-		String poblacion = ((_17_DarDeBajaLugar) misVistas[17]).getTxtPoblacion().getText();
-
+		
 		int codPostal = Integer.parseInt(codigoPostal);
-
-		miModelo.conectorInsertLugar(codPostal, comunidad, provincia, poblacion);
+		
+		miModelo.conectorInsertLugar(nombre, codPostal);
 	}
 
 	public void recogerInfoBajaAltaLugaresParaDelete() {
+		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
-		String provincia = ((_17_DarDeBajaLugar) misVistas[17]).getTxtProvincia().getText();
-		String poblacion = ((_17_DarDeBajaLugar) misVistas[17]).getTxtPoblacion().getText();
 
-		int codPostal = Integer.parseInt(codigoPostal);
-
-		miModelo.conectorDeleteLugar(codPostal, comunidad, provincia, poblacion);
+		
+		int codPostal = Integer.parseInt(codigoPostal);		
+		
+		miModelo.conectorDeleteLugar(nombre, codPostal);
 	}
 
 	public void recogerInfoBajaAltaLugaresParaUpdate() {
+		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
-		String provincia = ((_17_DarDeBajaLugar) misVistas[17]).getTxtProvincia().getText();
-		String pobla = ((_17_DarDeBajaLugar) misVistas[17]).getTxtPoblacion().getText();
 
-		int codPostal = Integer.parseInt(codigoPostal);
-		int poblacion = Integer.parseInt(pobla);
-		int codPostalAntiguo = ((_17_DarDeBajaLugar) misVistas[17]).getCodPostalAntiguo();
-
-		miModelo.conectorUpdateLugar(codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
+		int codPostal = Integer.parseInt(codigoPostal);		
+		
+		miModelo.conectorUpdateLugar(nombre, codPostal);
 	}
 
 	public String[] recogerDatosConexion() {

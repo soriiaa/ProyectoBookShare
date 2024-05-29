@@ -606,7 +606,7 @@ public class Conexion {
 	}
 
 	public Object[][] sacarLugares(String consulta, int numFilas) {
-		Object[][] datos = new Object[numFilas][4];
+		Object[][] datos = new Object[numFilas][2];
 
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(consulta);
@@ -615,8 +615,6 @@ public class Conexion {
 			while (rs.next()) {
 				datos[i][0] = rs.getObject(1);
 				datos[i][1] = rs.getObject(2);
-				datos[i][2] = rs.getObject(3);
-				datos[i][3] = rs.getObject(4);
 				i++;
 			}
 			pstmt.close();
@@ -628,15 +626,13 @@ public class Conexion {
 		}
 	}
 
-	public void insertarLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+	public void insertarLugar(String nombre, int codPostal) {
 		try {
-			String query = "insert into cod_postal (codigo_postal, comunidad_autonoma, provincia, poblacion) values(?,?,?,?)";
+			String query = "insert into lugar (nombre, codigo_Postal) values(?,?)";
 
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setInt(1, codPostal);
-			pstmt.setString(2, comunidad);
-			pstmt.setString(3, provincia);
-			pstmt.setString(4, poblacion);
+			pstmt.setString(1, nombre);
+			pstmt.setInt(2, codPostal);
 			pstmt.executeUpdate();
 
 			pstmt.close();
@@ -645,14 +641,12 @@ public class Conexion {
 		}
 	}
 
-	public void deleteLugar(int codPostal, String comunidad, String provincia, String poblacion) {
+	public void deleteLugar(String nombre, int codPostal) {
 		try {
-			String query = "delete from cod_postal where codigo_postal = ? AND comunidad_autonoma like ? AND provincia like ? AND poblacion like ?";
+			String query = "delete from cod_postal where nombre = ? AND codigo_postal = ?";
 			PreparedStatement pstmt = conexion.prepareStatement(query);
-			pstmt.setInt(1, codPostal);
-			pstmt.setString(2, comunidad);
-			pstmt.setString(3, provincia);
-			pstmt.setString(4, poblacion);
+			pstmt.setString(1, nombre);
+			pstmt.setInt(2, codPostal);
 			pstmt.executeUpdate();
 
 			pstmt.close();
@@ -661,15 +655,11 @@ public class Conexion {
 		}
 	}
 
-	public void updateLugar(String consulta, int codPostal, String comunidad, String provincia, int poblacion,
-			int codPostalAntiguo) {
+	public void updateLugar(String consulta, String nombre, int id) {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(consulta);
-			pstmt.setInt(1, codPostal);
-			pstmt.setString(2, comunidad);
-			pstmt.setString(3, provincia);
-			pstmt.setInt(4, poblacion);
-			pstmt.setInt(5, codPostalAntiguo);
+			pstmt.setString(1, nombre);
+			pstmt.setInt(2, id);
 			pstmt.executeUpdate();
 
 			pstmt.close();
@@ -814,6 +804,22 @@ public class Conexion {
 		}
 	}
 
+	public int sacarIDLugar(String consultaID, String nombre, int codPostal) {
+		int idLugar = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consultaID);
+			pstmt.setString(1, nombre);
+			pstmt.setInt(2, codPostal );
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				idLugar = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return idLugar;
+		
+	}
 
 	public java.sql.Date sacarFechaCogerDejar(String consultaFecha, String usuario) {
 		java.sql.Date fecha = null;
