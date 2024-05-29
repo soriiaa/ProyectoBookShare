@@ -1,5 +1,8 @@
 package modelo;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -328,6 +331,16 @@ public class Modelo {
 
 		miConexion.eliminarRegistroTablaDejar(consulta, id);
 
+	}
+
+	public void guardarImagen(File foto) throws SQLException, IOException {
+		String consulta = "update users set img = ? where usr = ?";
+		miConexion.subirImagen(consulta, foto, usuario);
+	}
+
+	public byte[] getImage() {
+		String consulta = "select img from users where usr = ?";
+		return miConexion.sacarImagen(consulta, usuario);
 	}
 
 }

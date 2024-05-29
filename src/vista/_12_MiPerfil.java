@@ -10,10 +10,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -32,12 +37,9 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JTextField txtNicknameUsuario;
-	private JTextField txtFotoUsuario;
 	private JTextField txtNombreUsuario;
 	private JTextField txtApellidos;
 	private JTextField txtContrasea;
-	private JTextField txtDiagrama;
-	private JTextField txtEstadistcas;
 	private JButton btnCambiarFotoUsuario;
 	private JTextField txtPreguntasSeguridad;
 	private JList listOpcionesMenuNavegacion;
@@ -50,8 +52,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private JButton btnCambiarConrasea;
 	private JButton btnCambiarPreguntas;
 	private JButton btnAplicarCambios;
-	private JComboBox comboBox;
-	private JComboBox comboBox_1;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
 	private JLabel lblTituloMenu;
@@ -66,6 +66,23 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private Controlador miControlador;
 	private Modelo miModelo;
 	private JPasswordField PasswordContraseña;
+	private JLabel lblImage;
+	private JFileChooser fileChooser;
+	private File selectedFile;
+	private JLabel lblImagenPerfil;
+
+	public File getSelectedFile() {
+		return selectedFile;
+	}
+
+	public void chooseFile() {
+		fileChooser = new JFileChooser();
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		int result = fileChooser.showOpenDialog(this);
+		if (result == JFileChooser.APPROVE_OPTION) {
+			selectedFile = fileChooser.getSelectedFile();
+		}
+	}
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -83,7 +100,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -95,14 +112,14 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		panelMenuNavegacion.setBounds(0, 0, 183, 622);
 		contentPane.add(panelMenuNavegacion);
 		panelMenuNavegacion.setLayout(null);
-		
+
 		panelTituloMenu = new JPanel();
 		panelTituloMenu.setForeground(new Color(0, 0, 0));
 		panelTituloMenu.setBackground(new Color(0, 0, 0));
 		panelTituloMenu.setBounds(0, 0, 183, 40);
 		panelMenuNavegacion.add(panelTituloMenu);
 		panelTituloMenu.setLayout(null);
-		
+
 		lblTituloMenu = new JLabel("Menu Navegacion");
 		lblTituloMenu.setForeground(new Color(255, 255, 255));
 		lblTituloMenu.setBackground(new Color(255, 255, 255));
@@ -110,7 +127,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		lblTituloMenu.setHorizontalAlignment(SwingConstants.CENTER);
 		lblTituloMenu.setBounds(0, 0, 183, 40);
 		panelTituloMenu.add(lblTituloMenu);
-		
+
 		btnCogerLibro = new JButton("Coger un Libro");
 		btnCogerLibro.setBorderPainted(false);
 		btnCogerLibro.setBackground(new Color(230, 230, 250));
@@ -125,7 +142,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCogerLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnCogerLibro.setBackground(new Color (220, 220, 220));
+				btnCogerLibro.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -136,12 +153,12 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
 		panelMenuNavegacion.add(btnCogerLibro);
-		
+
 		btnDejarUnLibro = new JButton("Dejar un Libro");
 		btnDejarUnLibro.setBorderPainted(false);
 		btnDejarUnLibro.setHorizontalAlignment(SwingConstants.LEFT);
 		btnDejarUnLibro.setBackground(new Color(230, 230, 250));
-		btnDejarUnLibro.setForeground(new Color(0, 0, 128));	
+		btnDejarUnLibro.setForeground(new Color(0, 0, 128));
 		btnDejarUnLibro.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnDejarUnLibro.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -163,7 +180,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnDejarUnLibro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnDejarUnLibro.setBackground(new Color (220, 220, 220));
+				btnDejarUnLibro.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -174,7 +191,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnDejarUnLibro.setBounds(0, 79, 183, 40);
 		panelMenuNavegacion.add(btnDejarUnLibro);
-		
+
 		btnDarDeAlta = new JButton("Dar de alta un Libro");
 		btnDarDeAlta.setBorderPainted(false);
 		btnDarDeAlta.setHorizontalAlignment(SwingConstants.LEFT);
@@ -201,7 +218,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnDarDeAlta.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnDarDeAlta.setBackground(new Color (220, 220, 220));
+				btnDarDeAlta.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -212,7 +229,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnDarDeAlta.setBounds(0, 119, 195, 40);
 		panelMenuNavegacion.add(btnDarDeAlta);
-		
+
 		btnFaq = new JButton("FAQ");
 		btnFaq.setBorderPainted(false);
 		btnFaq.setHorizontalAlignment(SwingConstants.LEFT);
@@ -239,7 +256,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnFaq.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnFaq.setBackground(new Color (220, 220, 220));
+				btnFaq.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -250,7 +267,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnFaq.setBounds(0, 159, 183, 40);
 		panelMenuNavegacion.add(btnFaq);
-		
+
 		btnHistorialLibros = new JButton("Historial Libros");
 		btnHistorialLibros.setBorderPainted(false);
 		btnHistorialLibros.setHorizontalAlignment(SwingConstants.LEFT);
@@ -277,7 +294,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnHistorialLibros.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnHistorialLibros.setBackground(new Color (220, 220, 220));
+				btnHistorialLibros.setBackground(new Color(220, 220, 220));
 			}
 		});
 		getContentPane().addMouseListener(new MouseAdapter() {
@@ -288,13 +305,13 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnHistorialLibros.setBounds(0, 198, 183, 40);
 		panelMenuNavegacion.add(btnHistorialLibros);
-		
+
 		btnBandejaDeEntrada = new JButton("Bandeja de Entrada");
 		btnBandejaDeEntrada.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBandejaDeEntrada.setForeground(new Color(0, 0, 128));
 		btnBandejaDeEntrada.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnBandejaDeEntrada.setBorderPainted(false);
-		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));		
+		btnBandejaDeEntrada.setBackground(new Color(230, 230, 250));
 		btnBandejaDeEntrada.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.cambiarVentana(12, 13);
@@ -315,7 +332,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnBandejaDeEntrada.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnBandejaDeEntrada.setBackground(new Color (220, 220, 220));
+				btnBandejaDeEntrada.setBackground(new Color(220, 220, 220));
 			}
 		});
 		contentPane.addMouseListener(new MouseAdapter() {
@@ -326,7 +343,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 		btnBandejaDeEntrada.setBounds(0, 237, 198, 40);
 		panelMenuNavegacion.add(btnBandejaDeEntrada);
-				
+
 		btnMiperfil = new JButton("Mi perfil");
 		btnMiperfil.setBorderPainted(false);
 		btnMiperfil.setBackground(new Color(230, 230, 250));
@@ -340,7 +357,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnMiperfil.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				btnMiperfil.setBackground(new Color (220, 220, 220));
+				btnMiperfil.setBackground(new Color(220, 220, 220));
 			}
 		});
 		getContentPane().addMouseListener(new MouseAdapter() {
@@ -360,15 +377,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		txtNicknameUsuario.setBounds(299, 253, 230, 29);
 		contentPane.add(txtNicknameUsuario);
 		txtNicknameUsuario.setColumns(10);
-
-		txtFotoUsuario = new JTextField();
-		txtFotoUsuario.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtFotoUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-		txtFotoUsuario.setText("Foto de Usuario");
-		txtFotoUsuario.setEditable(false);
-		txtFotoUsuario.setColumns(10);
-		txtFotoUsuario.setBounds(299, 11, 230, 126);
-		contentPane.add(txtFotoUsuario);
 
 		txtNombreUsuario = new JTextField();
 		txtNombreUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
@@ -397,47 +405,23 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		txtContrasea.setBounds(299, 451, 230, 27);
 		contentPane.add(txtContrasea);
 
-		txtDiagrama = new JTextField();
-		txtDiagrama.setFont(new Font("Tahoma", Font.BOLD, 15));
-		txtDiagrama.setText("Diagrama ");
-		txtDiagrama.setHorizontalAlignment(SwingConstants.CENTER);
-		txtDiagrama.setEditable(false);
-		txtDiagrama.setColumns(10);
-		txtDiagrama.setBounds(695, 11, 201, 126);
-		contentPane.add(txtDiagrama);
-
-		comboBox = new JComboBox();
-		comboBox.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		comboBox.setModel(new DefaultComboBoxModel(
-				new String[] { "- Ninguno seleccionando ", "- Género Aventura  ", "- Género Fantasía ",
-						"- Género Ficción ", "- Género Misterio  ", "- Género Suspense ", "- Género Terror   " }));
-		comboBox.setBounds(695, 280, 201, 29);
-		contentPane.add(comboBox);
-
-		txtEstadistcas = new JTextField();
-		txtEstadistcas.setFont(new Font("Tahoma", Font.BOLD, 13));
-		txtEstadistcas.setText("Estadísticas");
-		txtEstadistcas.setHorizontalAlignment(SwingConstants.CENTER);
-		txtEstadistcas.setEditable(false);
-		txtEstadistcas.setColumns(10);
-		txtEstadistcas.setBounds(695, 252, 201, 29);
-		contentPane.add(txtEstadistcas);
-
 		btnCambiarFotoUsuario = new JButton("Cambiar Foto de Usuario");
 		btnCambiarFotoUsuario.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				txtFotoUsuario.setEditable(true);
+			public void actionPerformed(ActionEvent e) {			
+				miControlador.recogerImagen();
+
+				JFileChooser fileChooser = new JFileChooser();
+				fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+				int result = fileChooser.showOpenDialog(null);
+				if (result == JFileChooser.APPROVE_OPTION) {
+					File selectedFile = fileChooser.getSelectedFile();
+					ImageIcon imageIcon = new ImageIcon(selectedFile.getAbsolutePath());
+					lblImagenPerfil.setIcon(imageIcon);
+				}
 			}
 		});
-		btnCambiarFotoUsuario.setBounds(299, 135, 230, 50);
+		btnCambiarFotoUsuario.setBounds(299, 165, 230, 50);
 		contentPane.add(btnCambiarFotoUsuario);
-
-		comboBox_1 = new JComboBox();
-		comboBox_1.setModel(
-				new DefaultComboBoxModel(new String[] { "Digrama de Barras (Predeterminado)", "Diagrama Circular" }));
-		comboBox_1.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		comboBox_1.setBounds(695, 135, 201, 50);
-		contentPane.add(comboBox_1);
 
 		btnCambiarNickName = new JButton("Cambiar NickName ");
 		btnCambiarNickName.addActionListener(new ActionListener() {
@@ -497,7 +481,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnAplicarCambios.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnAplicarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtFotoUsuario.setEditable(false);
 				txtNicknameUsuario.setEditable(false);
 				txtNombreUsuario.setEditable(false);
 				txtApellidos.setEditable(false);
@@ -508,12 +491,13 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnAplicarCambios.setBackground(new Color(0, 255, 128));
 		btnAplicarCambios.setBounds(758, 593, 201, 44);
 		contentPane.add(btnAplicarCambios);
-		
+
 		JComboBox comboBox_2 = new JComboBox();
-		comboBox_2.setModel(new DefaultComboBoxModel(new String[] {"Pregunta de Seguridad 1", "Pregunta de Seguridad 2", "Pregunta de Seguridad 3"}));
+		comboBox_2.setModel(new DefaultComboBoxModel(
+				new String[] { "Pregunta de Seguridad 1", "Pregunta de Seguridad 2", "Pregunta de Seguridad 3" }));
 		comboBox_2.setBounds(299, 593, 230, 29);
 		contentPane.add(comboBox_2);
-		
+
 		PasswordContraseña = new JPasswordField();
 		PasswordContraseña.setHorizontalAlignment(SwingConstants.CENTER);
 		PasswordContraseña.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -521,5 +505,28 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.add(PasswordContraseña);
 		PasswordContraseña.setText("Predeterminado");
 		PasswordContraseña.setEditable(false);
+		
+		lblImagenPerfil = new JLabel("");
+		lblImagenPerfil.setBounds(299, 83, 230, 83);
+		contentPane.add(lblImagenPerfil);
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				miControlador.mostrarImagen();
+			}
+		});
+		
+	}
+
+	public void setImagenPerfil(byte[] imgBytes) {
+		if(imgBytes!= null) {
+			ImageIcon imageIcon = new ImageIcon(imgBytes);
+			lblImagenPerfil.setIcon(imageIcon);
+		}else {
+			System.out.println("No hay imagen");
+		}
+		contentPane.revalidate();
+	    contentPane.repaint();
 	}
 }
