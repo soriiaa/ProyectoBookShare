@@ -100,17 +100,20 @@ public class Modelo {
 	public Object[][] sentenciaHistorial() {
 
 		// ? == usuario atributo
-		String queryCoger = "select id from coger where usr like ?";
-		int numeroFilasCoger = miConexion.contarRegistros(queryCoger, usuario);
-		String queryDejar = "select id from dejar where usr like ?";
-		int numeroFilasDejar = miConexion.contarRegistros(queryDejar, usuario);
-		int[] filtroCoger = miConexion.sacarIdCoger(queryCoger, usuario, numeroFilasCoger);
-		int[] filtroDejar = miConexion.sacarIdCoger(queryDejar, usuario, numeroFilasDejar);
-
+		String queryHistorial = "select * from historial where usr = ?";
+		int numeroFilasHistorial = miConexion.contarRegistros(queryHistorial, usuario);
+//		int[] filtroCoger = miConexion.sacarIdCoger(queryCoger, usuario, numeroFilasCoger);
+//		int[] filtroDejar = miConexion.sacarIdCoger(queryDejar, usuario, numeroFilasDejar);
+		System.out.println(numeroFilasHistorial);
 		// ? == filtro
-		String consulta = "SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where libro.id = ?";
-		Object[][] datos = new Object[numeroFilasCoger + numeroFilasDejar][9];
-		datos = miConexion.sacarHistorialLibros(consulta, numeroFilasCoger, numeroFilasDejar, filtroCoger, filtroDejar);
+		String consultaId = "select id from libro where titulo = ?";
+
+		String consulta = "SELECT historial.titulo, libro.autor, libro.genero, libro.disponible, dejar.valoracion, historial.fecha, historial.accion, historial.cod_postal "
+				+ "FROM historial INNER JOIN users ON historial.usr = users.usr LEFT JOIN dejar ON historial.usr = dejar.usr AND historial.titulo = historial.titulo "
+				+ "INNER JOIN libro ON historial.titulo = libro.titulo INNER JOIN libro_lugar ON libro.id = libro_lugar.id_libro INNER JOIN lugar ON libro_lugar.id_lugar = lugar.id "
+				+ "INNER JOIN cod_postal ON lugar.codigo_postal = cod_postal.codigo_postal WHERE historial.usr = ? order by historial.fecha desc";
+		Object[][] datos = new Object[numeroFilasHistorial][];
+		datos = miConexion.sacarHistorialLibros(consulta, usuario, numeroFilasHistorial);
 
 		return datos;
 	}
@@ -242,6 +245,7 @@ public class Modelo {
 
 		valoracion = valoracion + "/5";
 		miConexion.introducirDejarLibro(consulta, usuario, id, sqlDate, comentario, valoracion);
+
 	}
 
 	public boolean comprobarLibroBBDD(String titulo) {
@@ -281,17 +285,31 @@ public class Modelo {
 		miConexion.eliminarRegistroTablaCoger(queryDelete, id);
 	}
 
-	public void actualizarHistorial(String titulo) {
-		String query = "insert into historial (usr,titulo,accion) values(?,?,?)";
+	public void actualizarHistorial(String titulo, int codPostal) {
+		String query = "insert into historial (usr,titulo,accion,fecha,cod_postal) values(?,?,?,?,?)";
 		String accion = "dejar";
+		String consultaFecha = "select fecha from dejar where usr = ?";
 
-		miConexion.actualizarHistorial(query, usuario, titulo, accion);
+		java.sql.Date fecha = miConexion.sacarFechaCogerDejar(consultaFecha, usuario);
+
+		miConexion.actualizarHistorial(query, usuario, titulo, accion, fecha, codPostal);
 	}
-	public void actualizarHistorialCoger(String titulo) {
-		String query = "insert into historial (usr,titulo,accion) values(?,?,?)";
-		String accion = "coger";
 
-		miConexion.actualizarHistorial(query, usuario, titulo, accion);
+	public void actualizarHistorialCoger(String titulo) {
+		String query = "insert into historial (usr,titulo,accion,fecha,cod_postal) values(?,?,?,?,?)";
+		String accion = "coger";
+		String consultaFecha = "select fecha from coger where usr = ?";
+
+		String idStr = miConexion.sacarIdLibro("select * from libro where titulo = ?", titulo);
+		int id = Integer.parseInt(idStr);
+
+		String consultaCodPostal = "select cod_postal.codigo_postal from libro inner join libro_lugar on libro.id = libro_lugar.id_libro inner join lugar on libro_lugar.id_lugar = lugar.id inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where libro.id = ?";
+
+		int codPostal = miConexion.sacarCodPostal(consultaCodPostal, id);
+
+		java.sql.Date fecha = miConexion.sacarFechaCogerDejar(consultaFecha, usuario);
+
+		miConexion.actualizarHistorial(query, usuario, titulo, accion, fecha, codPostal);
 	}
 
 	public void eliminarDatosDejarLibro(String titulo) {
@@ -307,7 +325,7 @@ public class Modelo {
 
 		// Convertir java.util.Date a java.sql.Date
 		sqlDate = new java.sql.Date(fechaAct.getTime());
-		
+
 		miConexion.eliminarRegistroTablaDejar(consulta, id);
 
 	}

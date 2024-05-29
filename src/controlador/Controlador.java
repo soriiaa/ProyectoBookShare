@@ -241,8 +241,11 @@ public class Controlador {
 
 	public void cogerDatosHistorialDejar() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
+		String codigoPostalStr = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
 		
-		miModelo.actualizarHistorial(titulo);
+		int codPostal = Integer.parseInt(codigoPostalStr);
+		
+		miModelo.actualizarHistorial(titulo, codPostal);
 	}
 
 	public void recogerDatosCogerLibro(String valorSeleccionado) {

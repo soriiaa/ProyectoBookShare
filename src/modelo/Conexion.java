@@ -483,38 +483,32 @@ public class Conexion {
 		}
 	}
 
-	public Object[][] sacarHistorialLibros(String query, int numeroFilasCoger, int numeroFilasDejar, int[] filtroCoger,
-			int[] filtroDejar) {
-		Object[][] datos = new Object[numeroFilasCoger + numeroFilasDejar][9];
+	public Object[][] sacarHistorialLibros(String query, String usuario, int numeroFilas) {
+		Object[][] datos = new Object[numeroFilas][8];
 
-		for (int i = 0; i < numeroFilasCoger + numeroFilasDejar; i++) {
-			try {
-				PreparedStatement pstmt = conexion.prepareStatement(query);
-				if (i < filtroCoger.length) {
-					pstmt.setInt(1, filtroCoger[i]);
-				} else if (i < filtroDejar.length) {
-					pstmt.setInt(1, filtroDejar[i]);
-				}
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, usuario);
 
-				ResultSet rs = pstmt.executeQuery();
+			ResultSet rs = pstmt.executeQuery();
 
-				// Verificar si hay resultados antes de procesarlos
-				if (rs.next()) {
-					datos[i][0] = rs.getObject(1);
-					datos[i][1] = rs.getObject(2);
-					datos[i][2] = rs.getObject(3);
-					datos[i][3] = rs.getObject(4);
-					datos[i][4] = rs.getObject(5);
-					datos[i][5] = rs.getObject(6);
-					datos[i][6] = rs.getObject(7);
-					datos[i][7] = rs.getObject(8);
-					datos[i][8] = rs.getObject(9);
-				}
-				rs.close();
-				pstmt.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
+			// Verificar si hay resultados antes de procesarlos
+			int i = 0;
+			while (rs.next()) {
+				datos[i][0] = rs.getObject(1);
+				datos[i][1] = rs.getObject(2);
+				datos[i][2] = rs.getObject(3);
+				datos[i][3] = rs.getObject(4);
+				datos[i][4] = rs.getObject(5);
+				datos[i][5] = rs.getObject(6);
+				datos[i][6] = rs.getObject(7);
+				datos[i][7] = rs.getObject(8);
+				i++;
 			}
+			rs.close();
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 
 		return datos;
@@ -769,23 +763,26 @@ public class Conexion {
 			PreparedStatement pstmt = conexion.prepareStatement(queryDelete);
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void actualizarHistorial(String query, String usuario, String titulo, String accion) {
+	public void actualizarHistorial(String query, String usuario, String titulo, String accion, java.sql.Date fecha,
+			int codPostal) {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, usuario);
 			pstmt.setString(2, titulo);
 			pstmt.setString(3, accion);
+			pstmt.setDate(4, fecha);
+			pstmt.setInt(5, codPostal);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
@@ -803,7 +800,7 @@ public class Conexion {
 			pstmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	public void eliminarRegistroTablaDejar(String consulta, int id) {
@@ -811,10 +808,49 @@ public class Conexion {
 			PreparedStatement pstmt = conexion.prepareStatement(consulta);
 			pstmt.setInt(1, id);
 			pstmt.executeUpdate();
-			
+
 			pstmt.close();
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
+
+	public java.sql.Date sacarFechaCogerDejar(String consultaFecha, String usuario) {
+		java.sql.Date fecha = null;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consultaFecha);
+			pstmt.setString(1, usuario);
+			ResultSet rs = pstmt.executeQuery();
+			if (rs.next()) {
+				fecha = rs.getDate(1); // Obtenemos la fecha de la primera columna del resultado
+			}
+			pstmt.close();
+			rs.close();
+			return fecha;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return fecha;
+		}
+	}
+
+	public int sacarCodPostal(String consultaCodPostal, int id) {
+		int codigo = 0;
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(consultaCodPostal);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				codigo = rs.getInt(1);
+
+			}
+			rs.close();
+			pstmt.close();
+			return codigo;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return codigo;
+		}
+	}
+
 }
