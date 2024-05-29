@@ -399,7 +399,7 @@ public class _07_AltaLibro extends JFrame implements Vista {
 				txtAutor.setText("Autor");
 				txtCodigoPostal.setText("Código Postal");
 				
-				if (respuesta.equals("Error")) {
+				if (respuesta.equals("Libro dado de alta con éxito")) {
 					lblMensaje.setText("Libro dado de alta con éxito");
 					lblMensaje.setForeground(new Color(0, 255, 0));
 					lblMensaje.setVisible(true);

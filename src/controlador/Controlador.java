@@ -252,9 +252,6 @@ public class Controlador {
 		
 	}
 
-
-
-
 	public void recogerDatosDejarLibro() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
 		String fechaRecogida = ((_09_DejarLibro) misVistas[9]).getTxtFechaCogidaLibro().getText();
