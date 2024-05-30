@@ -76,7 +76,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private JLabel lblUsuarioDisplay;
 	private JLabel lblNombreDisplay;
 	private JLabel lblApellidoDisplay;
-	private JLabel TituloVista;
+	private JLabel lblTituloVista;
 	private JPanel panelResaltarNombre;
 	private PlaceholderFocusListener focusListener;
 
@@ -133,8 +133,8 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.setLayout(null);
 
 		panelMenuNavegacion = new JPanel();
-		panelMenuNavegacion.setBackground(new Color(230, 230, 250));
 		panelMenuNavegacion.setBounds(0, 0, 183, 622);
+		panelMenuNavegacion.setBackground(new Color(230, 230, 250));
 		contentPane.add(panelMenuNavegacion);
 		panelMenuNavegacion.setLayout(null);
 
@@ -174,6 +174,17 @@ public class _12_MiPerfil extends JFrame implements Vista {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnCogerLibro.setBackground(new Color(230, 230, 250));
+				btnAplicarCambios.setBackground(new Color(0, 0, 0));
+				btnCambiarApellidos.setBackground(new Color(0, 0, 0));
+				btnCambiarApellidos.setBackground(new Color(0, 0, 0));
+				btnCambiarConrasea.setBackground(new Color(0, 0, 0));
+				btnCambiarFotoUsuario.setBackground(new Color(0, 0, 0));
+				btnCambiarNickName.setBackground(new Color(0, 0, 0));
+				btnCambiarNombre.setBackground(new Color(0, 0, 0));
+			}
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				lblTituloVista.requestFocus();
 			}
 		});
 		btnCogerLibro.setBounds(0, 39, 183, 40);
@@ -370,6 +381,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		panelMenuNavegacion.add(btnBandejaDeEntrada);
 
 		btnMiperfil = new JButton("Mi perfil");
+		btnMiperfil.setBounds(0, 621, 183, 42);
 		btnMiperfil.setBorderPainted(false);
 		btnMiperfil.setBackground(new Color(230, 230, 250));
 		btnMiperfil.setFont(new Font("Tahoma", Font.BOLD, 16));
@@ -391,11 +403,11 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				btnMiperfil.setBackground(new Color(230, 230, 250));
 			}
 		});
-		btnMiperfil.setBounds(0, 621, 183, 42);
 		contentPane.add(btnMiperfil);
 
 		
 		txtNicknameUsuario = new JTextField();
+		txtNicknameUsuario.setBounds(299, 232, 230, 29);
 		txtNicknameUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNicknameUsuario.addMouseListener(new MouseAdapter() {
 			@Override
@@ -417,8 +429,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				comprobarCampoNickName();
 			}
 		});
-
-		txtNicknameUsuario.setBounds(381, 162, 387, 29);
 		contentPane.add(txtNicknameUsuario);
 		txtNicknameUsuario.setBackground(new Color(192, 192, 192));
 		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtNicknameUsuario, "NickName");
@@ -455,11 +465,11 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 
 		contentPane.add(txtNicknameUsuario);
-		txtNicknameUsuario.setBounds(299, 232, 230, 29);
 		
 		// BOTON DE USUARIO
 		
 		txtNombreUsuario = new JTextField();
+		txtNombreUsuario.setBounds(299, 313, 230, 27);
 		txtNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
 		txtNombreUsuario.addMouseListener(new MouseAdapter() {
 			@Override
@@ -481,8 +491,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				comprobarCampoUsuario();
 			}
 		});
-
-		txtNombreUsuario.setBounds(381, 162, 387, 29);
 		contentPane.add(txtNombreUsuario);
 		txtNombreUsuario.setBackground(new Color(192, 192, 192));
 		focusListener = new PlaceholderFocusListener(txtNombreUsuario, "Usuario");
@@ -519,12 +527,12 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 
 		contentPane.add(txtNombreUsuario);
-		txtNombreUsuario.setBounds(299, 313, 230, 29);
 		
 		
 		// BOTON DE APELLIDO
 		
 		txtApellidos = new JTextField();
+		txtApellidos.setBounds(299, 387, 230, 29);
 		txtApellidos.setHorizontalAlignment(SwingConstants.CENTER);
 		txtApellidos.addMouseListener(new MouseAdapter() {
 			@Override
@@ -546,8 +554,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				comprobarCampoApellido();
 			}
 		});
-
-		txtApellidos.setBounds(381, 162, 387, 29);
 		contentPane.add(txtApellidos);
 		txtApellidos.setBackground(new Color(192, 192, 192));
 		focusListener = new PlaceholderFocusListener(txtApellidos, "Apellido");
@@ -584,13 +590,13 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 
 		contentPane.add(txtApellidos);
-		txtApellidos.setBounds(299, 387, 230, 29);
 		
 		
 		// BOTON DE CONTRASEÑA
 		
 
 		txtContrasea = new JTextField();
+		txtContrasea.setBounds(299, 465, 230, 27);
 		txtContrasea.setHorizontalAlignment(SwingConstants.CENTER);
 		txtContrasea.addMouseListener(new MouseAdapter() {
 			@Override
@@ -612,8 +618,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				comprobarCampoContraseña();
 			}
 		});
-
-		txtContrasea.setBounds(381, 162, 387, 29);
 		contentPane.add(txtContrasea);
 		txtContrasea.setBackground(new Color(192, 192, 192));
 		focusListener = new PlaceholderFocusListener(txtContrasea, "Contraseña");
@@ -650,44 +654,16 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		});
 
 		contentPane.add(txtContrasea);
-		txtContrasea.setBounds(299, 465, 230, 27);
 		
-//		txtNicknameUsuario = new JTextField();
-//		txtNicknameUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
-//		txtNicknameUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-//		txtNicknameUsuario.setEditable(false);
-//		txtNicknameUsuario.setText("NickName de Usuario");
-//		contentPane.add(txtNicknameUsuario);
-//		txtNicknameUsuario.setColumns(10);
-
-//		txtNombreUsuario = new JTextField();
-//		txtNombreUsuario.setFont(new Font("Tahoma", Font.BOLD, 11));
-//		txtNombreUsuario.setHorizontalAlignment(SwingConstants.CENTER);
-//		txtNombreUsuario.setText("Nombre del Usuario");
-//		txtNombreUsuario.setEditable(false);
-//		txtNombreUsuario.setColumns(10);
-//		txtNombreUsuario.setBounds(299, 313, 230, 29);
-//		contentPane.add(txtNombreUsuario);
-
-//		txtApellidos = new JTextField();
-//		txtApellidos.setFont(new Font("Tahoma", Font.BOLD, 11));
-//		txtApellidos.setText("Apellidos del Usuario\r\n");
-//		txtApellidos.setHorizontalAlignment(SwingConstants.CENTER);
-//		txtApellidos.setEditable(false);
-//		txtApellidos.setColumns(10);
-//		txtApellidos.setBounds(299, 387, 230, 29);
-//		contentPane.add(txtApellidos);
-
-//		txtContrasea = new JTextField();
-//		txtContrasea.setFont(new Font("Tahoma", Font.BOLD, 11));
-//		txtContrasea.setText("Contraseña");
-//		txtContrasea.setHorizontalAlignment(SwingConstants.CENTER);
-//		txtContrasea.setEditable(false);
-//		txtContrasea.setColumns(10);
-//		
-//		contentPane.add(txtContrasea);
 
 		btnCambiarFotoUsuario = new JButton("Cambiar Foto de Usuario");
+		btnCambiarFotoUsuario.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnCambiarFotoUsuario.setBackground(new Color(70, 70, 70));
+			}
+		});
+		btnCambiarFotoUsuario.setBounds(299, 162, 230, 50);
 		btnCambiarFotoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {			
 				miControlador.recogerImagen();
@@ -702,13 +678,18 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				}
 			}
 		});
-		btnCambiarFotoUsuario.setBounds(299, 162, 230, 50);
 		contentPane.add(btnCambiarFotoUsuario);
 		btnCambiarFotoUsuario.setForeground(new Color(255, 255, 255));
 		btnCambiarFotoUsuario.setBackground(new Color(0, 0, 0));
 		btnCambiarFotoUsuario.setBorder(null);
 
 		btnCambiarNickName = new JButton("Cambiar NickName ");
+		btnCambiarNickName.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+		});
+		btnCambiarNickName.setBounds(299, 261, 230, 29);
 		btnCambiarNickName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -717,8 +698,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				txtNicknameUsuario.setText("NickName");
 			}
 		});
-		
-		btnCambiarNickName.setBounds(299, 261, 230, 29);
 		contentPane.add(btnCambiarNickName);
 		btnCambiarNickName.setForeground(new Color(255, 255, 255));
 		btnCambiarNickName.setBackground(new Color(0, 0, 0));
@@ -726,42 +705,43 @@ public class _12_MiPerfil extends JFrame implements Vista {
 
 
 		btnCambiarNombre = new JButton("Cambiar Nombre");
+		btnCambiarNombre.setBounds(299, 338, 230, 29);
 		btnCambiarNombre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtNombreUsuario.setEditable(true);
 			}
 		});
-		btnCambiarNombre.setBounds(299, 338, 230, 29);
 		contentPane.add(btnCambiarNombre);
 		btnCambiarNombre.setForeground(new Color(255, 255, 255));
 		btnCambiarNombre.setBackground(new Color(0, 0, 0));
 		btnCambiarNombre.setBorder(null);
 
 		btnCambiarApellidos = new JButton("Cambiar Apellidos");
+		btnCambiarApellidos.setBounds(299, 416, 230, 27);
 		btnCambiarApellidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtApellidos.setEditable(true);
 			}
 		});
-		btnCambiarApellidos.setBounds(299, 416, 230, 27);
 		contentPane.add(btnCambiarApellidos);
 		btnCambiarApellidos.setForeground(new Color(255, 255, 255));
 		btnCambiarApellidos.setBackground(new Color(0, 0, 0));
 		btnCambiarApellidos.setBorder(null);
 
 		btnCambiarConrasea = new JButton("Cambiar Contraseña");
+		btnCambiarConrasea.setBounds(299, 490, 230, 27);
 		btnCambiarConrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 //				PasswordContraseña.setEditable(true);
 			}
 		});
-		btnCambiarConrasea.setBounds(299, 490, 230, 27);
 		contentPane.add(btnCambiarConrasea);
 		btnCambiarConrasea.setForeground(new Color(255, 255, 255));
 		btnCambiarConrasea.setBackground(new Color(0, 0, 0));
 		btnCambiarConrasea.setBorder(null);
 
 		btnAplicarCambios = new JButton("Aplicar Cambios");
+		btnAplicarCambios.setBounds(758, 593, 201, 44);
 		btnAplicarCambios.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnAplicarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -773,20 +753,19 @@ public class _12_MiPerfil extends JFrame implements Vista {
 			}
 		});
 		btnAplicarCambios.setBackground(new Color(0, 255, 128));
-		btnAplicarCambios.setBounds(758, 593, 201, 44);
 		contentPane.add(btnAplicarCambios);
 		btnAplicarCambios.setForeground(new Color(255, 255, 255));
 		btnAplicarCambios.setBackground(new Color(0, 0, 0));
 		btnAplicarCambios.setBorder(null);
 		
 		lblImagenPerfil = new JLabel("");
-		lblImagenPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		lblImagenPerfil.setBounds(346, 80, 131, 83);
+		lblImagenPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblImagenPerfil);
 		
 		JPanel panel = new JPanel();
-		panel.setBackground(new Color(175, 175, 239));
 		panel.setBounds(634, 83, 306, 460);
+		panel.setBackground(new Color(175, 175, 239));
 		contentPane.add(panel);
 		panel.setLayout(null);
 		
@@ -805,11 +784,11 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		lblImagenPerfil_1.setBounds(180, 12, 0, 0);
 		panel.add(lblImagenPerfil_1);
 		
-		TituloVista = new JLabel("Configurar Perfil");
-		TituloVista.setFont(new Font("Tahoma", Font.PLAIN, 58));
-		TituloVista.setHorizontalAlignment(SwingConstants.CENTER);
-		TituloVista.setBounds(182, 0, 804, 69);
-		contentPane.add(TituloVista);
+		lblTituloVista = new JLabel("Configurar Perfil");
+		lblTituloVista.setBounds(182, 0, 804, 69);
+		lblTituloVista.setFont(new Font("Tahoma", Font.PLAIN, 58));
+		lblTituloVista.setHorizontalAlignment(SwingConstants.CENTER);
+		contentPane.add(lblTituloVista);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
