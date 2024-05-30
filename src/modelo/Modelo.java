@@ -1,23 +1,11 @@
 package modelo;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import javax.swing.BorderFactory;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 /**
  * @author Andrés
@@ -419,6 +407,34 @@ public class Modelo {
 
 		miConexion.eliminarRegistroTablaDejar(consulta, id);
 
+	}
+	
+	public String[][] cogerPreguntasSeguridad() {
+		
+		String consulta = "SELECT codigo, pregunta FROM pregunta_recuperacion";
+		String[][] listaCodigoPreguntas = miConexion.cogerPreguntasSeguridad(consulta);
+		
+		return listaCodigoPreguntas;
+	}
+	
+	public int comprobarValidezPreguntaSeguridad(String consulta, String codigoPregunta, String nombreDeUsuario, String respuestaUsuarioIntroducida) {
+		
+		String respuestaSeguridadBaseDatos = miConexion.sacarRespuestaSeguridadUsuario(consulta, codigoPregunta, nombreDeUsuario);
+		
+		if (respuestaSeguridadBaseDatos.equals("")) {
+			return 0;
+		} else {
+			if (respuestaSeguridadBaseDatos.equalsIgnoreCase(respuestaUsuarioIntroducida)) {
+				return 1;
+			} else {
+				return 2;
+			}
+		}
+		
+	}
+	
+	public void updateContrasena(String consulta, String contrasena, String usuario) {
+		miConexion.updateContrasenaUsuario(consulta, contrasena, usuario);
 	}
 
 	public void guardarImagen(File foto) throws SQLException, IOException {

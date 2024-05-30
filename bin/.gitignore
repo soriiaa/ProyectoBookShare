@@ -1,4 +1,9 @@
 <<<<<<< HEAD
+/modelo/
+/controlador/
+/vista/
+=======
+<<<<<<< HEAD
 /controlador/
 /modelo/
 /vista/
@@ -15,3 +20,4 @@
 /modelo/
 >>>>>>> be8ebcc58496a11188ba0a3ce3f2238e99d932d2
 >>>>>>> main
+>>>>>>> eb871b11360fae1020d50d9d7eed68c470657394

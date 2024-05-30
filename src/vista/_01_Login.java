@@ -49,6 +49,16 @@ public class _01_Login extends JFrame implements Vista {
 	private JPanel panel;
 	private JLabel lblTitulo;
 	private JLabel lblOlvidoContraseña;
+	private String nombreUsuario;
+	private String contrasenaUsuario;
+	
+	public String getContrasenaUsuario() {
+		return contrasenaUsuario;
+	}
+	
+	public String getNombreUsuario() {
+		return nombreUsuario;
+	}
 	
 	public boolean getUsuarioLleno() {
 		return usuarioLleno;
@@ -249,19 +259,27 @@ public class _01_Login extends JFrame implements Vista {
 		
 		
 		btnLogin.addActionListener(new ActionListener() {
+			
+
 			public void actionPerformed(ActionEvent e) {
 				
 				if (!miControlador.recogerLogIn() && contador < 3) {
 					contador++;
 					lblIntentosRestantes.setText("Te quedan " + (4 - contador) + " intentos");
+					
+					
 					miControlador.cambiarVentana(1, 1);
 				} else if (contador == 3) {
 					System.exit(0);
 				} else {
 					
+					nombreUsuario = txtUsuario.getText();
+					contrasenaUsuario = new String(txtContraseña.getPassword());
+					
 					if (miControlador.comprobarAdmin()) {
 						miControlador.cambiarVentana(1, 14);
 					} else {
+						
 						miControlador.cambiarVentana(1, 6);
 						miControlador.setVista3Invisible();
 
