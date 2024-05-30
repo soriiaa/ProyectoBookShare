@@ -60,6 +60,7 @@ public class Controlador {
 	}
 
 	/**
+	 * @author Apa
 	 * Método que recoge las variables de las textbox de la vista del registro
 	 * @return
 	 * @throws NumberFormatException Por si introduce letras en codPostal
@@ -84,12 +85,13 @@ public class Controlador {
 			codigoAdmin = "0";
 		}
 
-		//Convierto
+		//Convierto a int, los getText
 		int codAdmin = Integer.parseInt(codigoAdmin);
 		int codPostal = Integer.parseInt(codigoPostal);
 
 		int numPregunta = miModelo.sacarPregunta(pregunta);
 
+		//Método para meter los datos en la base de datos del nuevo usuario
 		miModelo.insertarUsuario(usr, nombre, apellido, contraseña, codPostal, numPregunta, respuesta, administrador,
 				codAdmin);
 
@@ -122,6 +124,10 @@ public class Controlador {
 		((_01_Login) misVistas[1]).btnLogin.setEnabled(camposRellenos);
 	}
 
+	/**
+	 * @author Apa
+	 * @return Booleano que determina si el usuario y contraseña figuran en la bbdd
+	 */
 	public boolean recogerLogIn() {
 		String contraseña = String.valueOf(((_01_Login) misVistas[1]).getTxtContrasea().getPassword());
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
@@ -140,9 +146,14 @@ public class Controlador {
 		return lista;
 
 	}
-
+	
+	/**
+	 * @author Apa
+	 * @return Array de objetos para mostrar por tablas
+	 */
 	public Object[][] sacarHistorial() {
-
+		
+		//Creo una matriz de objetos con lo que devuelve el método del modelo
 		Object[][] info = miModelo.sentenciaHistorial();
 
 		return info;
@@ -174,8 +185,11 @@ public class Controlador {
 		miModelo.BajaDatosAltaBajaLibro(titulo);
 	}
 
+	/**
+	 * @author Apa
+	 * @return true = es admin / False = no es admin
+	 */
 	public boolean comprobarAdmin() {
-		boolean admin = false;
 
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
 
@@ -218,6 +232,10 @@ public class Controlador {
 		miModelo.conectorUpdateLugar(nombre, codPostal);
 	}
 
+	/**
+	 * @author Apa
+	 * @return devuelve array d String con la info de la conexion del fichero ini
+	 */
 	public String[] recogerDatosConexion() {
 		String[] datos = new String[3];
 		datos = miModelo.recogerInfoConexion();
@@ -236,6 +254,10 @@ public class Controlador {
 
 	}
 
+	/**
+	 * @author Apa
+	 * @return true = conexion establecita / false = conexion null
+	 */
 	public boolean comproConexion() {
 		return miModelo.devolverConexion();
 	}
@@ -271,6 +293,10 @@ public class Controlador {
 		
 	}
 
+	/**
+	 * @author Apa
+	 * Método que saca los valores recogidos en la vista para jugar con ellos mas adelante
+	 */
 	public void recogerDatosDejarLibro() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
 		String fechaRecogida = ((_09_DejarLibro) misVistas[9]).getTxtFechaCogidaLibro().getText();

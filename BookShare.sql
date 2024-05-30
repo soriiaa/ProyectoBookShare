@@ -76,12 +76,8 @@ usr varchar(40),
 id int,
 Fecha date not null,
 primary key(usr, id),
-foreign key (usr) references users(usr)
-on update cascade
-on delete cascade,
+foreign key (usr) references users(usr),
 foreign key (id) references libro(id)
-on update cascade
-on delete cascade
 )engine innodb;
 
 
@@ -93,12 +89,8 @@ Fecha date not null,
 Comentario varchar(40),
 Valoracion varchar(30) not null,
 primary key(usr, id),
-foreign key (usr) references users(usr)
-on update cascade
-on delete cascade,
+foreign key (usr) references users(usr),
 foreign key (id) references libro(id)
-on update cascade
-on delete cascade
 )engine innodb;
 
 insert into dejar(usr, id, fecha, comentario, valoracion) values("MenteFria", 1, '2024-04-11', "Espectacular", "8/10");
