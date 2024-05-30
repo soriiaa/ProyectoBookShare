@@ -730,7 +730,7 @@ public class Conexion {
 
 	public void deleteLugar(String nombre, int codPostal) {
 		try {
-			String query = "delete from cod_postal where nombre = ? AND codigo_postal = ?";
+			String query = "delete from lugar where nombre = ? AND codigo_postal = ?";
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, nombre);
 			pstmt.setInt(2, codPostal);
