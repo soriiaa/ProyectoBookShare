@@ -377,7 +377,7 @@ public class Modelo {
 	}
 
 	public void actualizarHistorial(String titulo, int codPostal) {
-		String query = "insert into historial (usr,titulo,accion,fecha,cod_postal) values(?,?,?,?,?)";
+		String query = "insert into historial (usr,titulo,accion,fecha,codigo_postal) values(?,?,?,?,?)";
 		String accion = "dejar";
 		String consultaFecha = "select fecha from dejar where usr = ?";
 
@@ -387,7 +387,7 @@ public class Modelo {
 	}
 
 	public void actualizarHistorialCoger(String titulo) {
-		String query = "insert into historial (usr,titulo,accion,fecha,cod_postal) values(?,?,?,?,?)";
+		String query = "insert into historial (usr,titulo,accion,fecha,codigo_postal) values(?,?,?,?,?)";
 		String accion = "coger";
 		String consultaFecha = "select fecha from coger where usr = ?";
 

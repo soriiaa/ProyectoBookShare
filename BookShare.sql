@@ -28,6 +28,8 @@ codigoPreguntaRecuperacion int not null,
 respuestaPreguntaRecuperacion varchar(100) not null,
 primary key (usr),
 foreign key (codigoPreguntaRecuperacion) references pregunta_recuperacion(codigo)
+on update cascade
+on delete cascade
 )engine=innodb;
 
 insert into users(usr, nombre, apellido, pwd, Rol, img, cp, codigoPreguntaRecuperacion, respuestaPreguntaRecuperacion) values("MenteFria", "Maxi", "angulo", "CañaAqui_33", "Administrador", "Imagen1", "28360", 1, "Coca Cola");
@@ -45,8 +47,12 @@ create table usuario_Notificaciones(
 usr varchar(40),
 id int,
 primary key(usr,id),
-foreign key(usr) references users(usr),
+foreign key(usr) references users(usr)
+on update cascade
+on delete cascade,
 foreign key(id) references notificaciones(id)
+on update cascade
+on delete cascade
 )engine=innodb;
 
 insert into usuario_Notificaciones(usr, id) values("MenteFria", 1);
@@ -70,8 +76,12 @@ usr varchar(40),
 id int,
 Fecha date not null,
 primary key(usr, id),
-foreign key (usr) references users(usr),
+foreign key (usr) references users(usr)
+on update cascade
+on delete cascade,
 foreign key (id) references libro(id)
+on update cascade
+on delete cascade
 )engine innodb;
 
 insert into coger(usr, id, Fecha) values("a", 2, '2024-05-07');
@@ -83,8 +93,12 @@ Fecha date not null,
 Comentario varchar(40),
 Valoracion varchar(30) not null,
 primary key(usr, id),
-foreign key (usr) references users(usr),
+foreign key (usr) references users(usr)
+on update cascade
+on delete cascade,
 foreign key (id) references libro(id)
+on update cascade
+on delete cascade
 )engine innodb;
 
 insert into dejar(usr, id, fecha, comentario, valoracion) values("MenteFria", 1, '2024-04-11', "Espectacular", "8/10");
@@ -112,6 +126,8 @@ nombre varchar(50) not null,
 codigo_postal int not null,
 primary key(id),
 foreign key(codigo_postal) references cod_postal(codigo_postal)
+on update cascade
+on delete cascade
 )engine=innodb;
 
 insert into Lugar(Nombre, codigo_postal)values("Villaconejos", 28360);
@@ -122,8 +138,12 @@ id_Libro int,
 id_Lugar int,
 Fecha date not null, 
 primary key(id_Libro, id_Lugar), 
-foreign key(id_Libro) references libro(id),
+foreign key(id_Libro) references libro(id)
+on update cascade
+on delete cascade,
 foreign key(id_lugar) references lugar(id)
+on update cascade
+on delete cascade
 )engine=innodb;
 
 insert into libro_Lugar(id_libro, id_Lugar, Fecha) values(1, 1, '2024-05-16');
@@ -135,13 +155,16 @@ usr varchar(40) not null,
 titulo varchar(80) not null,
 accion varchar(10) not null,
 fecha date not null,
+cod_postal int not null,
 primary key(id_movimiento),
 foreign key(usr) references users(usr) 
+on update cascade
+on delete cascade
 )engine=innodb;
 
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
-select * from users;
+select * from lugar;
 insert into administracion (clave, valor) values (1, 33);
 
 SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
