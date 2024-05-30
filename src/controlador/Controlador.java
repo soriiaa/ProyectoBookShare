@@ -11,6 +11,7 @@ import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
+import vista._05_OlvidoContraseña;
 import vista._07_AltaLibro;
 import vista._09_DejarLibro;
 import vista._16_DarDeBajaLibro;
@@ -283,6 +284,52 @@ public class Controlador {
 	public void recogerDatosCogerLibro(String valorSeleccionado) {
 		miModelo.eliminarDatosDejarLibro(valorSeleccionado);
 		miModelo.actualizarHistorialCoger(valorSeleccionado);
+	}
+	
+	public String[][] cogerPreguntaSeguridad() {
+		
+		String[][] preguntasArray = miModelo.cogerPreguntasSeguridad();
+		
+		return preguntasArray;
+	}
+	
+	public String comprobarRespuestaSeguridad(String[][] listaCodigoPreguntaSeguridad, String preguntaUsuario, String respuestaUsuarioIntroducida, String nuevaContrasenaIntroducida, String nombreUsuario) {
+		
+		int codigoPregunta = 0;
+		
+		for (int i = 0; i < listaCodigoPreguntaSeguridad.length; i++) {
+			if (listaCodigoPreguntaSeguridad[i][1].equals(preguntaUsuario)) {
+				codigoPregunta = Integer.parseInt(listaCodigoPreguntaSeguridad[i][0]);
+			}
+		}
+		
+		String codigoPreguntaString = Integer.toString(codigoPregunta);
+		
+		String consulta = "SELECT respuestaPreguntaRecuperacion FROM users WHERE codigoPreguntaRecuperacion = ? AND usr = ?";
+		
+		// 0 -> No existe respuesta para la pregunta
+		// 1 -> Todo correcto
+		// 2 -> La respuesta es incorrecta.
+		
+		int situacion;
+		
+		situacion = miModelo.comprobarValidezPreguntaSeguridad(consulta, codigoPreguntaString, nombreUsuario, respuestaUsuarioIntroducida);
+		
+		if (situacion == 0) {
+			return "No es tu pregunta de seguridad.";
+		} else if (situacion == 1) {
+			
+			String consultaUpdateContrasena = "UPDATE users SET pwd = ? WHERE usr = ?";
+			
+			miModelo.updateContrasena(consultaUpdateContrasena, nuevaContrasenaIntroducida, nombreUsuario);
+			
+			
+			// Aqui tengo que hacer el update
+			return "Correcto";
+		} else {
+			return "Respuesta Incorrecta.";
+		}
+		
 	}
 
 }

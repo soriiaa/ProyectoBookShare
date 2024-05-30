@@ -404,6 +404,34 @@ public class Modelo {
 		miConexion.eliminarRegistroTablaDejar(consulta, id);
 
 	}
+	
+	public String[][] cogerPreguntasSeguridad() {
+		
+		String consulta = "SELECT codigo, pregunta FROM pregunta_recuperacion";
+		String[][] listaCodigoPreguntas = miConexion.cogerPreguntasSeguridad(consulta);
+		
+		return listaCodigoPreguntas;
+	}
+	
+	public int comprobarValidezPreguntaSeguridad(String consulta, String codigoPregunta, String nombreDeUsuario, String respuestaUsuarioIntroducida) {
+		
+		String respuestaSeguridadBaseDatos = miConexion.sacarRespuestaSeguridadUsuario(consulta, codigoPregunta, nombreDeUsuario);
+		
+		if (respuestaSeguridadBaseDatos.equals("")) {
+			return 0;
+		} else {
+			if (respuestaSeguridadBaseDatos.equalsIgnoreCase(respuestaUsuarioIntroducida)) {
+				return 1;
+			} else {
+				return 2;
+			}
+		}
+		
+	}
+	
+	public void updateContrasena(String consulta, String contrasena, String usuario) {
+		miConexion.updateContrasenaUsuario(consulta, contrasena, usuario);
+	}
 
 }
 
