@@ -3,7 +3,25 @@
  */
 package controlador;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import modelo.Modelo;
 import vista.Vista;
@@ -14,6 +32,7 @@ import vista._04_Registro;
 import vista._05_OlvidoContraseña;
 import vista._07_AltaLibro;
 import vista._09_DejarLibro;
+import vista._12_MiPerfil;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
 import vista._18_ConfiguracionConexion;
@@ -70,7 +89,7 @@ public class Controlador {
 
 		return true;
 	}
-	
+
 	public void setVista3Invisible() {
 		_03_PaginaPrincipalSinLog pag = (_03_PaginaPrincipalSinLog) misVistas[3];
 		pag.setVisible(false);
@@ -88,7 +107,7 @@ public class Controlador {
 
 		((_04_Registro) misVistas[4]).btnRegistro_1.setEnabled(camposRellenos);
 	}
-	
+
 	public void comprobarCamposLogin() {
 		boolean camposRellenos = (((!((_01_Login) misVistas[1]).getUsuario().getText().isEmpty())
 				&& (!((_01_Login) misVistas[1]).getUsuario().getText().equals("Usuario")))
@@ -119,7 +138,7 @@ public class Controlador {
 	public Object[][] sacarHistorial() {
 
 		Object[][] info = miModelo.sentenciaHistorial();
-		
+
 		return info;
 
 	}
@@ -134,7 +153,7 @@ public class Controlador {
 
 	public Object[][] sacarDatosLibro() {
 		Object[][] datos = miModelo.sacarDatosLibro();
-		return datos;		
+		return datos;
 	}
 
 	public void recogerAltaDatosAltaBajaLibro() {
@@ -146,58 +165,51 @@ public class Controlador {
 
 	public void recogerBajaDatosAltaBajaLibro() {
 		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
-		miModelo.BajaDatosAltaBajaLibro(titulo);	
+		miModelo.BajaDatosAltaBajaLibro(titulo);
 	}
 
 	public boolean comprobarAdmin() {
 		boolean admin = false;
-		
+
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
 
 		return miModelo.validarAdmin(usuario);
 	}
 
-	public Object[][] sacarLugaresActuales(){
-		
-		Object[][] datos = miModelo.sacarLugaresBase();
-		
-		return datos;
-		
-	}
+	public Object[][] sacarLugaresActuales() {
 
+		Object[][] datos = miModelo.sacarLugaresBase();
+
+		return datos;
+
+	}
+	
 	public void recogerInfoBajaAltaLugaresParaInsert() {
+		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
-		String provincia = ((_17_DarDeBajaLugar) misVistas[17]).getTxtProvincia().getText();
-		String poblacion = ((_17_DarDeBajaLugar) misVistas[17]).getTxtPoblacion().getText();
 		
 		int codPostal = Integer.parseInt(codigoPostal);
 		
-		miModelo.conectorInsertLugar(codPostal,comunidad,provincia,poblacion);
+		miModelo.conectorInsertLugar(nombre, codPostal);
 	}
 
 	public void recogerInfoBajaAltaLugaresParaDelete() {
+		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
-		String provincia = ((_17_DarDeBajaLugar) misVistas[17]).getTxtProvincia().getText();
-		String poblacion = ((_17_DarDeBajaLugar) misVistas[17]).getTxtPoblacion().getText();
+
 		
 		int codPostal = Integer.parseInt(codigoPostal);		
 		
-		miModelo.conectorDeleteLugar(codPostal, comunidad, provincia, poblacion);
+		miModelo.conectorDeleteLugar(nombre, codPostal);
 	}
 
 	public void recogerInfoBajaAltaLugaresParaUpdate() {
+		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		String comunidad = ((_17_DarDeBajaLugar) misVistas[17]).getTxtComunidad().getText();
-		String provincia = ((_17_DarDeBajaLugar) misVistas[17]).getTxtProvincia().getText();
-		String pobla = ((_17_DarDeBajaLugar) misVistas[17]).getTxtPoblacion().getText();
-		
+
 		int codPostal = Integer.parseInt(codigoPostal);		
-		int poblacion = Integer.parseInt(pobla);
-		int codPostalAntiguo = ((_17_DarDeBajaLugar) misVistas[17]).getCodPostalAntiguo();
 		
-		miModelo.conectorUpdateLugar(codPostal, comunidad, provincia, poblacion, codPostalAntiguo);
+		miModelo.conectorUpdateLugar(nombre, codPostal);
 	}
 
 	public String[] recogerDatosConexion() {
@@ -215,7 +227,7 @@ public class Controlador {
 
 	public void sacarDatosCogerLibro(String valorSeleccionado) {
 		miModelo.cambiarEstadoCogerLibro(valorSeleccionado);
-		
+
 	}
 
 	public boolean comproConexion() {
@@ -259,8 +271,7 @@ public class Controlador {
 		String codigoPostal = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
 		String comentario = ((_09_DejarLibro) misVistas[9]).getTxtComentario().getText();
 		String valoracion = ((_09_DejarLibro) misVistas[9]).getComboValoracion().getToolTipText();
-		
-		
+
 		miModelo.insertarDatosDejarLibro(titulo, fechaRecogida, codigoPostal, comentario, valoracion);
 		miModelo.cambiarEstadoDejarLibro(titulo);
 		miModelo.eliminarLibroTablaCoger(titulo);
@@ -268,16 +279,16 @@ public class Controlador {
 
 	public boolean recogerdatosComproExistencia() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
-		
+
 		return miModelo.comprobarLibroBBDD(titulo);
 	}
 
 	public void cogerDatosHistorialDejar() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
 		String codigoPostalStr = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
-		
+
 		int codPostal = Integer.parseInt(codigoPostalStr);
-		
+
 		miModelo.actualizarHistorial(titulo, codPostal);
 	}
 
@@ -332,5 +343,46 @@ public class Controlador {
 		
 	}
 
-}
 
+
+	public void recogerImagen() {
+		((_12_MiPerfil) misVistas[12]).chooseFile();
+		File foto = ((_12_MiPerfil) misVistas[12]).getSelectedFile();
+
+		if (foto != null) {
+			try {
+				miModelo.guardarImagen(foto);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void mostrarImagen() {
+		byte[] imgBytes = miModelo.getImage();
+
+		((_12_MiPerfil) misVistas[12]).setImagenPerfil(imgBytes);
+		
+	}
+
+	public String sacarUsuario() {
+		return miModelo.getUsuario();
+	}
+
+	public String sacarNombre() {
+		return miModelo.getNombre();
+	}
+
+	public String sacarApellido() {
+		return miModelo.getApellido();
+	}
+	
+	public void cambiarNickName() {
+		String nick = ((_12_MiPerfil) misVistas[12]).getTxtNicknameUsuario().getText();
+		miModelo.updateNickName(nick);
+	}
+	
+}
