@@ -7,4 +7,4 @@ creado Apa para traer los datos.
 
 @Autor Andres Galindo: Creado fichero.INI y borrado los valores de los atributos de conexión y contraseña (para que en vez de estar "hardcodeados", estos datos deben estar registrados en el archivo, para que así no todo el mundo pueda entrar) y borrado la inicialización de datos de la conexión donde no debía estar (que en nuestro caso estaba en todos lados, principalmente en las vista y la conexion).
 
-@Autor Pablo: Punto 3 de la tarea hecho, he añadido el boton de modificar y darle funcionalidad haciendo un metodo en controlador para coger el usr(login), la url y la contraseña que haya actualmente en la ventana, ademas añadir un metodo en modelo que llama a un metodo de la vista para poder actualizar los datos que ves por pantalla a los nuevos que hayas modificado y una llamada a otro metodo en el que haga el cambio de datos en el fichero .ini y ademas devuelva con un getProperties los datos nuevos del fichero.
+@Autor Pablo: Pantallas de administrador con front y back hechas
