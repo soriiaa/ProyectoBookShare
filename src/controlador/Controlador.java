@@ -3,7 +3,25 @@
  */
 package controlador;
 
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import modelo.Modelo;
 import vista.Vista;
@@ -11,8 +29,10 @@ import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
+import vista._05_OlvidoContraseña;
 import vista._07_AltaLibro;
 import vista._09_DejarLibro;
+import vista._12_MiPerfil;
 import vista._16_DarDeBajaLibro;
 import vista._17_DarDeBajaLugar;
 import vista._18_ConfiguracionConexion;
@@ -69,7 +89,7 @@ public class Controlador {
 
 		return true;
 	}
-	
+
 	public void setVista3Invisible() {
 		_03_PaginaPrincipalSinLog pag = (_03_PaginaPrincipalSinLog) misVistas[3];
 		pag.setVisible(false);
@@ -87,7 +107,7 @@ public class Controlador {
 
 		((_04_Registro) misVistas[4]).btnRegistro_1.setEnabled(camposRellenos);
 	}
-	
+
 	public void comprobarCamposLogin() {
 		boolean camposRellenos = (((!((_01_Login) misVistas[1]).getUsuario().getText().isEmpty())
 				&& (!((_01_Login) misVistas[1]).getUsuario().getText().equals("Usuario")))
@@ -118,7 +138,7 @@ public class Controlador {
 	public Object[][] sacarHistorial() {
 
 		Object[][] info = miModelo.sentenciaHistorial();
-		
+
 		return info;
 
 	}
@@ -133,7 +153,7 @@ public class Controlador {
 
 	public Object[][] sacarDatosLibro() {
 		Object[][] datos = miModelo.sacarDatosLibro();
-		return datos;		
+		return datos;
 	}
 
 	public void recogerAltaDatosAltaBajaLibro() {
@@ -145,23 +165,23 @@ public class Controlador {
 
 	public void recogerBajaDatosAltaBajaLibro() {
 		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
-		miModelo.BajaDatosAltaBajaLibro(titulo);	
+		miModelo.BajaDatosAltaBajaLibro(titulo);
 	}
 
 	public boolean comprobarAdmin() {
 		boolean admin = false;
-		
+
 		String usuario = ((_01_Login) misVistas[1]).getUsuario().getText();
 
 		return miModelo.validarAdmin(usuario);
 	}
 
-	public Object[][] sacarLugaresActuales(){
-		
+	public Object[][] sacarLugaresActuales() {
+
 		Object[][] datos = miModelo.sacarLugaresBase();
-		
+
 		return datos;
-		
+
 	}
 	
 	public void recogerInfoBajaAltaLugaresParaInsert() {
@@ -176,6 +196,7 @@ public class Controlador {
 	public void recogerInfoBajaAltaLugaresParaDelete() {
 		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
+
 		
 		int codPostal = Integer.parseInt(codigoPostal);		
 		
@@ -185,7 +206,7 @@ public class Controlador {
 	public void recogerInfoBajaAltaLugaresParaUpdate() {
 		String nombre = ((_17_DarDeBajaLugar) misVistas[17]).getNombre().getText();
 		String codigoPostal = ((_17_DarDeBajaLugar) misVistas[17]).getTxtCodigoPostal().getText();
-		
+
 		int codPostal = Integer.parseInt(codigoPostal);		
 		
 		miModelo.conectorUpdateLugar(nombre, codPostal);
@@ -206,7 +227,7 @@ public class Controlador {
 
 	public void sacarDatosCogerLibro(String valorSeleccionado) {
 		miModelo.cambiarEstadoCogerLibro(valorSeleccionado);
-		
+
 	}
 
 	public boolean comproConexion() {
@@ -250,8 +271,7 @@ public class Controlador {
 		String codigoPostal = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
 		String comentario = ((_09_DejarLibro) misVistas[9]).getTxtComentario().getText();
 		String valoracion = ((_09_DejarLibro) misVistas[9]).getComboValoracion().getToolTipText();
-		
-		
+
 		miModelo.insertarDatosDejarLibro(titulo, fechaRecogida, codigoPostal, comentario, valoracion);
 		miModelo.cambiarEstadoDejarLibro(titulo);
 		miModelo.eliminarLibroTablaCoger(titulo);
@@ -259,16 +279,16 @@ public class Controlador {
 
 	public boolean recogerdatosComproExistencia() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
-		
+
 		return miModelo.comprobarLibroBBDD(titulo);
 	}
 
 	public void cogerDatosHistorialDejar() {
 		String titulo = ((_09_DejarLibro) misVistas[9]).getTxtTitulo().getText();
 		String codigoPostalStr = ((_09_DejarLibro) misVistas[9]).getTxtCodigoPostal().getText();
-		
+
 		int codPostal = Integer.parseInt(codigoPostalStr);
-		
+
 		miModelo.actualizarHistorial(titulo, codPostal);
 	}
 
@@ -276,6 +296,93 @@ public class Controlador {
 		miModelo.eliminarDatosDejarLibro(valorSeleccionado);
 		miModelo.actualizarHistorialCoger(valorSeleccionado);
 	}
+	
+	public String[][] cogerPreguntaSeguridad() {
+		
+		String[][] preguntasArray = miModelo.cogerPreguntasSeguridad();
+		
+		return preguntasArray;
+	}
+	
+	public String comprobarRespuestaSeguridad(String[][] listaCodigoPreguntaSeguridad, String preguntaUsuario, String respuestaUsuarioIntroducida, String nuevaContrasenaIntroducida, String nombreUsuario) {
+		
+		int codigoPregunta = 0;
+		
+		for (int i = 0; i < listaCodigoPreguntaSeguridad.length; i++) {
+			if (listaCodigoPreguntaSeguridad[i][1].equals(preguntaUsuario)) {
+				codigoPregunta = Integer.parseInt(listaCodigoPreguntaSeguridad[i][0]);
+			}
+		}
+		
+		String codigoPreguntaString = Integer.toString(codigoPregunta);
+		
+		String consulta = "SELECT respuestaPreguntaRecuperacion FROM users WHERE codigoPreguntaRecuperacion = ? AND usr = ?";
+		
+		// 0 -> No existe respuesta para la pregunta
+		// 1 -> Todo correcto
+		// 2 -> La respuesta es incorrecta.
+		
+		int situacion;
+		
+		situacion = miModelo.comprobarValidezPreguntaSeguridad(consulta, codigoPreguntaString, nombreUsuario, respuestaUsuarioIntroducida);
+		
+		if (situacion == 0) {
+			return "No es tu pregunta de seguridad.";
+		} else if (situacion == 1) {
+			
+			String consultaUpdateContrasena = "UPDATE users SET pwd = ? WHERE usr = ?";
+			
+			miModelo.updateContrasena(consultaUpdateContrasena, nuevaContrasenaIntroducida, nombreUsuario);
+			
+			
+			// Aqui tengo que hacer el update
+			return "Correcto";
+		} else {
+			return "Respuesta Incorrecta.";
+		}
+		
+	}
 
+
+
+	public void recogerImagen() {
+		((_12_MiPerfil) misVistas[12]).chooseFile();
+		File foto = ((_12_MiPerfil) misVistas[12]).getSelectedFile();
+
+		if (foto != null) {
+			try {
+				miModelo.guardarImagen(foto);
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void mostrarImagen() {
+		byte[] imgBytes = miModelo.getImage();
+
+		((_12_MiPerfil) misVistas[12]).setImagenPerfil(imgBytes);
+		
+	}
+
+	public String sacarUsuario() {
+		return miModelo.getUsuario();
+	}
+
+	public String sacarNombre() {
+		return miModelo.getNombre();
+	}
+
+	public String sacarApellido() {
+		return miModelo.getApellido();
+	}
+	
+	public void cambiarNickName() {
+		String nick = ((_12_MiPerfil) misVistas[12]).getTxtNicknameUsuario().getText();
+		miModelo.updateNickName(nick);
+	}
+	
 }
-
