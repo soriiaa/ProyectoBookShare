@@ -71,7 +71,7 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -221,6 +221,7 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		getContentPane().add(lblBuscarPorLocalidad);
 
 		txtBuscador = new JTextField();
+		txtBuscador.setBackground(new Color(192, 192, 192));
 		txtBuscador.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -265,7 +266,7 @@ public class _02_BuscarPorLocalidad extends JFrame implements Vista {
 		table.getTableHeader().setFont(new Font("Arial", Font.BOLD, 14));
 		table.setGridColor(Color.LIGHT_GRAY);
 
-		table.setBackground(Color.WHITE);
+		table.setBackground(new Color(192, 192, 192));
 		table.setForeground(Color.BLACK);
 		table.setSelectionBackground(new Color(200, 200, 255));
 		table.setSelectionForeground(Color.BLACK);
