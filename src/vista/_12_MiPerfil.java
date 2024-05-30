@@ -5,6 +5,7 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,7 +54,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private JButton btnCambiarNickName;
 	private JButton btnCambiarApellidos;
 	private JButton btnCambiarNombre;
-	private JButton btnCambiarConrasea;
+	private JButton btnCambiarContrasena;
 	private JButton btnAplicarCambios;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
@@ -79,6 +80,10 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private JLabel lblTituloVista;
 	private JPanel panelResaltarNombre;
 	private PlaceholderFocusListener focusListener;
+	private boolean botonNicknameHabilitado;
+	private boolean botonUsuarioHabilitado;
+	private boolean botonApellidoHabilitado;
+	private boolean botonContrasenaHabilitado;
 
 	public JTextField getTxtNicknameUsuario() {
 		return txtNicknameUsuario;
@@ -173,14 +178,38 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
+				
+				comprobarCampoNickName();
+				comprobarCampoUsuario();
+				comprobarCampoApellido();
+				comprobarCampoContraseña();
+				
 				btnCogerLibro.setBackground(new Color(230, 230, 250));
 				btnAplicarCambios.setBackground(new Color(0, 0, 0));
-				btnCambiarApellidos.setBackground(new Color(0, 0, 0));
-				btnCambiarApellidos.setBackground(new Color(0, 0, 0));
-				btnCambiarConrasea.setBackground(new Color(0, 0, 0));
+				
+				if (botonNicknameHabilitado) {
+					btnCambiarNickName.setBackground(new Color(0, 0, 0));
+					btnCambiarNickName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+				
+				if (botonUsuarioHabilitado) {
+					btnCambiarNombre.setBackground(new Color(0, 0, 0));
+					btnCambiarNombre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+				
+				if (botonApellidoHabilitado) {
+					btnCambiarApellidos.setBackground(new Color(0, 0, 0));
+					btnCambiarApellidos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+				
+				if (botonContrasenaHabilitado) {
+					btnCambiarContrasena.setBackground(new Color(0, 0, 0));
+					btnCambiarContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+				
 				btnCambiarFotoUsuario.setBackground(new Color(0, 0, 0));
-				btnCambiarNickName.setBackground(new Color(0, 0, 0));
-				btnCambiarNombre.setBackground(new Color(0, 0, 0));
+				btnAplicarCambios.setBackground(new Color(0, 0, 0));
+				
 			}
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -657,10 +686,12 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		
 
 		btnCambiarFotoUsuario = new JButton("Cambiar Foto de Usuario");
+		btnCambiarFotoUsuario.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		btnCambiarFotoUsuario.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				btnCambiarFotoUsuario.setBackground(new Color(70, 70, 70));
+				btnCambiarFotoUsuario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
 		btnCambiarFotoUsuario.setBounds(299, 162, 230, 50);
@@ -687,14 +718,16 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCambiarNickName.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
+				if (botonNicknameHabilitado) {
+					btnCambiarNickName.setBackground(new Color(70, 70, 70));
+					btnCambiarNickName.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
 			}
 		});
 		btnCambiarNickName.setBounds(299, 261, 230, 29);
 		btnCambiarNickName.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				miControlador.cambiarNickName();
-//				txtNicknameUsuario.setEditable(true);
 				txtNicknameUsuario.setText("NickName");
 			}
 		});
@@ -705,6 +738,15 @@ public class _12_MiPerfil extends JFrame implements Vista {
 
 
 		btnCambiarNombre = new JButton("Cambiar Nombre");
+		btnCambiarNombre.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (botonUsuarioHabilitado) {
+					btnCambiarNombre.setBackground(new Color(70, 70, 70));
+					btnCambiarNombre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+			}
+		});
 		btnCambiarNombre.setBounds(299, 338, 230, 29);
 		btnCambiarNombre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -717,6 +759,15 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCambiarNombre.setBorder(null);
 
 		btnCambiarApellidos = new JButton("Cambiar Apellidos");
+		btnCambiarApellidos.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (botonApellidoHabilitado) {
+					btnCambiarApellidos.setBackground(new Color(70, 70, 70));
+					btnCambiarApellidos.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
+			}
+		});
 		btnCambiarApellidos.setBounds(299, 416, 230, 27);
 		btnCambiarApellidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -728,27 +779,37 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCambiarApellidos.setBackground(new Color(0, 0, 0));
 		btnCambiarApellidos.setBorder(null);
 
-		btnCambiarConrasea = new JButton("Cambiar Contraseña");
-		btnCambiarConrasea.setBounds(299, 490, 230, 27);
-		btnCambiarConrasea.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-//				PasswordContraseña.setEditable(true);
+		btnCambiarContrasena = new JButton("Cambiar Contraseña");
+		btnCambiarContrasena.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				if (botonContrasenaHabilitado) {
+					btnCambiarContrasena.setBackground(new Color(70, 70, 70));
+					btnCambiarContrasena.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				}
 			}
 		});
-		contentPane.add(btnCambiarConrasea);
-		btnCambiarConrasea.setForeground(new Color(255, 255, 255));
-		btnCambiarConrasea.setBackground(new Color(0, 0, 0));
-		btnCambiarConrasea.setBorder(null);
+		btnCambiarContrasena.setBounds(299, 490, 230, 27);
+		contentPane.add(btnCambiarContrasena);
+		btnCambiarContrasena.setForeground(new Color(255, 255, 255));
+		btnCambiarContrasena.setBackground(new Color(0, 0, 0));
+		btnCambiarContrasena.setBorder(null);
 
 		btnAplicarCambios = new JButton("Aplicar Cambios");
-		btnAplicarCambios.setBounds(758, 593, 201, 44);
+		btnAplicarCambios.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnAplicarCambios.setBackground(new Color(70, 70, 70));
+				btnAplicarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
+		btnAplicarCambios.setBounds(778, 597, 162, 44);
 		btnAplicarCambios.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		btnAplicarCambios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtNicknameUsuario.setEditable(false);
 				txtNombreUsuario.setEditable(false);
 				txtApellidos.setEditable(false);
-//				PasswordContraseña.setEditable(false);
 				miControlador.mostrarImagen();
 			}
 		});
@@ -764,7 +825,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		contentPane.add(lblImagenPerfil);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(634, 83, 306, 460);
+		panel.setBounds(634, 109, 306, 460);
 		panel.setBackground(new Color(175, 175, 239));
 		contentPane.add(panel);
 		panel.setLayout(null);
@@ -785,7 +846,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		panel.add(lblImagenPerfil_1);
 		
 		lblTituloVista = new JLabel("Configurar Perfil");
-		lblTituloVista.setBounds(182, 0, 804, 69);
+		lblTituloVista.setBounds(182, 22, 804, 69);
 		lblTituloVista.setFont(new Font("Tahoma", Font.PLAIN, 58));
 		lblTituloVista.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblTituloVista);
@@ -800,12 +861,6 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				panel.add(lblUsuarioDisplay);
 			}
 		});
-		
-//		panelResaltarNombre = new JPanel();
-//		panelResaltarNombre.setBackground(new Color(255, 255, 255));
-//		panelResaltarNombre.setBounds(76, 285, 162, 98);
-//		panel.add(panelResaltarNombre);
-//		panelResaltarNombre.setLayout(null);
 		
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -837,9 +892,20 @@ public class _12_MiPerfil extends JFrame implements Vista {
 			}
 		});
 		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowOpened(WindowEvent e) {
+				comprobarCampoNickName();
+				comprobarCampoUsuario();
+				comprobarCampoApellido();
+				comprobarCampoContraseña();
+			}
+		});
+		
 	}
 
 	public void setImagenPerfil(byte[] imgBytes) {
+		
 		if(imgBytes!= null) {
 			ImageIcon imageIcon = new ImageIcon(imgBytes);
 			lblImagenPerfil.setIcon(imageIcon);
@@ -847,73 +913,89 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		}else {
 			System.out.println("No hay imagen");
 		}
+		
 		contentPane.revalidate();
 	    contentPane.repaint();
 	}
 	
 	public void comprobarCampoNickName() {
-		boolean botonHabilitado = true;
-		if(txtNicknameUsuario.getText().isEmpty() || txtNicknameUsuario.getText().equals("NickName")) {
-			botonHabilitado = false;
-		}else {
-			botonHabilitado = true;
-			btnCambiarNickName.setBackground(new Color(0,0,0));
-			btnCambiarNickName.setEnabled(true);
+
+		botonNicknameHabilitado = true;
+		
+		if (txtNicknameUsuario.getText().isEmpty() || txtNicknameUsuario.getText().equals("NickName")) {
+			botonNicknameHabilitado = false;
+		} else {
+			botonNicknameHabilitado = true;
 		}
 		
-		if(!botonHabilitado) {
-			btnCambiarNickName.setBackground(new Color(114,114,114));
+		if (botonNicknameHabilitado == true) {
+			btnCambiarNickName.setEnabled(true);
+			btnCambiarNickName.setBackground(new Color(0, 0, 0));
+		} else {
 			btnCambiarNickName.setEnabled(false);
+			btnCambiarNickName.setBackground(new Color(114, 114, 114));
 		}
+		
 	}
 	
 	public void comprobarCampoUsuario() {
-		boolean botonHabilitado = true;
-		if(txtNombreUsuario.getText().isEmpty() || txtNombreUsuario.getText().equals("Usuario")) {
-			botonHabilitado = false;
-		}else {
-			botonHabilitado = true;
-			btnCambiarNombre.setBackground(new Color(0,0,0));
-			btnCambiarNombre.setEnabled(true);
+		
+		botonUsuarioHabilitado = true;
+		
+		if (txtNombreUsuario.getText().isEmpty() || txtNombreUsuario.getText().equals("Usuario")) {
+			botonUsuarioHabilitado = false;
+		} else {
+			botonUsuarioHabilitado = true;
 		}
 		
-		if(!botonHabilitado) {
-			btnCambiarNombre.setBackground(new Color(114,114,114));
+		if (botonUsuarioHabilitado == true) {
+			btnCambiarNombre.setEnabled(true);
+			btnCambiarNombre.setBackground(new Color(0, 0, 0));
+		} else {
 			btnCambiarNombre.setEnabled(false);
+			btnCambiarNombre.setBackground(new Color(114,114,114));
 		}
 	}
 	
 	public void comprobarCampoApellido() {
-		boolean botonHabilitado = true;
-		if(txtApellidos.getText().isEmpty() || txtApellidos.getText().equals("Apellido")) {
-			botonHabilitado = false;
-		}else {
-			botonHabilitado = true;
-			btnCambiarApellidos.setBackground(new Color(0,0,0));
-			btnCambiarApellidos.setEnabled(true);
+		
+		botonApellidoHabilitado = true;
+		
+		if (txtApellidos.getText().isEmpty() || txtApellidos.getText().equals("Apellido")) {
+			botonApellidoHabilitado = false;
+		} else {
+			botonApellidoHabilitado = true;
 		}
 		
-		if(!botonHabilitado) {
-			btnCambiarApellidos.setBackground(new Color(114,114,114));
+		if (botonApellidoHabilitado == true) {
+			btnCambiarApellidos.setEnabled(true);
+			btnCambiarApellidos.setBackground(new Color(0, 0, 0));			
+		} else {
 			btnCambiarApellidos.setEnabled(false);
+			btnCambiarApellidos.setBackground(new Color(114,114,114));
 		}
 	}
 	
 	public void comprobarCampoContraseña() {
-		boolean botonHabilitado = true;
-		if(txtContrasea.getText().isEmpty() || txtContrasea.getText().equals("Contraseña")) {
-			botonHabilitado = false;
-		}else {
-			botonHabilitado = true;
-			btnCambiarConrasea.setBackground(new Color(0,0,0));
-			btnCambiarConrasea.setEnabled(true);
+		
+		botonContrasenaHabilitado = true;
+		
+		if (txtContrasea.getText().isEmpty() || txtContrasea.getText().equals("Contraseña")) {
+			botonContrasenaHabilitado = false;
+		} else {
+			botonContrasenaHabilitado = true;
 		}
 		
-		if(!botonHabilitado) {
-			btnCambiarConrasea.setBackground(new Color(114,114,114));
-			btnCambiarConrasea.setEnabled(false);
+		if (botonContrasenaHabilitado == true) {
+			btnCambiarContrasena.setEnabled(true);
+			btnCambiarContrasena.setBackground(new Color(0, 0, 0));			
+		} else {
+			btnCambiarContrasena.setEnabled(false);
+			btnCambiarContrasena.setBackground(new Color(114,114,114));
 		}
 	}
+	
+	
 	private static class PlaceholderFocusListener implements FocusListener {
 		private final JTextField field;
 		private final String placeholder;
