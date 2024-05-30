@@ -445,7 +445,6 @@ public class _16_DarDeBajaLibro extends JFrame implements Vista {
 		txtAutor.setBorder(BorderFactory.createCompoundBorder(txtAutor.getBorder(),
 				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
 		txtAutor.setColumns(10);
-
 		txtAutor.getDocument().addDocumentListener(new DocumentListener() {
 			@Override
 			public void insertUpdate(DocumentEvent e) {
