@@ -655,13 +655,24 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * @author pablo
+	 * @param sacarId
+	 * @param tituloAntiguo
+	 * @return
+	 */
 	public String sacarIdLibro(String sacarId, String tituloAntiguo) {
+		// Hago esta variable para almacenar el id una vez lo saque
 		String idLibro = null;
 		try {
+			// Hago un preparedStatement donde le paso la consulta
 			PreparedStatement pstmt = conexion.prepareStatement(sacarId);
+			// Establezco el tituloAntiguo que he sacado antes en la primera interrogacion
 			pstmt.setString(1, tituloAntiguo);
+			// Hago un resultSet y ejecuto la query
 			ResultSet rs = pstmt.executeQuery();
 			while (rs.next()) {
+				//Saco el id de libro asociado a ese nombre
 				idLibro = rs.getString(1);
 			}
 		} catch (SQLException e) {
