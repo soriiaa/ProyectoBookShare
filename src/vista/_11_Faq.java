@@ -54,7 +54,7 @@ public class _11_Faq extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -336,6 +336,7 @@ public class _11_Faq extends JFrame implements Vista {
 		contentPane.add(lblNewLabel_1);
 
 		JTextArea txtrporQue = new JTextArea();
+		txtrporQue.setBackground(new Color(192, 192, 192));
 		txtrporQue.setText(
 				"1. ¿Por que debería leer libros?\r\nLeer libros no solo amplía tus conocimientos y vocabulario, sino que\r\n también estimula tu imaginación, mejora tu comprensión del mundo\r\n y puede ser una fuente inagotable de entretenimiento y reflexión\r\n\r\n2. ¿Cómo puedo encontrar libros que me interesen?\r\nHay varias formas de encontrar libros que te gusten, como explorar \r\ngéneros que te interesen, buscar recomendaciones de amigos, revisar\r\nreseñas en linea, visitar librerías físicas o virtuales, o unirte a clubes\r\nde lectura.\r\n\r\n3. ¿Cuál es la mejor manera de comenzar a leer si no tengo el hábito?\r\nEmpieza por elegir libros que te interesen genuinamente y establece \r\nmetas realistas de lectura. Puedes comenzar con lecturas conrtas o \r\nfragmentos pequeños y aumentar gradualmente la cantidad de \r\ntiempo dedicado a la lectura\r\n\r\n4. ¿Debería leer en formato impreso o electrónico?\r\nLa elección entre libros impresos o electrónicos depende de tus \r\npreferencias personales. Algunas personas prefieren la sensación \r\ntáctil y la experiencia física de un libro impreso, mientras que otras \r\ndisfrutan de la comodidad y la portabilidad de los dispositivos electrónicos.");
 		txtrporQue.setBounds(256, 139, 628, 415);
