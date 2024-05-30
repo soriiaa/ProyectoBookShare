@@ -141,7 +141,7 @@ foreign key(usr) references users(usr)
 
 use bookshare;
 -- Select usr from users where usr = ? and pwd = ?;
-select * from lugar;
+select * from users;
 insert into administracion (clave, valor) values (1, 33);
 
 SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;

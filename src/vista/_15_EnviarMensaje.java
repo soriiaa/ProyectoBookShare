@@ -5,23 +5,32 @@
 package vista;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import controlador.Controlador;
 import modelo.Modelo;
+
+import javax.swing.JTextField;
 
 public class _15_EnviarMensaje extends JFrame implements Vista {
 	private static final long serialVersionUID = 1L;
@@ -31,17 +40,15 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 	private JLabel lblTextoTituloUsuario;
 	private JLabel lblTituloEnviarMensaje;
 	private JTextArea txtrMensaje;
-	private JComboBox comboBoxUsuarios;
 	private JButton btnMiperfil;
 	private JPanel panelMenuNavegacion;
 	private JPanel panelTituloMenu;
 	private JLabel lblTituloMenu;
-	private JButton btnAltaLugar;
-	private JButton btnAltaLibro;
 	private JButton btnBajaLugar;
 	private JButton btnBajaLibro;
 	private JButton btnEnviarMensaje;
 	private JButton btnEnviar;
+	private JTextField txtUsuario;
 
 	@Override
 	public void setModelo(Modelo miModelo) {
@@ -59,7 +66,7 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -232,16 +239,98 @@ public class _15_EnviarMensaje extends JFrame implements Vista {
 
 		txtrMensaje = new JTextArea();
 		txtrMensaje.setToolTipText("");
-		txtrMensaje.setBounds(296, 245, 545, 282);
+		txtrMensaje.setBackground(new Color(192, 192, 192));
+		txtrMensaje.setBounds(296, 239, 545, 282);
 		contentPane.add(txtrMensaje);
 
 		btnEnviar = new JButton("Enviar");
-		btnEnviar.setBackground(new Color(128, 255, 128));
-		btnEnviar.setBounds(864, 604, 112, 39);
-		contentPane.add(btnEnviar);
+		btnEnviar.setFont(new Font("Tahoma", Font.PLAIN, 15));
+		btnEnviar.setEnabled(false);
+		btnEnviar.setForeground(new Color(255, 255, 255));
+		btnEnviar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnEnviar.setBackground(new Color(70, 70, 70));
+				btnEnviar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			}
+		});
+		contentPane.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				btnEnviar.setBackground(new Color(0, 0, 0));
+			}
+		});
 
-		comboBoxUsuarios = new JComboBox();
-		comboBoxUsuarios.setBounds(296, 148, 545, 33);
-		contentPane.add(comboBoxUsuarios);
+		btnEnviar.setBackground(new Color(0, 0, 0));
+		btnEnviar.setBorder(null);
+		btnEnviar.setBounds(873, 592, 103, 44);
+		contentPane.add(btnEnviar);
+		
+		txtUsuario = new JTextField();
+		txtUsuario.setBackground(new Color(192, 192, 192));
+		PlaceholderFocusListener focusListener = new PlaceholderFocusListener(txtUsuario, "Usuario");
+		txtUsuario.addFocusListener(focusListener);
+		txtUsuario.setText("Usuario");
+		txtUsuario.addFocusListener(new PlaceholderFocusListener(txtUsuario, "Usuario"));
+		txtUsuario.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		txtUsuario.setForeground(Color.GRAY);
+		txtUsuario.setBorder(null);
+		txtUsuario.setBorder(BorderFactory.createCompoundBorder(txtUsuario.getBorder(),
+				BorderFactory.createEmptyBorder(0, 10, 0, 0)));
+		txtUsuario.setColumns(10);
+
+		txtUsuario.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				if ("Titulo".equals(txtUsuario.getText())) {
+					txtUsuario.setForeground(Color.GRAY);
+				} else {
+					txtUsuario.setForeground(Color.BLACK);
+				}
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				if (txtUsuario.getText().isEmpty()) {
+					txtUsuario.setForeground(Color.GRAY);
+				}
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+			}
+		});
+		txtUsuario.setBounds(296, 168, 274, 27);
+		contentPane.add(txtUsuario);
+	}
+	
+	private static class PlaceholderFocusListener implements FocusListener {
+		private final JTextField field;
+		private final String placeholder;
+
+		public PlaceholderFocusListener(JTextField field, String placeholder) {
+			this.field = field;
+			this.placeholder = placeholder;
+		}
+
+		@Override
+		public void focusGained(FocusEvent e) {
+			if (field.getText().equals(placeholder)) {
+				field.setText("");
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar('*'); // Para ocultar los caracteres al escribir
+				}
+			}
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) {
+			if (field.getText().isEmpty()) {
+				field.setText(placeholder);
+				if (field instanceof JPasswordField) {
+					((JPasswordField) field).setEchoChar((char) 0); // Para que el texto sea visible
+				}
+			}
+		}
 	}
 }
