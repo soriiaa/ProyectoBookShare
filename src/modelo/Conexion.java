@@ -494,7 +494,7 @@ public class Conexion {
 
 			// Verificar si hay resultados antes de procesarlos
 			int i = 0;
-			while (rs.next()) {
+			while (rs.next() && i < numeroFilas) {
 				datos[i][0] = rs.getObject(1);
 				datos[i][1] = rs.getObject(2);
 				datos[i][2] = rs.getObject(3);
