@@ -479,33 +479,61 @@ public class Modelo {
 
 	}
 
+	/**
+	 * @author Alejandro Soria
+	 * @return
+	 */
 	public String[][] cogerPreguntasSeguridad() {
 
+		// Guardo la consulta en esta variable, esta consulta coge el codigo y la pregunta de la tabla pregunta recuperación
 		String consulta = "SELECT codigo, pregunta FROM pregunta_recuperacion";
+		// Guardo en un array bidimensional de Strings lo que devuelve el método cogerPreguntasSeguridad, al que le paso la consulta por parametro.
 		String[][] listaCodigoPreguntas = miConexion.cogerPreguntasSeguridad(consulta);
 
+		// Retorno el array de strings
 		return listaCodigoPreguntas;
 	}
 
-	public int comprobarValidezPreguntaSeguridad(String consulta, String codigoPregunta, String nombreDeUsuario,
-			String respuestaUsuarioIntroducida) {
+	/**
+	 * @author Alejandro Soria
+	 * @param consulta
+	 * @param codigoPregunta
+	 * @param nombreDeUsuario
+	 * @param respuestaUsuarioIntroducida
+	 * @return
+	 */
+	
+	public int comprobarValidezPreguntaSeguridad(String consulta, String codigoPregunta, String nombreDeUsuario, String respuestaUsuarioIntroducida) {
 
-		String respuestaSeguridadBaseDatos = miConexion.sacarRespuestaSeguridadUsuario(consulta, codigoPregunta,
-				nombreDeUsuario);
+		// Llamo a un método de miConexion en el cual saco la respuesta de seguridad del usuario en base al código de la pregunta seleccionada y el nombre del usuario
+		String respuestaSeguridadBaseDatos = miConexion.sacarRespuestaSeguridadUsuario(consulta, codigoPregunta, nombreDeUsuario);
 
+		// Guardo en la variable respuestaSeguridadBaseDatos la respuesta de seguridad del usuario
+		// Si la respuesta es nada
 		if (respuestaSeguridadBaseDatos.equals("")) {
+			// Retorno 0, lo que significa que no existe respuesta para esa pregunta.
 			return 0;
 		} else {
+			// Si la respuesta introducida por el usuario es igual a la respuesta de la base de datos, retorno 1
 			if (respuestaSeguridadBaseDatos.equalsIgnoreCase(respuestaUsuarioIntroducida)) {
 				return 1;
 			} else {
+				// Si no coinciden retorno 2
 				return 2;
 			}
 		}
 
 	}
+	
+	/**
+	 * @author Alejandro Soria
+	 * @param consulta
+	 * @param contrasena
+	 * @param usuario
+	 */
 
 	public void updateContrasena(String consulta, String contrasena, String usuario) {
+		// Llamo al método de miConexion updateContrasenaUsuario, le paso por parametros la consulta, la contraseña y el usuario.
 		miConexion.updateContrasenaUsuario(consulta, contrasena, usuario);
 	}
 
