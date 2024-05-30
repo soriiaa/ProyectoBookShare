@@ -32,9 +32,12 @@ import controlador.Controlador;
 import modelo.Modelo;
 
 public class _07_AltaLibro extends JFrame implements Vista {
+	
 	private static final long serialVersionUID = 1L;
+	
 	private Controlador miControlador;
 	private Modelo miModelo;
+	
 	private JPanel contentPane;
 	private JLabel lblTituloLibro;
 	private JButton btnAltaLibro;
