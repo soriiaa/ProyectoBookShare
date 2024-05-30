@@ -1092,19 +1092,32 @@ public class Conexion {
 
 	}
 
+	/**
+	 * @author Alejandro Soria
+	 * @param consulta
+	 * @return
+	 */
+	
 	public String[][] cogerPreguntasSeguridad(String consulta) {
 
+		// Creo un array de String bidimensiional
 		String[][] listaPreguntas = new String[3][2];
 		ResultSet resultSet;
 
 		try {
+			// Preparo la consulta
 			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			// La ejecuto y guardo lo que devuelve en el resultSet
 			resultSet = preparedStatement.executeQuery();
+			// Creo una variable llamada j
 			int j = 0;
 
+			// Mientras que el resultSet tenga resultados
 			while (resultSet.next()) {
+				// Crep una variable llamada i
 				int i = 0;
 
+				// Añado mediante el while todo al array de forma ordenada
 				listaPreguntas[j][i] = resultSet.getString("codigo");
 				i++;
 				listaPreguntas[j][i] = resultSet.getString("pregunta");
@@ -1112,6 +1125,7 @@ public class Conexion {
 				j++;
 			}
 			
+			// Retorno el array
 			return listaPreguntas;
 
 		} catch (SQLException e) {
@@ -1121,24 +1135,41 @@ public class Conexion {
 
 	}
 	
+	/**
+	 * @author Alejandro Soria
+	 * @param consulta
+	 * @param codigoPregunta
+	 * @param nombreDeUsuario
+	 * @return
+	 */
 	public String sacarRespuestaSeguridadUsuario(String consulta, String codigoPregunta, String nombreDeUsuario) {
+		
+		
 		
 		ResultSet resultSet;
 
 		try {
+			// Preparo la consulta con el prepared statement
 			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			// Añado los dos Strings
 			preparedStatement.setString(1, codigoPregunta);
 			preparedStatement.setString(2, nombreDeUsuario);
+			// Ejecuto la query y guardo lo que devuelve al resultSet
 			resultSet = preparedStatement.executeQuery();
 
+			// Creo una variable en la que guardo la respuesta de seguridad
 			String respuestaSeguridad = "";
 			
+			// Compruebo que haya un valor en el resulset, y si hay
 			if (resultSet.next()) {
+				// Guardo en la variable la información que contiene el campo
 	            respuestaSeguridad = resultSet.getString("respuestaPreguntaRecuperacion");
 	        } else {
-	            System.out.println("");
+	        	// Sino hay registro, devuelvo espacio, para notificar que es un error
+	        	respuestaSeguridad = "";
 	        }
 			
+			// Retorno la variable
 			return respuestaSeguridad;
 
 		} catch (SQLException e) {
@@ -1149,12 +1180,21 @@ public class Conexion {
 		
 	}
 	
+	/**
+	 * @author Alejandro Soria
+	 * @param consulta
+	 * @param contrasena
+	 * @param usuario
+	 */
 	public void updateContrasenaUsuario(String consulta, String contrasena, String usuario) {
 		
 		try {
+			// Creo la consulta con preparedStatement
 			PreparedStatement preparedStatement = conexion.prepareStatement(consulta);
+			// Añado a las interrogaciones de las consultas los Strings
 			preparedStatement.setString(1, contrasena);
 			preparedStatement.setString(2, usuario);
+			// Ejecuto la consulta
 			preparedStatement.executeUpdate();
 
 		} catch (SQLException e) {

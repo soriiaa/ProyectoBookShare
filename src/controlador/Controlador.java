@@ -3,25 +3,11 @@
  */
 package controlador;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 
 import modelo.Modelo;
 import vista.Vista;
@@ -29,7 +15,6 @@ import vista._01_Login;
 import vista._02_BuscarPorLocalidad;
 import vista._03_PaginaPrincipalSinLog;
 import vista._04_Registro;
-import vista._05_OlvidoContraseña;
 import vista._07_AltaLibro;
 import vista._09_DejarLibro;
 import vista._12_MiPerfil;
@@ -262,16 +247,24 @@ public class Controlador {
 		return miModelo.devolverConexion();
 	}
 	
+	/**
+	 * @author Alejandro Soria
+	 * @return
+	 */
 	public String cogerDatosAltaLibro() {
 		
+		// Creo un array de String en el que voy a guardar los datos de un libro
 		String[] datosAltaLibro = new String[3];
+		// Añado a sus respectivas posiciones el titulo el autor y el codigo postal
 		datosAltaLibro[0] = ((_07_AltaLibro) misVistas[7]).getTitulo();
 		datosAltaLibro[1] = ((_07_AltaLibro) misVistas[7]).getAutor();
 		datosAltaLibro[2] = ((_07_AltaLibro) misVistas[7]).getCodigoPostal();
 		
+		// Creo un booleano inicializado a true
 		boolean camposCorrectos = true;
 		
 		try {
+			// Parseo un dato, si no funciona, salta la excepcion, la capturo y establezco el booleano a false
 	        Integer.parseInt(datosAltaLibro[2]);
 	    } catch (NumberFormatException e) {
 	        camposCorrectos = false;
@@ -279,7 +272,9 @@ public class Controlador {
 		
 		int respuesta = 0; // 1 es que hay resultados y se ha insertado bien. 0 es que no hay ningún código postal.
 		
+		// Si el booleano es true
 		if (camposCorrectos) {
+			// Guardo en el int respuesta lo que devuelve el método darLibroAlta
 			respuesta = miModelo.darLibroAlta(datosAltaLibro[0], datosAltaLibro[1], datosAltaLibro[2]);
 		}
 		
@@ -329,25 +324,46 @@ public class Controlador {
 		miModelo.actualizarHistorialCoger(valorSeleccionado);
 	}
 	
+	/**
+	 * @author Alejandro Soria
+	 * @return
+	 */
 	public String[][] cogerPreguntaSeguridad() {
+		
+		// Guardo en un array bidimensional de Strings las preguntas de seguridad junto a su código
+		// Llamo al método cogerPreguntasSeguridad de la clase Modelo.
 		
 		String[][] preguntasArray = miModelo.cogerPreguntasSeguridad();
 		
+		// Retorno el array de preguntas y códigos.
 		return preguntasArray;
 	}
+	
+	/**
+	 * @author Alejandro Soria
+	 * @param listaCodigoPreguntaSeguridad
+	 * @param preguntaUsuario
+	 * @param respuestaUsuarioIntroducida
+	 * @param nuevaContrasenaIntroducida
+	 * @param nombreUsuario
+	 * @return retorna lo que ha pasado con el método (Si ha ido mal o bien)
+	 */
 	
 	public String comprobarRespuestaSeguridad(String[][] listaCodigoPreguntaSeguridad, String preguntaUsuario, String respuestaUsuarioIntroducida, String nuevaContrasenaIntroducida, String nombreUsuario) {
 		
 		int codigoPregunta = 0;
 		
+		// Bucle for que añade a CodigoPregunta el codigo de la pregunta de seguridad que tiene el usuario
 		for (int i = 0; i < listaCodigoPreguntaSeguridad.length; i++) {
 			if (listaCodigoPreguntaSeguridad[i][1].equals(preguntaUsuario)) {
 				codigoPregunta = Integer.parseInt(listaCodigoPreguntaSeguridad[i][0]);
 			}
 		}
 		
+		// Paso el código a un String
 		String codigoPreguntaString = Integer.toString(codigoPregunta);
 		
+		// Consulta para coger la respuesta del usuario a la pregunta de seguridad
 		String consulta = "SELECT respuestaPreguntaRecuperacion FROM users WHERE codigoPreguntaRecuperacion = ? AND usr = ?";
 		
 		// 0 -> No existe respuesta para la pregunta
@@ -356,20 +372,31 @@ public class Controlador {
 		
 		int situacion;
 		
+		// Desde aqui llamo al método de la clase modelo ComprobarValidezPreguntaSeguridad, en el cual veo si la respuesta introducida por el usuario es la misma
+		// que la que figura en la base de datos al registrarse.
+		
+		// Puede devolver 3 opciones, 0 -> No existe respuesta para la pregunta, por lo que o el usuario ha introducido otra pregunta o se ha confundido con su nombre de usuario.
+		// Tambien puede devolver 1, lo que significa que todo está bien
+		// Y tambien 2, lo que significa que las respuestas no coinciden, por lo que no permite generar la nueva contraseña
 		situacion = miModelo.comprobarValidezPreguntaSeguridad(consulta, codigoPreguntaString, nombreUsuario, respuestaUsuarioIntroducida);
 		
+		// Si es 0, retorno que no es la pregunta de seguridad.
 		if (situacion == 0) {
 			return "No es tu pregunta de seguridad.";
+			// Si es 1
 		} else if (situacion == 1) {
 			
+			// Creo la consulta de update de la contraseña
 			String consultaUpdateContrasena = "UPDATE users SET pwd = ? WHERE usr = ?";
 			
+			// Envio al método updateContraseña la consulta con la nueva contraseña y el usuario al que se le va a actualizar la contraseña de su cuenta.
 			miModelo.updateContrasena(consultaUpdateContrasena, nuevaContrasenaIntroducida, nombreUsuario);
 			
 			
-			// Aqui tengo que hacer el update
+			// Retorno que todo correcto
 			return "Correcto";
 		} else {
+			// Si no es ninguna de esas dos opciones, retorno que la respuesta es incorrecta.
 			return "Respuesta Incorrecta.";
 		}
 		
