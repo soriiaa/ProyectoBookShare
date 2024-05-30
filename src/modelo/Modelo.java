@@ -168,9 +168,16 @@ public class Modelo {
 
 	}
 
+	/**
+	 * @author pablo
+	 * @return un array bidimensional de objetos que saca todos los libros
+	 */
 	public Object[][] sacarDatosLibro() {
+		// Consulta sql para seleccionar de todos los libros de la tabla libro esos campos
 		String consulta = "select titulo, autor, genero from libro";
+		// Metodo para contar cuantas filas tiene la tabla libro
 		int filas = miConexion.contarRegistros(consulta);
+		// Creo un array bidimensional de objetos con lo que devuelve el metodo de la conexion pasandole la consulta y filas 
 		Object[][] datos = miConexion.sacarDatosAltaBajaLibros(consulta, filas);
 		return datos;
 	}

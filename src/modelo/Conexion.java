@@ -581,11 +581,21 @@ public class Conexion {
 
 	}
 
+	/**
+	 * @author pablo
+	 * @param query
+	 * @param filas
+	 * @return
+	 */
 	public Object[][] sacarDatosAltaBajaLibros(String query, int filas) {
+		// Array Bidimensional que tiene las filas que tenga la tabla libro y 3 columnas que son las que necesito 
 		Object[][] datos = new Object[filas][3];
 		try {
+			// Creo un preparedStatement que le paso la query que he hecho antes
 			PreparedStatement pmtst = conexion.prepareStatement(query);
+			// Creo un resultSet donde ejecuto la query 
 			ResultSet rset = pmtst.executeQuery();
+			// esto me sirve para ir recorriendo el array y que vaya cambiando de fila en el array 
 			int i = 0;
 			while (rset.next()) {
 				datos[i][0] = rset.getObject(1);

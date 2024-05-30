@@ -168,12 +168,21 @@ public class Controlador {
 		miModelo.actualizarDatosBajaAltaLibro(titulo, autor, genero, tituloAntiguo);
 	}
 
+	/**
+	 * @author pablo
+	 * @return Array de objetos para poder mostrar los libros que hay en la base
+	 */
 	public Object[][] sacarDatosLibro() {
+		// Creo un array bidimensional de objetos con lo que devuelve el metodo de modelo 
 		Object[][] datos = miModelo.sacarDatosLibro();
 		return datos;
 	}
 
+	/**
+	 * @author pablo
+	 */
 	public void recogerAltaDatosAltaBajaLibro() {
+		// Almaceno en variables el valor de los getter de la vista 16 para el titulo, autor y genero
 		String titulo = ((_16_DarDeBajaLibro) misVistas[16]).getTxtTitulo().getText();
 		String autor = ((_16_DarDeBajaLibro) misVistas[16]).getTxtAutor().getText();
 		String genero = ((_16_DarDeBajaLibro) misVistas[16]).getTxtGenero().getText();
