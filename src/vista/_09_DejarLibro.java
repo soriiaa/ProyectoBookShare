@@ -593,7 +593,7 @@ public class _09_DejarLibro extends JFrame implements Vista {
 			public void changedUpdate(DocumentEvent e) {
 			}
 		});
-		
+
 		txtComentario = new JTextField();
 		txtComentario.addMouseListener(new MouseAdapter() {
 			@Override

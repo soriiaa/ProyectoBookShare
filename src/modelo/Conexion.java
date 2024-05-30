@@ -30,29 +30,46 @@ public class Conexion {
 	private File miFichero;
 	private final String FILE = "configuracion.ini";
 
+	/**
+	 * @author Apa
+	 * @return login sacado del fichero ini
+	 */
 	public String getLogin() {
 		return login;
 	}
-
+	/**
+	 * @author Apa
+	 * @return pwd sacado del fichero ini
+	 */
 	public String getPwd() {
 		return pwd;
 	}
-
+	/**
+	 * @author Apa
+	 * @return url sacado del fichero ini
+	 */
 	public String getUrl() {
 		return url;
 	}
 
+	/**
+	 * @author Apa (Modificacion del constructor original para sacar datos del .ini
+	 */
 	public Conexion() {
 		try {
+			//Creo un archivo file con el archivo .ini asociado
 			miFichero = new File(FILE);
 			misPropiedades = new Properties();
+			//Paso a un inputStream los datos del file
 			input = new FileInputStream(miFichero);
 			misPropiedades.load(input);
 
+			//Asigno a los atributos las variables que se sacan con el getProperty
 			login = misPropiedades.getProperty("login");
 			pwd = misPropiedades.getProperty("pwd");
 			url = misPropiedades.getProperty("url");
 
+			//Establezco la conexion pasando las variables
 			Class.forName("com.mysql.cj.jdbc.Driver");
 			conexion = DriverManager.getConnection(url, login, pwd);
 			System.out.println("-> Proyecto conectado con la BBDD.");
@@ -92,15 +109,23 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * @author Apa
+	 * @param query = consulta introducida
+	 * @param filtro = usuario a modo de filtro
+	 * @return devuelve un string con el resultado del campo rol de la tabla users
+	 */
 	public String consultaConFiltro(String query, String filtro) {
 
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		String res = "";
 		try {
+			//Ejecuto la query y le aplico el filtro
 			pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, filtro);
 			rs = pstmt.executeQuery();
+			//Solo debería dar un registro, entro, y hago un getString del campo unico que saca el select
 			if (rs.next()) {
 				res = rs.getString(1);
 			}
@@ -149,13 +174,23 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * @author Apa
+	 * @param query = consulta select con filtros usr pwd
+	 * @param usr = filtro con el usr introducido
+	 * @param pwd = filtro con el pwd introducido
+	 * @return true si encuentra algo / false si no
+	 */
 	public boolean comproLogin(String query, String usr, String pwd) {
 		boolean existe = false;
 		try {
+			//Ejecuto la sentencia y cambio las variables por los parametros
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, usr);
 			pstmt.setString(2, pwd);
 			ResultSet rset = pstmt.executeQuery();
+			//Convertido a resultset, si encuentra al menos un registro, entra en el bucle si
+			//devuelve algun registro
 			while (rset.next())
 				existe = true;
 			rset.close();
@@ -167,12 +202,21 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * @author Apa
+	 * @param query consulta que hace select con el filtro del codigo de admin introducido
+	 * @param cod = codigo de admin introducido
+	 * @param columna
+	 * @return 1 si ha encontrado un registro en administracion con ese codigo, 0 si no
+	 */
 	public int comproAdmin(String query, int cod, int columna) {
 		int res = 0;
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
+			//Cambio la interrogacion del select por el codigo admin
 			pstmt.setInt(1, cod);
 			ResultSet rset = pstmt.executeQuery();
+			//Si entra en el bucle cambiará a 1 el resultado, dado que habrá dado algun registro
 			while (rset.next())
 				res = 1;
 			rset.close();
@@ -200,12 +244,26 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * @author Apa
+	 * @param usr = Son todos los campos de la tabla users
+	 * @param nombre
+	 * @param apellido
+	 * @param pwd
+	 * @param rol
+	 * @param cp
+	 * @param codigoPreguntaRecuperacion
+	 * @param respuestaPreguntaRecuperacion
+	 * @return
+	 */
 	public int insertar(String usr, String nombre, String apellido, String pwd, String rol, int cp,
 			int codigoPreguntaRecuperacion, String respuestaPreguntaRecuperacion) {
 		int resultado = 0;
 		try {
+			//Sentencia insert para users
 			String query = "INSERT INTO users (usr,nombre,apellido,pwd,rol,cp,codigoPreguntaRecuperacion,respuestaPreguntaRecuperacion) VALUES (?,?,?,?,?,?,?,?)";
 			PreparedStatement pstmt = conexion.prepareStatement(query);
+			//Sustituyo caada variable de la sentencia por el parámetro introducido
 			pstmt.setString(1, usr);
 			pstmt.setString(2, nombre);
 			pstmt.setString(3, apellido);
@@ -483,6 +541,13 @@ public class Conexion {
 		}
 	}
 
+	/**
+	 * @author Apa
+	 * @param query = el select con los inner joins
+	 * @param usuario = filtro para buscar por usuario
+	 * @param numeroFilas = numero de filas que devuelve historial con el usuario actual
+	 * @return Matriz con los registros del select
+	 */
 	public Object[][] sacarHistorialLibros(String query, String usuario, int numeroFilas) {
 		Object[][] datos = new Object[numeroFilas][8];
 
@@ -492,9 +557,10 @@ public class Conexion {
 
 			ResultSet rs = pstmt.executeQuery();
 
-			// Verificar si hay resultados antes de procesarlos
+			//Verifico si hay resultados antes de procesarlos
 			int i = 0;
-			while (rs.next()) {
+			//Creo un iterador para que se vaya pasando por cada fila de la matriz
+			while (rs.next() && i < numeroFilas) {
 				datos[i][0] = rs.getObject(1);
 				datos[i][1] = rs.getObject(2);
 				datos[i][2] = rs.getObject(3);
@@ -1132,6 +1198,45 @@ public class Conexion {
 		try {
 			PreparedStatement pstmt = conexion.prepareStatement(query);
 			pstmt.setString(1, nick);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateNombre(String query, String nombre, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, nombre);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateApellido(String query, String apellido, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, apellido);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateContraseña(String query, String contraseña, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, contraseña);
 			pstmt.setString(2, usuario);
 			pstmt.executeUpdate();
 			

@@ -62,7 +62,7 @@ public class _13_BandejaDeEntrada extends JFrame implements Vista {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 1000, 700);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(135, 206, 250));
+		contentPane.setBackground(new Color(255, 255, 255));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setLocationRelativeTo(null);
 
@@ -355,6 +355,7 @@ public class _13_BandejaDeEntrada extends JFrame implements Vista {
 		contentPane.add(btnMarcarMensajesComo);
 		
 		textMensajeTitulos = new JTextField();
+		textMensajeTitulos.setBackground(new Color(121, 145, 162));
 		textMensajeTitulos.setHorizontalAlignment(SwingConstants.CENTER);
 		textMensajeTitulos.setText("Mensajes");
 		textMensajeTitulos.setFont(new Font("Tahoma", Font.BOLD, 12));
@@ -387,9 +388,9 @@ public class _13_BandejaDeEntrada extends JFrame implements Vista {
 		contentPane.add(table);
 		
 		lblNewLabel = new JLabel("Bandeja de Entrada");
-		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
 		lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		lblNewLabel.setBounds(251, 29, 645, 36);
+		lblNewLabel.setBounds(251, 11, 645, 54);
 		contentPane.add(lblNewLabel);
 	}
 }
