@@ -84,7 +84,7 @@ on update cascade
 on delete cascade
 )engine innodb;
 
-insert into coger(usr, id, Fecha) values("a", 2, '2024-05-07');
+
 
 create table dejar(
 usr varchar(40),
@@ -102,7 +102,7 @@ on delete cascade
 )engine innodb;
 
 insert into dejar(usr, id, fecha, comentario, valoracion) values("MenteFria", 1, '2024-04-11', "Espectacular", "8/10");
-
+insert into dejar(usr, id, Fecha, comentario, valoracion) values("a", 2, '2024-05-07', "puta mierda", "0/10");
 create table administracion(
 clave int,
 valor int not null,
@@ -163,17 +163,3 @@ on delete cascade
 )engine=innodb;
 
 use bookshare;
--- Select usr from users where usr = ? and pwd = ?;
-select * from lugar;
-insert into administracion (clave, valor) values (1, 33);
-
-SELECT libro.titulo, libro.autor, libro.genero, libro.disponible, libro.activo, dejar.valoracion, cod_postal.codigo_postal, dejar.fecha, coger.fecha FROM libro left JOIN dejar ON libro.id = dejar.id left JOIN coger on libro.id = coger.id INNER JOIN libro_lugar ON libro_lugar.id_libro = libro.id INNER JOIN lugar ON lugar.id = libro_lugar.id_Lugar inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal;
-
-select libro.titulo, libro.autor, libro.genero, libro.disponible, dejar.valoracion, historial.fecha, historial.accion, cod_postal.codigo_postal from historial 
-inner join users on historial.usr = users.usr
-inner join dejar on users.usr = dejar.usr 
-inner join coger on users.usr = coger.usr 
-inner join libro on coger.id = libro.id
-inner join libro_lugar on libro.id = libro_lugar.id_libro
-inner join lugar on libro_lugar.id_lugar = lugar.id 
-inner join cod_postal on lugar.codigo_postal = cod_postal.codigo_postal where historial.usr = 'a';

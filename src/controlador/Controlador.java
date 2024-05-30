@@ -59,6 +59,11 @@ public class Controlador {
 		((JFrame) misVistas[hasta]).setVisible(true);
 	}
 
+	/**
+	 * Método que recoge las variables de las textbox de la vista del registro
+	 * @return
+	 * @throws NumberFormatException Por si introduce letras en codPostal
+	 */
 	public boolean recogerInfo() throws NumberFormatException {
 
 		String nombre = ((_04_Registro) misVistas[4]).getNombre().getText();
@@ -79,6 +84,7 @@ public class Controlador {
 			codigoAdmin = "0";
 		}
 
+		//Convierto
 		int codAdmin = Integer.parseInt(codigoAdmin);
 		int codPostal = Integer.parseInt(codigoPostal);
 
@@ -378,11 +384,6 @@ public class Controlador {
 
 	public String sacarApellido() {
 		return miModelo.getApellido();
-	}
-	
-	public void cambiarNickName() {
-		String nick = ((_12_MiPerfil) misVistas[12]).getTxtNicknameUsuario().getText();
-		miModelo.updateNickName(nick);
 	}
 
 	public void cambiarNombre() {
