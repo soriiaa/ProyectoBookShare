@@ -452,6 +452,24 @@ public class Modelo {
 		
 		miConexion.updateNickName(query, nick, usuario);
 	}
+
+	public void updateNombre(String nombre) {
+		String query = "update users set nombre = ? where usr = ?";
+		
+		miConexion.updateNombre(query, nombre, usuario);
+	}
+
+	public void updateApellido(String apellido) {
+		String query = "update users set apellido = ? where usr = ?";
+		
+		miConexion.updateApellido(query, apellido, usuario);		
+	}
+
+	public void updateContraseña(String contraseña) {
+		String query = "update users set contraseña = ? where usr = ?";
+		
+		miConexion.updateContraseña(query, contraseña, usuario);
+	}
 	
 	
 

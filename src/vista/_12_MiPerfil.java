@@ -79,7 +79,21 @@ public class _12_MiPerfil extends JFrame implements Vista {
 	private JLabel TituloVista;
 	private JPanel panelResaltarNombre;
 	private PlaceholderFocusListener focusListener;
+	private String nickName;
+	private String nombre;
+	private String apellido;
+	
+	public String getNickName() {
+		return nickName;
+	}
 
+	public String getNombre() {
+		return nombre;
+	}
+	
+	public String getApellido() {
+		return apellido;
+	}
 	public JTextField getTxtNicknameUsuario() {
 		return txtNicknameUsuario;
 	}
@@ -714,6 +728,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 
 				miControlador.cambiarNickName();
 //				txtNicknameUsuario.setEditable(true);
+				nickName = getTxtNicknameUsuario().getText();
 				txtNicknameUsuario.setText("NickName");
 			}
 		});
@@ -728,7 +743,10 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCambiarNombre = new JButton("Cambiar Nombre");
 		btnCambiarNombre.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtNombreUsuario.setEditable(true);
+				miControlador.cambiarNombre();
+//				txtNicknameUsuario.setEditable(true);
+				nombre = getTxtNombreUsuario().getText();
+				txtNombreUsuario.setText("Nombre");
 			}
 		});
 		btnCambiarNombre.setBounds(299, 338, 230, 29);
@@ -740,7 +758,10 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCambiarApellidos = new JButton("Cambiar Apellidos");
 		btnCambiarApellidos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				txtApellidos.setEditable(true);
+				miControlador.cambiarApellido();
+//				txtNicknameUsuario.setEditable(true);
+				apellido = getTxtApellidos().getText();
+				txtApellidos.setText("Apellido");
 			}
 		});
 		btnCambiarApellidos.setBounds(299, 416, 230, 27);
@@ -752,7 +773,9 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnCambiarConrasea = new JButton("Cambiar Contraseña");
 		btnCambiarConrasea.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-//				PasswordContraseña.setEditable(true);
+				miControlador.cambiarContraseña();
+//				txtNicknameUsuario.setEditable(true);
+				txtNombreUsuario.setText("Contraseña");
 			}
 		});
 		btnCambiarConrasea.setBounds(299, 490, 230, 27);
@@ -770,6 +793,9 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				txtApellidos.setEditable(false);
 //				PasswordContraseña.setEditable(false);
 				miControlador.mostrarImagen();
+				lblUsuarioDisplay.setText(getNickName());
+				lblNombreDisplay.setText(getNombre());
+				lblApellidoDisplay.setText(getApellido());
 			}
 		});
 		btnAplicarCambios.setBackground(new Color(0, 255, 128));

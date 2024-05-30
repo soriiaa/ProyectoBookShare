@@ -1073,4 +1073,43 @@ public class Conexion {
 		}
 	}
 
+	public void updateNombre(String query, String nombre, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, nombre);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateApellido(String query, String apellido, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, apellido);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateContraseña(String query, String contraseña, String usuario) {
+		try {
+			PreparedStatement pstmt = conexion.prepareStatement(query);
+			pstmt.setString(1, contraseña);
+			pstmt.setString(2, usuario);
+			pstmt.executeUpdate();
+			
+			pstmt.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

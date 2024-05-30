@@ -337,5 +337,20 @@ public class Controlador {
 		String nick = ((_12_MiPerfil) misVistas[12]).getTxtNicknameUsuario().getText();
 		miModelo.updateNickName(nick);
 	}
+
+	public void cambiarNombre() {
+		String nombre = ((_12_MiPerfil) misVistas[12]).getTxtNombreUsuario().getText();
+		miModelo.updateNombre(nombre);
+	}
+
+	public void cambiarApellido() {
+		String apellido = ((_12_MiPerfil) misVistas[12]).getTxtApellidos().getText();
+		miModelo.updateApellido(apellido);		
+	}
+
+	public void cambiarContraseña() {
+		String contraseña = ((_12_MiPerfil) misVistas[12]).getTxtContrasea().getText();
+		miModelo.updateContraseña(contraseña);	
+	}
 	
 }
