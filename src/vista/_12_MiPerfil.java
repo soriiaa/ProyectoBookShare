@@ -640,7 +640,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 				btnCambiarFotoUsuario.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			}
 		});
-		btnCambiarFotoUsuario.setBounds(299, 162, 230, 50);
+		btnCambiarFotoUsuario.setBounds(299, 217, 230, 50);
 		btnCambiarFotoUsuario.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				miControlador.recogerImagen();
@@ -758,7 +758,7 @@ public class _12_MiPerfil extends JFrame implements Vista {
 		btnAplicarCambios.setBorder(null);
 
 		lblImagenPerfil = new JLabel("");
-		lblImagenPerfil.setBounds(346, 80, 131, 83);
+		lblImagenPerfil.setBounds(346, 124, 131, 83);
 		lblImagenPerfil.setHorizontalAlignment(SwingConstants.CENTER);
 		contentPane.add(lblImagenPerfil);
 
